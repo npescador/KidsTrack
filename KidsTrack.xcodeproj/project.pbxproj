@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		7185565E2EB0CDCD00C1348A /* Presentation in Frameworks */ = {isa = PBXBuildFile; productRef = 7185565D2EB0CDCD00C1348A /* Presentation */; };
+		718556612EB0CE1600C1348A /* Data in Frameworks */ = {isa = PBXBuildFile; productRef = 718556602EB0CE1600C1348A /* Data */; };
+		718556642EB0CE5800C1348A /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 718556632EB0CE5800C1348A /* Domain */; };
+		718556672EB0CF2D00C1348A /* Shared in Frameworks */ = {isa = PBXBuildFile; productRef = 718556662EB0CF2D00C1348A /* Shared */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		7113DAAD2EAA782F0082B17F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,11 +34,28 @@
 		7113DA9F2EAA782D0082B17F /* KidsTrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KidsTrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7113DAAC2EAA782F0082B17F /* KidsTrackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KidsTrackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7113DAB62EAA782F0082B17F /* KidsTrackUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KidsTrackUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7185565B2EB0CDA600C1348A /* Presentation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Presentation; sourceTree = "<group>"; };
+		7185565F2EB0CE0400C1348A /* Data */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Data; sourceTree = "<group>"; };
+		718556622EB0CE4500C1348A /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Domain; sourceTree = "<group>"; };
+		718556652EB0CF1A00C1348A /* Shared */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Shared; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		718556692EB0D10800C1348A /* Exceptions for "KidsTrack" folder in "KidsTrack" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 7113DA9E2EAA782D0082B17F /* KidsTrack */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7113DAA12EAA782D0082B17F /* KidsTrack */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				718556692EB0D10800C1348A /* Exceptions for "KidsTrack" folder in "KidsTrack" target */,
+			);
 			path = KidsTrack;
 			sourceTree = "<group>";
 		};
@@ -52,6 +76,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				718556642EB0CE5800C1348A /* Domain in Frameworks */,
+				718556672EB0CF2D00C1348A /* Shared in Frameworks */,
+				718556612EB0CE1600C1348A /* Data in Frameworks */,
+				7185565E2EB0CDCD00C1348A /* Presentation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,9 +103,14 @@
 		7113DA962EAA782D0082B17F = {
 			isa = PBXGroup;
 			children = (
+				718556652EB0CF1A00C1348A /* Shared */,
+				718556622EB0CE4500C1348A /* Domain */,
+				7185565F2EB0CE0400C1348A /* Data */,
+				7185565B2EB0CDA600C1348A /* Presentation */,
 				7113DAA12EAA782D0082B17F /* KidsTrack */,
 				7113DAAF2EAA782F0082B17F /* KidsTrackTests */,
 				7113DAB92EAA782F0082B17F /* KidsTrackUITests */,
+				7185565C2EB0CDCD00C1348A /* Frameworks */,
 				7113DAA02EAA782D0082B17F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +123,13 @@
 				7113DAB62EAA782F0082B17F /* KidsTrackUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		7185565C2EB0CDCD00C1348A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +152,10 @@
 			);
 			name = KidsTrack;
 			packageProductDependencies = (
+				7185565D2EB0CDCD00C1348A /* Presentation */,
+				718556602EB0CE1600C1348A /* Data */,
+				718556632EB0CE5800C1348A /* Domain */,
+				718556662EB0CF2D00C1348A /* Shared */,
 			);
 			productName = KidsTrack;
 			productReference = 7113DA9F2EAA782D0082B17F /* KidsTrack.app */;
@@ -400,9 +444,11 @@
 				DEVELOPMENT_TEAM = JG82ZU7NLT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KidsTrack/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -432,9 +478,11 @@
 				DEVELOPMENT_TEAM = JG82ZU7NLT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KidsTrack/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -578,6 +626,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7185565D2EB0CDCD00C1348A /* Presentation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Presentation;
+		};
+		718556602EB0CE1600C1348A /* Data */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Data;
+		};
+		718556632EB0CE5800C1348A /* Domain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Domain;
+		};
+		718556662EB0CF2D00C1348A /* Shared */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Shared;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7113DA972EAA782D0082B17F /* Project object */;
 }
