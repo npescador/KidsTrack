@@ -6,8 +6,14 @@ extension String {
         LocalizedStringResource(
             String.LocalizationValue(self),
             table: "PresentationStrings",
-            bundle: .module,
+            bundle: .kidsTrackPresentationModule,
             comment: comment
         )
+    }
+}
+
+private extension LocalizedStringResource.BundleDescription {
+    static var kidsTrackPresentationModule: LocalizedStringResource.BundleDescription {
+        .atURL(Bundle.module.bundleURL)
     }
 }
