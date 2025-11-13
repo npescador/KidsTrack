@@ -1,0 +1,44 @@
+name: iOS CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build-and-test:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Resolve Swift Package Manager dependencies
+        run: |
+          xcodebuild \
+            -resolvePackageDependencies \
+            -project KidsTrack.xcodeproj
+
+      - name: Build
+        run: |
+          xcodebuild \
+            -project KidsTrack.xcodeproj \
+            -scheme KidsTrack \
+            -destination 'platform=iOS Simulator,name=iPhone 14' \
+            clean build
+
+      - name: Test
+        run: |
+          xcodebuild \
+            -project KidsTrack.xcodeproj \
+            -scheme KidsTrack \
+            -destination 'platform=iOS Simulator,name=iPhone 14' \
+            test
