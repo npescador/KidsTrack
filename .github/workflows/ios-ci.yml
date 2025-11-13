@@ -38,7 +38,7 @@ jobs:
           xcodebuild \
             -project KidsTrack.xcodeproj \
             -scheme KidsTrack \
-            -destination 'platform=iOS Simulator,name=iPhone 14' \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
             clean build
 
       - name: Test
@@ -46,5 +46,5 @@ jobs:
           xcodebuild \
             -project KidsTrack.xcodeproj \
             -scheme KidsTrack \
-            -destination 'platform=iOS Simulator,name=iPhone 14' \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
             test
