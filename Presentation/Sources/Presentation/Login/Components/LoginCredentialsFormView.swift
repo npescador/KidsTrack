@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LoginCredentialsForm: View {
+struct LoginCredentialsFormView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     @Binding var email: String
@@ -27,17 +27,17 @@ struct LoginCredentialsForm: View {
     }
 }
 
-private extension LoginCredentialsForm {
+private extension LoginCredentialsFormView {
     var emailField: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(LoginStrings.emailLabel)
+            Text("login.form.email.label".localized())
                 .font(.system(size: 14, weight: .medium, design: .rounded))
                 .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
 
             TextField(
                 "",
                 text: $email,
-                prompt: Text(LoginStrings.emailPlaceholder)
+                prompt: Text("login.form.email.placeholder".localized())
                     .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
             )
             .keyboardType(.emailAddress)
@@ -57,21 +57,21 @@ private extension LoginCredentialsForm {
             .onSubmit {
                 focusedField = .password
             }
-            .accessibilityLabel(LoginStrings.emailLabel)
+            .accessibilityLabel("login.form.email.label".localized())
         }
     }
 
     var passwordField: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text(LoginStrings.passwordLabel)
+                Text("login.form.password.label".localized())
                     .font(.system(size: 14, weight: .medium, design: .rounded))
                     .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
 
                 Spacer()
 
                 Button(action: onTapForgotPassword) {
-                    Text(LoginStrings.forgotPasswordAction)
+                    Text("login.form.password.forgot".localized())
                         .font(.system(size: 13, weight: .medium, design: .rounded))
                 }
                 .buttonStyle(.plain)
@@ -84,14 +84,14 @@ private extension LoginCredentialsForm {
                         TextField(
                             "",
                             text: $password,
-                            prompt: Text(LoginStrings.passwordPlaceholder)
+                            prompt: Text("login.form.password.placeholder".localized())
                                 .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
                         )
                     } else {
                         SecureField(
                             "",
                             text: $password,
-                            prompt: Text(LoginStrings.passwordPlaceholder)
+                            prompt: Text("login.form.password.placeholder".localized())
                                 .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
                         )
                     }
@@ -108,7 +108,7 @@ private extension LoginCredentialsForm {
                 .focused($focusedField, equals: .password)
                 .submitLabel(.go)
                 .onSubmit(onSubmit)
-                .accessibilityLabel(LoginStrings.passwordLabel)
+                .accessibilityLabel("login.form.password.label".localized())
 
                 Button {
                     isPasswordVisible.toggle()
@@ -120,7 +120,9 @@ private extension LoginCredentialsForm {
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(
-                    isPasswordVisible ? LoginStrings.hidePasswordLabel : LoginStrings.showPasswordLabel
+                    isPasswordVisible
+                        ? "login.form.password.hide".localized()
+                        : "login.form.password.show".localized()
                 )
             }
         }
@@ -128,7 +130,7 @@ private extension LoginCredentialsForm {
 
     var submitButton: some View {
         Button(action: onSubmit) {
-            Text(LoginStrings.loginButtonTitle)
+            Text("login.form.primary.cta".localized())
                 .font(.system(size: 16, weight: .semibold, design: .rounded))
                 .frame(maxWidth: .infinity)
                 .frame(minHeight: 48)
@@ -138,12 +140,12 @@ private extension LoginCredentialsForm {
         }
         .buttonStyle(.plain)
         .shadow(color: Color.kidsTrackPrimaryBlue.opacity(0.25), radius: 4, y: 2)
-        .accessibilityHint(LoginStrings.loginButtonAccessibilityHint)
+        .accessibilityHint("login.form.primary.cta.hint".localized())
     }
 }
 
 #Preview("Login Credentials Form") {
-    LoginCredentialsForm(
+    LoginCredentialsFormView(
         email: .constant(""),
         password: .constant(""),
         isPasswordVisible: .constant(false),

@@ -24,20 +24,20 @@ extension WelcomeFeature {
         WelcomeFeature(
             id: "schedules",
             iconSystemName: "calendar",
-            title: WelcomeStrings.schedulesTitle,
-            description: WelcomeStrings.schedulesDescription
+            title: "welcome.feature.schedules.title".localized(),
+            description: "welcome.feature.schedules.description".localized()
         ),
         WelcomeFeature(
             id: "activities",
             iconSystemName: "soccerball",
-            title: WelcomeStrings.activitiesTitle,
-            description: WelcomeStrings.activitiesDescription
+            title: "welcome.feature.activities.title".localized(),
+            description: "welcome.feature.activities.description".localized()
         ),
         WelcomeFeature(
             id: "expenses",
             iconSystemName: "creditcard",
-            title: WelcomeStrings.expensesTitle,
-            description: WelcomeStrings.expensesDescription
+            title: "welcome.feature.expenses.title".localized(),
+            description: "welcome.feature.expenses.description".localized()
         ),
     ]
 }

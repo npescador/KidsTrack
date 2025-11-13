@@ -1,0 +1,482 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "welcome.header.title": {
+      "comment": "Main greeting shown on the welcome screen headline.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welcome, Sarah!"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¡Bienvenida, Sarah!"
+          }
+        }
+      }
+    },
+    "welcome.header.subtitle": {
+      "comment": "Supporting copy shown beneath the welcome headline.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your family's command center, simplified."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El centro de mando de tu familia, simplificado."
+          }
+        }
+      }
+    },
+    "welcome.hero.accessibility.label": {
+      "comment": "Accessibility label describing the hero image on the welcome screen.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Family dashboard illustration"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ilustración del panel familiar"
+          }
+        }
+      }
+    },
+    "welcome.cta.title": {
+      "comment": "Primary call-to-action button title on the welcome screen.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get Started"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comenzar"
+          }
+        }
+      }
+    },
+    "welcome.cta.accessibility.label": {
+      "comment": "Accessibility label announcing the primary call-to-action button.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Begin KidsTrack onboarding"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar la incorporación a KidsTrack"
+          }
+        }
+      }
+    },
+    "welcome.cta.accessibility.hint": {
+      "comment": "Accessibility hint describing what happens when activating the CTA.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Advances to the setup flow for your family."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avanza al flujo de configuración para tu familia."
+          }
+        }
+      }
+    },
+    "welcome.feature.schedules.title": {
+      "comment": "Feature card title referring to school and class schedules.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schedules"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horarios"
+          }
+        }
+      }
+    },
+    "welcome.feature.schedules.description": {
+      "comment": "Feature card description for schedules.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Easily track school and class schedules in one place."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Controla fácilmente los horarios escolares y de clases en un solo lugar."
+          }
+        }
+      }
+    },
+    "welcome.feature.activities.title": {
+      "comment": "Feature card title covering extracurricular activities.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activities"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actividades"
+          }
+        }
+      }
+    },
+    "welcome.feature.activities.description": {
+      "comment": "Feature card description for activities.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Never miss a practice or event for extracurriculars."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No te pierdas ningún entrenamiento ni evento extracurricular."
+          }
+        }
+      }
+    },
+    "welcome.feature.expenses.title": {
+      "comment": "Feature card title covering school-related expenses.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expenses"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gastos"
+          }
+        }
+      }
+    },
+    "welcome.feature.expenses.description": {
+      "comment": "Feature card description for expenses.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep an eye on activity fees and school-related spending."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantén a la vista las cuotas de actividades y los gastos escolares."
+          }
+        }
+      }
+    },
+    "login.header.title": {
+      "comment": "Primary headline shown on the login screen.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welcome back!"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¡Te damos la bienvenida de nuevo!"
+          }
+        }
+      }
+    },
+    "login.header.subtitle": {
+      "comment": "Supporting text beneath the login headline.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log in to manage your family's schedule."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inicia sesión para gestionar la agenda de tu familia."
+          }
+        }
+      }
+    },
+    "login.form.email.label": {
+      "comment": "Label for the email text field on the login screen.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Email"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correo electrónico"
+          }
+        }
+      }
+    },
+    "login.form.email.placeholder": {
+      "comment": "Placeholder for the email text field.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter your email"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Introduce tu correo electrónico"
+          }
+        }
+      }
+    },
+    "login.form.password.label": {
+      "comment": "Label for the password text field on the login screen.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contraseña"
+          }
+        }
+      }
+    },
+    "login.form.password.placeholder": {
+      "comment": "Placeholder for the password text field.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter your password"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Introduce tu contraseña"
+          }
+        }
+      }
+    },
+    "login.form.password.forgot": {
+      "comment": "Action to trigger password recovery.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forgot Password?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Olvidaste tu contraseña?"
+          }
+        }
+      }
+    },
+    "login.form.password.show": {
+      "comment": "Accessibility label for toggling password visibility.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show password"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar contraseña"
+          }
+        }
+      }
+    },
+    "login.form.password.hide": {
+      "comment": "Accessibility label for toggling password visibility off.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide password"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar contraseña"
+          }
+        }
+      }
+    },
+    "login.form.primary.cta": {
+      "comment": "Primary CTA title for the login form submission.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log In"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar sesión"
+          }
+        }
+      }
+    },
+    "login.form.primary.cta.hint": {
+      "comment": "Accessibility hint explaining what the login button does.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attempts to authenticate with the provided credentials."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intenta autenticarse con las credenciales proporcionadas."
+          }
+        }
+      }
+    },
+    "login.divider.text": {
+      "comment": "Text displayed between the login form and social logins.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OR"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O"
+          }
+        }
+      }
+    },
+    "login.social.google.title": {
+      "comment": "Button title for Google social login.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue with Google"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar con Google"
+          }
+        }
+      }
+    },
+    "login.social.google.hint": {
+      "comment": "Accessibility hint for the Google login button.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens Google sign-in to authenticate."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abre el inicio de sesión de Google para autenticarte."
+          }
+        }
+      }
+    },
+    "login.signup.prompt": {
+      "comment": "Text shown before the Sign Up CTA on the login screen.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Don't have an account?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿No tienes una cuenta?"
+          }
+        }
+      }
+    },
+    "login.signup.cta": {
+      "comment": "Button title encouraging users to create an account.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign Up"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Regístrate"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

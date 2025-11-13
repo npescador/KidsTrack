@@ -14,9 +14,9 @@ struct LoginView: View {
 
             ScrollView {
                 VStack(spacing: 24) {
-                    LoginHeader()
+                    LoginHeaderView()
 
-                    LoginCredentialsForm(
+                    LoginCredentialsFormView(
                         email: $email,
                         password: $password,
                         isPasswordVisible: $isPasswordVisible,
@@ -24,15 +24,15 @@ struct LoginView: View {
                         onSubmit: handleLogin
                     )
 
-                    LoginSeparator()
+                    LoginSeparatorView()
 
-                    LoginSocialButton(
-                        title: LoginStrings.googleButtonTitle,
-                        accessibilityHint: LoginStrings.googleButtonAccessibilityHint,
+                    LoginSocialButtonView(
+                        title: "login.social.google.title".localized(),
+                        accessibilityHint: "login.social.google.hint".localized(),
                         action: handleGoogleLogin
                     )
 
-                    LoginSignupCallout(action: handleSignup)
+                    LoginSignupCalloutView(action: handleSignup)
                 }
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 24)

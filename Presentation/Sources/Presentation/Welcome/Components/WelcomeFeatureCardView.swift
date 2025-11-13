@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct WelcomeFeatureCard: View {
+struct WelcomeFeatureCardView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     let feature: WelcomeFeature
@@ -22,7 +22,7 @@ struct WelcomeFeatureCard: View {
     }
 }
 
-private extension WelcomeFeatureCard {
+private extension WelcomeFeatureCardView {
     var icon: some View {
         ZStack {
             Circle()
@@ -51,12 +51,12 @@ private extension WelcomeFeatureCard {
 }
 
 #Preview("Feature Card") {
-    WelcomeFeatureCard(
+    WelcomeFeatureCardView(
         feature: .init(
             id: "preview",
             iconSystemName: "calendar",
-            title: WelcomeStrings.schedulesTitle,
-            description: WelcomeStrings.schedulesDescription
+            title: "welcome.feature.schedules.title".localized(),
+            description: "welcome.feature.schedules.description".localized()
         )
     )
     .padding()

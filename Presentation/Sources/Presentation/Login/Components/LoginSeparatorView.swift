@@ -1,18 +1,18 @@
 import SwiftUI
 
-struct LoginSeparator: View {
+struct LoginSeparatorView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         HStack(spacing: 12) {
             separatorLine
-            Text(LoginStrings.dividerText)
+            Text("login.divider.text".localized())
                 .font(.system(size: 13, weight: .medium, design: .rounded))
                 .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
             separatorLine
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(LoginStrings.dividerText)
+        .accessibilityLabel("login.divider.text".localized())
     }
 
     private var separatorLine: some View {
@@ -24,7 +24,7 @@ struct LoginSeparator: View {
 }
 
 #Preview("Login Separator") {
-    LoginSeparator()
+    LoginSeparatorView()
         .padding()
         .background(Color.kidsTrackBackground(for: .light))
 }

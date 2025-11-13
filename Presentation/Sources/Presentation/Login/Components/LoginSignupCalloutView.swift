@@ -1,18 +1,18 @@
 import SwiftUI
 
-struct LoginSignupCallout: View {
+struct LoginSignupCalloutView: View {
     let action: () -> Void
 
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         HStack(spacing: 8) {
-            Text(LoginStrings.signupPrompt)
+            Text("login.signup.prompt".localized())
                 .font(.system(size: 13, weight: .regular, design: .rounded))
                 .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
 
             Button(action: action) {
-                Text(LoginStrings.signupAction)
+                Text("login.signup.cta".localized())
                     .font(.system(size: 13, weight: .semibold, design: .rounded))
                     .underline()
             }
@@ -24,7 +24,7 @@ struct LoginSignupCallout: View {
 }
 
 #Preview("Login Signup Callout") {
-    LoginSignupCallout(action: {})
+    LoginSignupCalloutView(action: {})
         .padding()
         .background(Color.kidsTrackBackground(for: .light))
 }

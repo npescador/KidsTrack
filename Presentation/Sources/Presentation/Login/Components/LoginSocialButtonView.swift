@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LoginSocialButton: View {
+struct LoginSocialButtonView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     let title: LocalizedStringResource
@@ -51,9 +51,9 @@ struct LoginSocialButton: View {
 }
 
 #Preview("Login Social Button") {
-    LoginSocialButton(
-        title: LoginStrings.googleButtonTitle,
-        accessibilityHint: LoginStrings.googleButtonAccessibilityHint,
+    LoginSocialButtonView(
+        title: "login.social.google.title".localized(),
+        accessibilityHint: "login.social.google.hint".localized(),
         action: {}
     )
     .padding()

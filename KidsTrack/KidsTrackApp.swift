@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import Presentation
 
 @main
 struct KidsTrackApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            WelcomeView()
         }
     }
 }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct WelcomeView: View {
+public struct WelcomeView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     private let features = WelcomeFeature.defaultFeatures
@@ -8,7 +8,9 @@ struct WelcomeView: View {
         string: "https://lh3.googleusercontent.com/aida-public/AB6AXuC96CuyqlxlmsaQDqQ3m0MM-go8lRZoTSQUCEPdT549WyuDzrCIELpjINlT2f_kGL25v-x8cSMDiyDquNBRzjfvX_k4NvwvdKnHHQJnzvCKh_-OFTP_BpAvU-0vKhkFYYoIxCTQ15tC0lJL5pauj1r7OVWEBAWHh1W8rZ7FidV7OeKdOUXg7qDQC7Z2n0Gc5uKVLSifHZLEmM0gX-Io5xcR3uGj2k3hj4scC-nnUEDQM71DODwDA4rsVkyYrjyIqa4NUTvkWVn5ow9H"
     )
 
-    var body: some View {
+    public init() {}
+
+    public var body: some View {
         ZStack {
             Color.kidsTrackBackground(for: colorScheme)
                 .ignoresSafeArea()
@@ -33,13 +35,13 @@ struct WelcomeView: View {
 private extension WelcomeView {
     var header: some View {
         VStack(spacing: 8) {
-            Text(WelcomeStrings.headerTitle)
+            Text("welcome.header.title".localized())
                 .font(.system(size: 32, weight: .bold, design: .rounded))
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color.kidsTrackTextPrimary(for: colorScheme))
                 .accessibilityAddTraits(.isHeader)
 
-            Text(WelcomeStrings.headerSubtitle)
+            Text("welcome.header.subtitle".localized())
                 .font(.system(size: 16, weight: .regular, design: .rounded))
                 .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
                 .multilineTextAlignment(.center)
@@ -70,14 +72,14 @@ private extension WelcomeView {
             }
         }
         .frame(maxWidth: .infinity)
-        .accessibilityLabel(WelcomeStrings.heroImageAccessibilityLabel)
+        .accessibilityLabel("welcome.hero.accessibility.label".localized())
         .accessibilityHidden(heroImageURL == nil)
     }
 
     var featuresSection: some View {
         LazyVStack(spacing: 12) {
             ForEach(features) { feature in
-                WelcomeFeatureCard(feature: feature)
+                WelcomeFeatureCardView(feature: feature)
             }
         }
         .accessibilityElement(children: .contain)
@@ -88,7 +90,7 @@ private extension WelcomeView {
             Button(action: {
                 // TODO: Surface navigation to onboarding flow.
             }) {
-                Text(WelcomeStrings.getStartedButtonTitle)
+                Text("welcome.cta.title".localized())
                     .frame(maxWidth: .infinity, minHeight: 48)
                     .font(.system(size: 16, weight: .bold, design: .rounded))
                     .background(Color.kidsTrackPrimaryBlue)
@@ -97,8 +99,8 @@ private extension WelcomeView {
             }
             .buttonStyle(.plain)
             .shadow(radius: 4, y: 2)
-            .accessibilityLabel(WelcomeStrings.getStartedButtonAccessibilityLabel)
-            .accessibilityHint(WelcomeStrings.getStartedButtonAccessibilityHint)
+            .accessibilityLabel("welcome.cta.accessibility.label".localized())
+            .accessibilityHint("welcome.cta.accessibility.hint".localized())
         }
         .padding(.bottom, 8)
     }

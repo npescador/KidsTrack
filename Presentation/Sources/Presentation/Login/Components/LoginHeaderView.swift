@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LoginHeader: View {
+struct LoginHeaderView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
@@ -14,7 +14,7 @@ struct LoginHeader: View {
     }
 }
 
-private extension LoginHeader {
+private extension LoginHeaderView {
     var emblem: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 24, style: .continuous)
@@ -30,11 +30,11 @@ private extension LoginHeader {
 
     var titles: some View {
         VStack(spacing: 8) {
-            Text(LoginStrings.headerTitle)
+            Text("login.header.title".localized())
                 .font(.system(size: 30, weight: .bold, design: .rounded))
                 .foregroundStyle(Color.kidsTrackTextPrimary(for: colorScheme))
 
-            Text(LoginStrings.headerSubtitle)
+            Text("login.header.subtitle".localized())
                 .font(.system(size: 16, weight: .regular, design: .rounded))
                 .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
         }
@@ -42,7 +42,7 @@ private extension LoginHeader {
 }
 
 #Preview("Login Header") {
-    LoginHeader()
+    LoginHeaderView()
         .padding()
         .background(Color.kidsTrackBackground(for: .light))
 }

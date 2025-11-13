@@ -17,6 +17,7 @@
 ## Coding Style & Naming Conventions
 - Follow Swift 6 defaults with 4-space soft tabs and group modifiers by intent (layout, visuals, behavior).
 - Target the latest Swift and SwiftUI capabilities available on iOS 26, preferring modern APIs before falling back to legacy approaches.
+- Name every SwiftUI view struct with a `View` suffix and place it in a file that mirrors the type name (also ending in `View.swift`) unless a legacy file must be preserved.
 - Use UpperCamelCase for types, lowerCamelCase for members, and suffix async functions with `Async` when they expose concurrency.
 - Avoid introducing new types named `Task` to prevent clashes with Swift Concurrency.
 - Localize user-facing strings via String Catalogs and reference generated keys instead of literals.
