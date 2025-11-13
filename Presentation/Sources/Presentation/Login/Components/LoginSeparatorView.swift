@@ -12,7 +12,7 @@ struct LoginSeparatorView: View {
             separatorLine
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("login.divider.text".localized())
+        .accessibilityLabel(Text("login.divider.text".localized()))
     }
 
     private var separatorLine: some View {

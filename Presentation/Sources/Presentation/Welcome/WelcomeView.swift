@@ -72,7 +72,7 @@ private extension WelcomeView {
             }
         }
         .frame(maxWidth: .infinity)
-        .accessibilityLabel("welcome.hero.accessibility.label".localized())
+        .accessibilityLabel(Text("welcome.hero.accessibility.label".localized()))
         .accessibilityHidden(heroImageURL == nil)
     }
 
@@ -99,8 +99,8 @@ private extension WelcomeView {
             }
             .buttonStyle(.plain)
             .shadow(radius: 4, y: 2)
-            .accessibilityLabel("welcome.cta.accessibility.label".localized())
-            .accessibilityHint("welcome.cta.accessibility.hint".localized())
+            .accessibilityLabel(Text("welcome.cta.accessibility.label".localized()))
+            .accessibilityHint(Text("welcome.cta.accessibility.hint".localized()))
         }
         .padding(.bottom, 8)
     }

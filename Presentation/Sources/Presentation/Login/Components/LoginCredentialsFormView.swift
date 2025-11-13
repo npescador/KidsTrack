@@ -57,7 +57,7 @@ private extension LoginCredentialsFormView {
             .onSubmit {
                 focusedField = .password
             }
-            .accessibilityLabel("login.form.email.label".localized())
+            .accessibilityLabel(Text("login.form.email.label".localized()))
         }
     }
 
@@ -108,7 +108,7 @@ private extension LoginCredentialsFormView {
                 .focused($focusedField, equals: .password)
                 .submitLabel(.go)
                 .onSubmit(onSubmit)
-                .accessibilityLabel("login.form.password.label".localized())
+                .accessibilityLabel(Text("login.form.password.label".localized()))
 
                 Button {
                     isPasswordVisible.toggle()
@@ -120,9 +120,11 @@ private extension LoginCredentialsFormView {
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(
-                    isPasswordVisible
-                        ? "login.form.password.hide".localized()
-                        : "login.form.password.show".localized()
+                    Text(
+                        isPasswordVisible
+                            ? "login.form.password.hide".localized()
+                            : "login.form.password.show".localized()
+                    )
                 )
             }
         }
@@ -140,7 +142,7 @@ private extension LoginCredentialsFormView {
         }
         .buttonStyle(.plain)
         .shadow(color: Color.kidsTrackPrimaryBlue.opacity(0.25), radius: 4, y: 2)
-        .accessibilityHint("login.form.primary.cta.hint".localized())
+        .accessibilityHint(Text("login.form.primary.cta.hint".localized()))
     }
 }
 

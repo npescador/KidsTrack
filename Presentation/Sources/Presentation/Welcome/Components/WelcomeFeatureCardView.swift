@@ -17,8 +17,8 @@ struct WelcomeFeatureCardView: View {
             in: RoundedRectangle(cornerRadius: 12, style: .continuous)
         )
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(feature.title)
-        .accessibilityHint(feature.description)
+        .accessibilityLabel(Text(feature.title))
+        .accessibilityHint(Text(feature.description))
     }
 }
 

@@ -28,7 +28,7 @@ struct LoginSocialButtonView: View {
         }
         .buttonStyle(.plain)
         .foregroundStyle(Color.kidsTrackTextPrimary(for: colorScheme))
-        .accessibilityLabel(title)
+        .accessibilityLabel(Text(title))
         .accessibilityHint(Text(accessibilityHint ?? title))
     }
 
