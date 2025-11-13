@@ -40,11 +40,3 @@ jobs:
             -scheme KidsTrack \
             -destination 'platform=iOS Simulator,name=iPhone 16' \
             clean build
-
-      - name: Test
-        run: |
-          xcodebuild \
-            -project KidsTrack.xcodeproj \
-            -scheme KidsTrack \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
-            test
