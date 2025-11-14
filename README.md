@@ -1,94 +1,90 @@
-1) Visión y principios
+# KidsTrack
 
-Objetivo: Una app iOS para familias que centraliza horarios (clase/extraescolares), calendario familiar y gastos asociados.
-Principios:
-	•	Offline-first + sync seguro (SwiftData o Firestore con persistencia local).
-	•	Arquitectura limpia (separación Presentation/Domain/Data).
-	•	UX “one-glance”: la familia ve lo próximo y el gasto del mes sin fricción.
-	•	Escalable multi-hijo/multi-tutor con permisos.
-	•	Privacidad by-design (COPPA/GDPR, mínimos datos, cifrado en tránsito/descanso).
+## 1. Vision and Principles
 
-⸻
+Goal: An iOS app for families that centralizes class schedules, extracurricular activities, a shared calendar, and their associated expenses.
+Principles:
+- Offline-first data model with secure sync (SwiftData or Firestore with local persistence).
+- Clean separation between Presentation, Domain, Data, and App composition.
+- One-glance UX so families immediately know what is next and how much they have spent this month.
+- Scalable to multiple children and caretakers with granular permissions.
+- Privacy by design: minimal data retention, COPPA/GDPR alignment, encryption in transit and at rest.
 
-2) Arquitectura recomendada (Clean MVVM con “núcleo TCA”)
+---
 
-2.1 Capa Presentation (SwiftUI)
-	•	MVVM para pantallas (View + ViewModel @Observable o @MainActor).
-	•	Router/Navigator con NavigationStack + NavigationPath y Router central.
-	•	Estados críticos (p. ej., sincronización, notificaciones inteligentes) en features TCA: Reducer + State + Action, integrados en MVVM mediante un “Adapter” (facilita testeo y efectos asíncronos complejos).
+## 2. Recommended Architecture (Clean MVVM with a TCA-inspired Core)
 
-2.2 Capa Domain
-	•	Casos de uso (interactors) puros, síncronos/asíncronos, sin dependencias de UI ni Firebase.
-	•	Entidades inmutables (struct) con validaciones.
-	•	Repositorios como protocolos (inyección de dependencias).
+### 2.1 Presentation Layer (SwiftUI)
+- SwiftUI views + MVVM view models annotated with @Observable or @MainActor.
+- Centralized router based on NavigationStack, NavigationPath, and typed routes.
+- Critical states (sync, smart notifications, background tasks) can opt into a TCA-like Reducer/State/Action module bridged into MVVM for composable side effects and rigorous testing.
 
-2.3 Capa Data
-	•	Implementaciones de repositorios:
-	•	SwiftData (iCloud sync) o Firestore (offline cache + Cloud).
-	•	EventKitRepository para lectura/escritura en Calendario (si el usuario lo permite).
-	•	AuthRepository (Firebase Auth).
-	•	NotificationsRepository (UserNotifications + App Intents).
-	•	DTO ↔ Domain mappers, control de versiones de esquema y migraciones.
+### 2.2 Domain Layer
+- Pure use cases (interactors) with sync/async entry points and no UI or Firebase dependencies.
+- Immutable entities (structs) with validation logic.
+- Repositories declared as protocols to support dependency injection.
 
-2.4 Concurrencia y efectos
-	•	Swift 6 Concurrency (async/await, Sendable), TaskGroup para sincronías múltiples (ej. cargar horarios+eventos+gastos).
+### 2.3 Data Layer
+- Concrete repository implementations for SwiftData (with iCloud) or Firebase Firestore (offline cache + cloud sync).
+- EventKitRepository for calendar reads/writes when granted.
+- AuthRepository (Firebase Auth) and NotificationsRepository (UserNotifications + App Intents).
+- DTO <-> Domain mappers with schema versioning and migrations.
 
-2.5 Telemetría y errores
-	•	OSLog con categorías por feature.
-	•	Crashlytics (si se usa Firebase) o MetricKit.
-	•	Feature flags (Remote Config opcional).
+### 2.4 Concurrency and Effects
+- Swift 6 concurrency (async/await, Sendable), TaskGroup for fan-out work such as loading schedules, events, and expenses simultaneously.
 
-⸻
+### 2.5 Telemetry and Errors
+- OSLog with per-feature categories.
+- MetricKit or Crashlytics (if Firebase is present).
+- Optional remote feature flags via Firebase Remote Config or similar.
 
-3) Modelo de dominio (mínimo útil)
+---
 
-// Núcleo
+## 3. Minimal Domain Model
+
+```swift
 struct Family: Identifiable { let id: String; var name: String; var members: [ChildID]; var owners: [UserID] }
 struct Child: Identifiable { let id: String; var name: String; var birthdate: Date?; var avatarURL: URL?; var themeColor: String }
-struct SchoolClass: Identifiable { let id: String; let childID: String; var title: String; var location: String?; var weekday: Int; var start: Date; var end: Date; var category: ClassCategory } // e.g., Math, Language
+struct SchoolClass: Identifiable { let id: String; let childID: String; var title: String; var location: String?; var weekday: Int; var start: Date; var end: Date; var category: ClassCategory }
 struct Activity: Identifiable { let id: String; let childID: String; var type: ActivityType; var weekday: Int; var start: Date; var end: Date; var notes: String? }
 struct FamilyEvent: Identifiable { let id: String; let familyID: String; var title: String; var details: String?; var dateInterval: DateInterval; var location: String?; var attachments: [URL]?; var reminders: [Reminder] }
-struct Expense: Identifiable { let id: String; let familyID: String; let childID: String?; let category: ExpenseCategory; let amount: Decimal; let date: Date; var notes: String?; var relatedIDs: [String]? /* class/activity/event */ }
+struct Expense: Identifiable { let id: String; let familyID: String; let childID: String?; let category: ExpenseCategory; let amount: Decimal; let date: Date; var notes: String?; var relatedIDs: [String]? }
 
-// Enums
 enum ActivityType: String { case sport, music, languages, art, other }
 enum ExpenseCategory: String { case schoolMaterials, books, monthlyFee, gear, oneOff }
+```
 
-Relaciones clave:
-	•	Family 1—* Child
-	•	Child 1—* SchoolClass, Child 1—* Activity
-	•	Family 1—* FamilyEvent, Family 1—* Expense
+Key relations:
+- Family 1—* Child.
+- Child 1—* SchoolClass and Activity.
+- Family 1—* FamilyEvent and Expense.
 
-Indices (Firestore): por familyID, childID, date, weekday para consultas rápidas (semana/mes).
+Firestore indices: familyID, childID, date, weekday for fast week/month queries.
 
-⸻
+---
 
-4) Persistencia: SwiftData vs Firestore (cómo decidir)
-Recomendación práctica:
-	•	Si solo iOS en próximos 12–18 meses → SwiftData (menos fricción, Widgets/Watch sencillos).
-	•	Si prevés Android/Web o compartición avanzada en tiempo real → Firestore.
+## 4. Persistence Decision Tree
+- Only iOS for the next 12–18 months: SwiftData (reduced friction, easier Widgets and Watch support).
+- Planning Android/Web or advanced real-time collaboration: Firestore.
+- Abstract persistence behind repositories to keep both drivers viable.
 
-(Puedes abstraer con repositorios y mantener ambos “drivers” con el mismo dominio.)
+---
 
-5) Mapa de navegación (wireframe textual)
-	•	[Splash] → [Onboarding 1-4] → [Auth] (Sign in / Sign up / Apple / Google)
-	•	[Home (TabView)]
-	•	Hoy: próximos (clase/actividad/evento) + resumen gasto mes
-	•	Horario: vista semanal por hijo (toggle: Clases / Extraescolares)
-	•	Calendario: día/semana con filtros (hijo, tipo) + crear evento
-	•	Gastos: lista por mes, gráficos (Charts), filtros (hijo/categoría)
-	•	Familia: hijos, invitaciones, ajustes (sync, exportar, notifs)
-	•	Flujos modales/push
-	•	Crear/editar Clase, Actividad, Evento (con adjuntos y recordatorios)
-	•	Crear Gasto (picker de categoría, asignar hijo/actividad)
-	•	Duplicar horarios / usar plantilla
-	•	Invitar tutor (Dynamic Link)
-	•	Permisos (Calendario, Notifs, Fotos/Files)
+## 5. Navigation Map (Textual Wireframe)
+- Splash → Onboarding (1–4) → Authentication (Sign in/Sign up/Apple/Google).
+- Home (TabView) with tabs: Today, Schedule, Calendar, Expenses, Family.
+- Today: next class/activity/event plus month-to-date expense summary.
+- Schedule: weekly per child with toggle between Classes and Extracurriculars.
+- Calendar: day/week with child/type filters and event creation.
+- Expenses: monthly list, Charts-based breakdowns, filters by child/category.
+- Family: children, invitations, sync/export/notification settings.
+- Modal/push flows for creating or editing classes, activities, events (attachments, reminders) and expenses (category picker, child link).
+- Actions for duplicating schedules, importing templates, inviting guardians via Dynamic Link, and granting permissions (Calendar, Notifications, Photos/Files).
 
-(Si te ayuda, puedo pasarlo a un diagrama Mermaid en otro paso.)
+---
 
-6) Estructura de carpetas (ejemplo)
-
+## 6. Suggested Folder Structure
+```
 App/
   AppMain.swift
   CompositionRoot/
@@ -97,7 +93,6 @@ App/
   Router/
     AppRouter.swift
     Routes.swift
-
 Features/
   Home/
     View/HomeView.swift
@@ -105,7 +100,7 @@ Features/
   Schedule/
     View/ScheduleView.swift
     VM/ScheduleViewModel.swift
-    TCA/ScheduleFeature.swift  // Reducer/State/Action opcional
+    TCA/ScheduleFeature.swift
   Calendar/
     View/CalendarView.swift
     VM/CalendarViewModel.swift
@@ -123,35 +118,29 @@ Features/
   Auth/
     View/AuthView.swift
     VM/AuthViewModel.swift
-
 Domain/
-  Entities/ *.swift
+  Entities/*.swift
   UseCases/
     CreateClass.swift
     DuplicateSchedule.swift
     AddExpense.swift
     GetWeeklyPlan.swift
-    ...
   Repositories/
     ScheduleRepository.swift
     ExpensesRepository.swift
     EventsRepository.swift
     FamilyRepository.swift
     AuthRepository.swift
-
 Data/
   Firestore/
-    Repositories/ *.swift
-    DTO/ *.swift
-    Mappers/ *.swift
+    Repositories/*.swift
+    DTO/*.swift
+    Mappers/*.swift
   SwiftData/
-    Models/ *.swift
-    Repositories/ *.swift
-  EventKit/
-    EventKitRepository.swift
-  Auth/
-    FirebaseAuthRepository.swift
-
+    Models/*.swift
+    Repositories/*.swift
+  EventKit/EventKitRepository.swift
+  Auth/FirebaseAuthRepository.swift
 Shared/
   DesignSystem/
     Colors.swift
@@ -168,104 +157,102 @@ Shared/
     AppIntents/
       AddEventIntent.swift
       QuickExpenseIntent.swift
-  Widgets/
-    NextItemsWidget.swift
-  Localization/
-    es.lproj, en.lproj
-  Tests/
-    Unit/, Snapshot/, UITests/
+  Widgets/NextItemsWidget.swift
+  Localization/es.lproj, en.lproj
+  Tests/Unit, Snapshot, UITests
+```
 
+---
 
-7) Frameworks y librerías
-	•	UI: SwiftUI (iOS 18), Charts (Apple) para gasto mensual/anual.
-	•	Auth: Firebase Auth (Apple, Google, email).
-	•	Datos:
-	•	SwiftData (+ iCloud) o Firebase Firestore (offline cache, reglas de seguridad).
-	•	Calendario: EventKit (opcional; lectura/escritura con consentimiento).
-	•	Notificaciones: UNUserNotificationCenter + App Intents para acciones rápidas (añadir gasto/evento).
-	•	Widgets: WidgetKit (Lock Screen/Home).
-	•	Push: Firebase Cloud Messaging (si Firestore) o APNs directo.
-	•	Archivos/adjuntos: PhotosPicker, FileImporter, PDFKit (vista previa).
-	•	StoreKit 2: suscripciones, Family Sharing.
-	•	Observabilidad: OSLog, MetricKit, Crashlytics (si Firebase).
-	•	Testing: XCTest, SnapshotTesting (point-in-time de SwiftUI), swift-testing si adoptas nuevo paquete.
+## 7. Framework and Library Stack
+- UI: SwiftUI (iOS 18) and Apple Charts for monthly/annual spending.
+- Auth: Firebase Auth (Apple, Google, email).
+- Data: SwiftData + iCloud or Firebase Firestore with offline cache and security rules.
+- Calendar: EventKit (opt-in, read/write).
+- Notifications: UNUserNotificationCenter + App Intents for quick actions.
+- Widgets: WidgetKit for Home and Lock Screen.
+- Push: Firebase Cloud Messaging (if Firestore) or direct APNs.
+- Attachments: PhotosPicker, FileImporter, PDFKit previews.
+- StoreKit 2 for subscriptions and Family Sharing.
+- Observability: OSLog, MetricKit, Crashlytics.
+- Testing: XCTest, SnapshotTesting, and swift-testing when ready.
 
-⸻
+---
 
-8) UX/UI para apps familiares (rápido y efectivo)
-	•	Primer uso guiado: onboarding corto con “Add child” y plantilla de horario (por ciclo: infantil/primaria/secundaria).
-	•	Color por hijo + iconos por categoría → comprensión instantánea.
-	•	Doble densidad en “Horario semanal”: modo compacto (chips) y modo detallado (cards).
-	•	Acciones rápidas: FAB/Toolbar “+” contextual (gasto/evento/clase según tab).
-	•	Empty states útiles con CTA: “Añade tu primera actividad” + botón importar desde plantilla.
-	•	Accesibilidad: Dynamic Type, alto contraste, VoiceOver labels semánticos (“Clase de Música, hoy 17:00”).
-	•	Feedback inmediato: Haptics ligeros al crear/duplicar.
-	•	Privacidad visible: banner de control de datos, consentimiento de compartir perfil.
+## 8. Family-Centric UX Guidelines
+- Guided first-run: concise onboarding with "Add child" and schedule templates per school stage.
+- Color per child with category icons for quick comprehension.
+- Dual density in the weekly schedule (compact chips vs detailed cards).
+- Contextual add button for expenses/events/classes per tab.
+- Helpful empty states with CTAs (e.g., "Add your first activity" + import button).
+- Accessibility: Dynamic Type, high contrast, semantic VoiceOver labels such as "Music class today at 17:00".
+- Light haptics on create/duplicate actions.
+- Visible privacy messaging, opt-in banners for sharing controls.
 
-⸻
+---
 
-9) Seguridad y privacidad (menores)
-	•	Minimización: evita datos sensibles (colegio exacto opcional; ubicación solo si imprescindible).
-	•	Consentimiento verificable (tutor principal) para compartir con otros tutores.
-	•	Cifrado en tránsito (TLS) y en reposo; si Firestore, usa Reglas por familyID/owner.
-	•	Controles de acceso: roles (owner, guardian, viewer); revocación de invitaciones.
-	•	Privacy Nutrition Label honesto; App Tracking Transparency: probablemente no necesaria si no hay tracking cross-app.
-	•	Data lifecycle: exportar (CSV/PDF), borrar cuenta/datos (GDPR Art. 17), retención definida (p. ej. 24 meses).
-	•	Auditoría: log interno de cambios en gastos/eventos (solo visible a owners).
+## 9. Security and Privacy for Minors
+- Data minimization (school names optional, location only if required).
+- Verifiable guardian consent before sharing with other caretakers.
+- TLS + encrypted storage; Firestore security rules scoped by familyID/owner.
+- Access control with owner/guardian/viewer roles plus invitation revocation.
+- Honest Privacy Nutrition Label; ATT likely unnecessary if no cross-app tracking.
+- Data lifecycle: export (CSV/PDF), account/data deletion (GDPR Art. 17), explicit retention (e.g., 24 months).
+- Internal audit trail for expense/event edits visible only to owners.
 
-⸻
+---
 
-10) Monetización ética
-	•	Free (MVP): 1 familia, 2 tutores, 2 hijos, 50 gastos/mes, sin exportación.
-	•	Premium Familiar (Suscripción anual o mensual): hijos ilimitados, adjuntos, exportar CSV/PDF, plantillas avanzadas, notifs inteligentes, widgets, Apple Watch, “Fin de curso”.
-	•	Compra única “Pro Pack” (si prefieres no-subs) para exportaciones + plantillas.
-	•	Descuentos Family Sharing, prueba 14 días, edu voucher para AMPAs.
-	•	Sin anuncios, sin venta de datos.
+## 10. Ethical Monetization
+- Free tier MVP: one family, two guardians, two children, 50 expenses/month, no exports.
+- Premium Family subscription (monthly/annual): unlimited children, attachments, CSV/PDF exports, advanced templates, smart notifications, widgets, Apple Watch, end-of-year summaries.
+- Optional one-time Pro Pack unlocking exports and templates for users who avoid subscriptions.
+- Family Sharing discounts, 14-day trial, educational vouchers for parent associations.
+- No ads or data resale.
 
-⸻
+---
 
-11) Nombres/marca (con concepto)
-	•	FamPlanner (claro, directo)
-	•	MiTiempo (cálido, español)
-	•	KidsTrack (anglo, tracking integral)
-	•	ClanHora (familiar + tiempo)
-	•	Cuadra (de “cuadrar”: horarios y gastos)
-	•	Nido (hogar/organización; logo simple)
+## 11. Naming and Branding Ideas
+- FamPlanner (explicit and clear).
+- MiTiempo (warm, Spanish roots).
+- KidsTrack (global, all-in tracking).
+- ClanHora (family + time).
+- Cuadra (from "cuadrar" schedules and budgets).
+- Nido (nest/home organization).
 
-⸻
+---
 
-12) Roadmap priorizado
+## 12. Prioritized Roadmap
 
-MVP (6–8 semanas de esfuerzo concentrado)
-	1.	Fundación: proyecto, DI, Design System base, Auth (Apple/Google/email).
-	2.	Familia & Hijos: CRUD hijo, color/avatar.
-	3.	Horario: clases/extraescolares (CRUD) + vista semanal + duplicar/plantilla.
-	4.	Calendario: día/semana + crear evento manual con recordatorios locales.
-	5.	Gastos: CRUD + gráficos (mes) + filtros básicos.
-	6.	Gestión multiusuario: invitación por enlace (si Firestore) o compartir iCloud (limitado) + roles básicos.
-	7.	Onboarding + Splash + Ajustes mínimos (idioma, tema por hijo).
-	8.	Tests unitarios de casos de uso + snapshots de 3 pantallas clave.
+**MVP (6–8 focused weeks)**
+1. Project setup, DI, base design system, Auth (Apple/Google/email).
+2. Family & Children CRUD with color/avatar selection.
+3. Schedule: class/extracurricular CRUD, weekly view, duplicate/template flows.
+4. Calendar: day/week view with manual events and local reminders.
+5. Expenses: CRUD, monthly charts, basic filters.
+6. Multi-user management: invite link (Firestore) or shared iCloud + basic roles.
+7. Onboarding, splash, minimal settings (language, per-child theme).
+8. Unit tests for use cases + SwiftUI snapshot tests for three hero screens.
 
-Fase 2 (8–12 semanas)
-	•	Notifs push + recordatorios inteligentes (heurísticas: “clase en 30 min”, “cuota mensual vence”).
-	•	Widgets (próximos eventos, gasto del mes).
-	•	Apple Watch app (próximos del día + marcar “asistido”).
-	•	Exportar CSV/PDF (resumen por mes/año y “Fin de curso”).
-	•	EventKit Sync (opt-in): escribir/leer al calendario del sistema.
-	•	HealthKit (opcional): si quieres registrar minutos de actividad física (deporte).
+**Phase 2 (8–12 weeks)**
+- Push notifications + smart reminders (e.g., "class in 30 minutes", "monthly fee due").
+- Widgets (next items, monthly spend).
+- Apple Watch companion (today view + attendance toggle).
+- CSV/PDF exports (monthly/yearly and "End of school year" dossier).
+- EventKit sync (opt-in read/write).
+- Optional HealthKit integration for sport minutes.
 
-Futuro
-	•	IA ligera on-device: sugerir horarios/recordatorios en base a patrones.
-	•	TokkApp u otras integraciones de mensajería (si abren API).
-	•	Web companion (si Firestore).
-	•	Automations: App Intents avanzados (“Añadir gasto rápido por voz”).
+**Future**
+- On-device intelligence to suggest schedules/reminders.
+- Messaging integrations when APIs open.
+- Web companion (if Firestore).
+- Advanced App Intents automation (voice-first expense capture).
 
-⸻
+---
 
-13) Detalles de implementación (píldoras)
+## 13. Implementation Capsules
 
-13.1 Repositorio (ejemplo)
-
+### 13.1 Repository Example
+```swift
 protocol ExpensesRepository {
     func expenses(familyID: String, month: Date) async throws -> [Expense]
     func add(_ expense: Expense) async throws
@@ -273,23 +260,24 @@ protocol ExpensesRepository {
 }
 
 final class FirestoreExpensesRepository: ExpensesRepository {
-    // init(db: Firestore, mapper: ExpenseMapper) ...
     func expenses(familyID: String, month: Date) async throws -> [Expense] { /* query by familyID + month range */ }
     func add(_ expense: Expense) async throws { /* set document with serverTimestamp */ }
     func delete(id: String) async throws { /* delete */ }
 }
+```
 
-13.2 Caso de uso
-
+### 13.2 Use Case
+```swift
 struct GetMonthlyExpenses {
     let repo: ExpensesRepository
     func callAsFunction(familyID: String, month: Date) async throws -> [Expense] {
         try await repo.expenses(familyID: familyID, month: month)
     }
 }
+```
 
-13.3 ViewModel (SwiftUI)
-
+### 13.3 SwiftUI View Model
+```swift
 @MainActor
 @Observable
 final class ExpensesViewModel {
@@ -302,80 +290,70 @@ final class ExpensesViewModel {
     func load(familyID: String, month: Date) {
         Task {
             let data = try await getMonthlyExpenses(familyID: familyID, month: month)
-            self.items = data
-            self.total = data.reduce(0) { $0 + $1.amount }
+            items = data
+            total = data.reduce(0) { $0 + $1.amount }
         }
     }
 }
+```
 
-13.4 App Intent (gasto rápido)
-
+### 13.4 App Intent (Quick Expense)
+```swift
 struct QuickExpenseIntent: AppIntent {
-    static var title: LocalizedStringResource = "Añadir gasto rápido"
-    @Parameter(title: "Cantidad") var amount: Double
-    @Parameter(title: "Categoría") var category: String
+    static var title: LocalizedStringResource = "Add quick expense"
+    @Parameter(title: "Amount") var amount: Double
+    @Parameter(title: "Category") var category: String
     func perform() async throws -> some IntentResult {
-        // llamar a caso de uso AddExpense con family actual
+        // call AddExpense use case with current family context
         return .result()
     }
 }
+```
 
+---
 
-⸻
+## 14. Visual System Guidelines
+- Typography: SF Pro with adaptive sizes (Title2 for section headers, Body for cells, Caption for time chips).
+- Color: neutral base palette + auto-generated HSL palettes per child meeting WCAG AA contrast.
+- Core components: ScheduleCell (time chip + category icon), EventCard (title, time, avatar, reminder CTA), ExpenseRow (category, localized amount, optional note), EmptyState with lightweight illustration.
+- Status/error banners for "Offline" and "Saved" events.
+- Gestures: swipe to delete/duplicate, confirmation dialogs for destructive actions.
 
-14) Diseño del sistema visual
-	•	Tipografía: SF Pro, tamaños adaptativos (Title2 para encabezados de lista; Body para celdas; Caption para chips de hora).
-	•	Color: paleta base neutra + paletas hijo autogeneradas (HSL con contraste WCAG AA).
-	•	Componentes reutilizables:
-	•	ScheduleCell (chip horario con icono/categoría)
-	•	EventCard (título, hora, avatar hijo, “Añadir recordatorio”)
-	•	ExpenseRow (categoría, importe con formato local, nota opcional)
-	•	EmptyState con ilustración ligera
-	•	Estados/errores: banners claros (“Sin conexión”, “Guardado”).
-	•	Gestos: deslizamiento para borrar/duplicar, confirmationDialog para acciones destructivas.
+---
 
-⸻
+## 15. Calendar Sync via EventKit (Optional)
+- Mirror strategy: each FamilyEvent stores an EventKit identifier when available.
+- Conflict resolution favors app data; overwrite EventKit when the guardian confirms.
+- Granular toggles: write access is opt-in; without permission default to read-only or disabled.
 
-15) Sincronización con Calendario (EventKit) — opcional
-	•	Estrategia “espejo”: cada FamilyEvent puede tener eventIdentifier de EventKit.
-	•	Conflictos: prioriza cambios en la app y reescribe en EventKit si el usuario lo decide.
-	•	Permisos granulares: toggle “Escribir en Calendario”; sin permisos, solo lectura o nada.
+---
 
-⸻
+## 16. Sharing and Roles
+- Invitation via Dynamic Link carrying familyID + short-lived token and a consent screen.
+- Roles: Owner (subscription + delete family), Guardian (full CRUD), Viewer (read-only).
+- Revocation UI listing members with "Remove access" actions.
 
-16) Compartición y roles
-	•	Invitación: Dynamic Link con familyID + token corto; pantalla previa con consentimiento.
-	•	Roles:
-	•	Owner (gestiona suscripción, borra familia)
-	•	Guardian (CRUD contenido)
-	•	Viewer (solo lectura)
-	•	Revocación: lista de miembros y botón “Quitar acceso”.
+---
 
-⸻
+## 17. Testing Strategy
+- 100% coverage on domain use cases.
+- Fake repositories feeding view models.
+- Snapshot tests for key SwiftUI screens (weekly schedule, calendar, expenses).
+- Basic UI tests: onboarding → create child → create class → verify calendar → add expense.
 
-17) Estrategia de tests
-	•	Domain 100% (casos de uso puros).
-	•	Repos fakes para ViewModels.
-	•	Snapshot de UI (horario semanal, calendario, gastos).
-	•	UITests básicos: onboarding → crear hijo → crear clase → ver en calendario → añadir gasto.
+---
 
-⸻
+## 18. KPIs and Analytics (Privacy-Safe)
+- Activation: % creating at least one child and class on day one.
+- Retention D7/D30: weekly usage of schedule/calendar.
+- Feature adoption: % duplicating schedules, % adding ≥1 expense/week.
+- Premium conversion after export or attachment attempts.
 
-18) KPIs y analítica (sin invadir privacidad)
-	•	Activación: % que crean ≥1 hijo y ≥1 clase el día 1.
-	•	Retención D7/ D30: uso semanal del horario/calendario.
-	•	Feature adoption: % que usa duplicar horario; % que crea ≥1 gasto/semana.
-	•	Conversión Premium: tras evento “exportar” o “añadir adjunto”.
+---
 
-⸻
-
-19) Resumen de decisiones clave
-	•	Stack: SwiftUI + Clean MVVM, domain puro + repos; TCA donde haya lógica compleja.
-	•	Datos: SwiftData (iCloud) si solo iOS; Firestore si buscas tiempo real/Android/Web.
-	•	UX: color por hijo, vista semanal clara, acciones rápidas, accesibilidad fuerte.
-	•	Privacidad: mínimos datos, roles, exportar/borrar, reglas estrictas.
-	•	Monetización: Freemium honesto + Premium Familiar sin anuncios.
-
-⸻
-
-
+## 19. Decision Highlights
+- Stack: SwiftUI + Clean MVVM with pure domain and repository abstractions, TCA where logic is complex.
+- Data: SwiftData + iCloud if iOS-only; Firestore for real-time collaboration and multi-platform targets.
+- UX: per-child theming, clear weekly view, fast actions, accessibility from day one.
+- Privacy: minimal data, role-based access, export/delete flows, strict rules.
+- Monetization: honest freemium with Premium Family tier and no advertising.
