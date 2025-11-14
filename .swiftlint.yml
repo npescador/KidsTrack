@@ -1,0 +1,125 @@
+# ---------
+# Paths
+# ---------
+
+included:
+  - KidsTrack
+  - Data
+  - Domain
+  - Presentation
+  - Shared
+
+excluded:
+  - Tools
+  - DerivedData
+  - .build
+  - .swiftpm
+  - "**/DerivedSources/**"
+  - "**/Generated/**"
+
+# Si quieres excluir UITests:
+#  - KidsTrackUITests
+
+# ---------
+# Analyzer rules
+# ---------
+
+analyzer_rules:
+  - unused_import
+
+# ---------
+# Opt-in rules
+# ---------
+
+opt_in_rules:
+  - array_init
+  - closure_end_indentation
+  - closure_spacing
+  - collection_alignment
+  - first_where
+  - force_unwrapping
+  - literal_expression_end_indentation
+  - multiline_function_chains
+  - multiline_parameters
+  - operator_usage_whitespace
+  - sorted_imports
+  - yoda_condition
+  - vertical_whitespace
+  - vertical_parameter_alignment
+  - comma
+  - trailing_newline
+  - opening_brace
+  - colon
+  - trailing_comma
+  - mark
+
+# ---------
+# Regla por regla
+# ---------
+
+identifier_name:
+  min_length: 1
+  max_length: 50
+
+type_name:
+  max_length: 50
+
+force_unwrapping:
+  severity: error
+  excluded:
+    - ".*Tests?\\.swift"
+
+vertical_whitespace:
+  severity: error
+
+force_try:
+  severity: warning
+
+function_parameter_count:
+  warning: 8
+  error: 15
+
+cyclomatic_complexity:
+  warning: 15
+  error: 20
+
+function_body_length:
+  warning: 150
+  error: 200
+
+type_body_length:
+  warning: 600
+  error: 1000
+
+trailing_whitespace:
+  severity: error
+
+nesting:
+  type_level:
+    warning: 3
+    error: 5
+
+vertical_parameter_alignment:
+  severity: error
+
+comma:
+  severity: error
+
+trailing_newline:
+  severity: error
+
+opening_brace:
+  severity: error
+
+colon:
+  severity: error
+
+trailing_comma:
+  severity: error
+
+mark:
+  severity: error
+
+line_length:
+  warning: 120
+  error: 200

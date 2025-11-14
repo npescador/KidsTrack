@@ -5,7 +5,14 @@ public struct WelcomeView: View {
 
     private let features = WelcomeFeature.defaultFeatures
     private let heroImageURL = URL(
-        string: "https://lh3.googleusercontent.com/aida-public/AB6AXuC96CuyqlxlmsaQDqQ3m0MM-go8lRZoTSQUCEPdT549WyuDzrCIELpjINlT2f_kGL25v-x8cSMDiyDquNBRzjfvX_k4NvwvdKnHHQJnzvCKh_-OFTP_BpAvU-0vKhkFYYoIxCTQ15tC0lJL5pauj1r7OVWEBAWHh1W8rZ7FidV7OeKdOUXg7qDQC7Z2n0Gc5uKVLSifHZLEmM0gX-Io5xcR3uGj2k3hj4scC-nnUEDQM71DODwDA4rsVkyYrjyIqa4NUTvkWVn5ow9H"
+        string:
+            """
+            https://lh3.googleusercontent.com/aida-public/AB6AXuC96CuyqlxlmsaQDqQ3m0MM-
+            go8lRZoTSQUCEPdT549WyuDzrCIELpjINlT2f_kGL25v
+            -x8cSMDiyDquNBRzjfvX_k4NvwvdKnHHQJnzvCKh_-OFTP_BpAvU-0vKhkFYYoIxCTQ15tC0lJL5pauj1r7OVWEBAWHh1W8rZ7FidV7
+            OeKdOUXg7qDQC7Z2n0Gc5uKVLSifHZLEmM0gX-Io5xcR3uGj2k3hj4scC-nnUEDQM71DODwDA4rsVkyYrjyIqa4NUTvkWVn5ow9H
+            """
+            .replacingOccurrences(of: "\n", with: "")
     )
 
     public init() {}
@@ -87,9 +94,9 @@ private extension WelcomeView {
 
     var footer: some View {
         VStack(spacing: 16) {
-            Button(action: {
-                // TODO: Surface navigation to onboarding flow.
-            }) {
+            Button {
+                // Surface navigation to onboarding flow.
+            } label: {
                 Text("welcome.cta.title".localized())
                     .frame(maxWidth: .infinity, minHeight: 48)
                     .font(.system(size: 16, weight: .bold, design: .rounded))

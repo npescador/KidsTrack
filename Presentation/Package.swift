@@ -11,7 +11,7 @@ let package = Package(
         .library(
             name: "Presentation",
             targets: ["Presentation"]
-        ),
+        )
     ],
     targets: [
         .target(
@@ -23,6 +23,6 @@ let package = Package(
         .testTarget(
             name: "PresentationTests",
             dependencies: ["Presentation"]
-        ),
+        )
     ]
 )
