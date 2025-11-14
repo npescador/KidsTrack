@@ -10,9 +10,11 @@ import SwiftUI
 
 @main
 struct KidsTrackApp: App {
+    private let container = AppContainer()
+
     var body: some Scene {
         WindowGroup {
-            WelcomeView()
+            LoginView(viewModel: container.makeLoginViewModel())
         }
     }
 }

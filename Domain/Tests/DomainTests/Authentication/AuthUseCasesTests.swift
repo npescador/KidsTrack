@@ -1,0 +1,130 @@
+import Domain
+import Shared
+import Testing
+
+@Suite("Auth Use Cases")
+struct AuthUseCasesTests {
+    private let repository = MockAuthRepository()
+
+    private var loginUseCase: LoginUseCase { LoginUseCase(repository: repository) }
+    private var registerUseCase: RegisterUseCase { RegisterUseCase(repository: repository) }
+    private var resetUseCase: SendPasswordResetUseCase { SendPasswordResetUseCase(repository: repository) }
+    private var logoutUseCase: LogoutUseCase { LogoutUseCase(repository: repository) }
+    private var observeUseCase: ObserveAuthStateUseCase {
+        ObserveAuthStateUseCase(repository: repository)
+    }
+
+    @Test("Login succeeds with credentials")
+    func loginSuccess() async throws {
+        repository.nextUserResult = .success(.init(id: "abc", email: "user@test.com"))
+        let user = try await loginUseCase.execute(email: "user@test.com", password: "secret")
+        #expect(user.email == "user@test.com")
+    }
+
+    @Test("Login propagates invalid credentials")
+    func loginFailure() async {
+        repository.nextUserResult = .failure(.invalidCredentials)
+
+        do {
+            _ = try await loginUseCase.execute(email: "user@test.com", password: "bad")
+            Issue.record("Expected error")
+        } catch {
+            #expect(error as? AuthError == .invalidCredentials)
+        }
+    }
+
+    @Test("Register yields new user")
+    func registerSuccess() async throws {
+        repository.nextUserResult = .success(.init(id: "xyz", email: "new@test.com"))
+        let user = try await registerUseCase.execute(email: "new@test.com", password: "pass")
+        #expect(user.id == "xyz")
+    }
+
+    @Test("Register surfaces duplicate user error")
+    func registerDuplicate() async {
+        repository.nextUserResult = .failure(.userAlreadyExists)
+
+        do {
+            _ = try await registerUseCase.execute(email: "new@test.com", password: "pass")
+            Issue.record("Expected duplicate error")
+        } catch {
+            #expect(error as? AuthError == .userAlreadyExists)
+        }
+    }
+
+    @Test("Password reset bubbles repository errors")
+    func passwordResetError() async {
+        repository.resetError = .userNotFound
+
+        do {
+            try await resetUseCase.execute(email: "missing@test.com")
+            Issue.record("Expected error not thrown")
+        } catch {
+            #expect(error as? AuthError == .userNotFound)
+        }
+    }
+
+    @Test("Logout invokes repository")
+    func logoutSuccess() async throws {
+        try await logoutUseCase.execute()
+        #expect(repository.didLogout)
+    }
+
+    @Test("Auth state stream forwards values")
+    func observeAuthState() async throws {
+        let stream = observeUseCase.execute()
+
+        repository.stateStreamContinuation?.yield(.authenticated(.init(id: "123", email: "me@test.com")))
+        if let next = await firstValue(from: stream) {
+            #expect(next == .authenticated(.init(id: "123", email: "me@test.com")))
+        } else {
+            Issue.record("Expected auth state emission")
+        }
+    }
+}
+
+private final class MockAuthRepository: AuthRepositoryProtocol {
+    var nextUserResult: Result<AuthUser, AuthError>?
+    var resetError: AuthError?
+    var didLogout = false
+    var stateStreamContinuation: AsyncStream<AuthState>.Continuation?
+
+    func login(email: String, password: String) async throws -> AuthUser {
+        guard let nextUserResult else {
+            Issue.record("nextUserResult must be set before calling login")
+            throw AuthError.missingImplementation
+        }
+        return try nextUserResult.get()
+    }
+
+    func register(email: String, password: String) async throws -> AuthUser {
+        guard let nextUserResult else {
+            Issue.record("nextUserResult must be set before calling register")
+            throw AuthError.missingImplementation
+        }
+        return try nextUserResult.get()
+    }
+
+    func sendPasswordReset(email: String) async throws {
+        if let resetError {
+            throw resetError
+        }
+    }
+
+    func logout() async throws {
+        didLogout = true
+    }
+
+    func observeAuthState() -> AsyncStream<AuthState> {
+        AsyncStream { continuation in
+            stateStreamContinuation = continuation
+        }
+    }
+}
+
+private func firstValue(from stream: AsyncStream<AuthState>) async -> AuthState? {
+    for await value in stream {
+        return value
+    }
+    return nil
+}

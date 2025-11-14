@@ -6,6 +6,7 @@ struct LoginCredentialsFormView: View {
     @Binding var email: String
     @Binding var password: String
     @Binding var isPasswordVisible: Bool
+    var isLoading: Bool = false
 
     var onTapForgotPassword: () -> Void
     var onSubmit: () -> Void
@@ -132,15 +133,23 @@ private extension LoginCredentialsFormView {
 
     var submitButton: some View {
         Button(action: onSubmit) {
-            Text("login.form.primary.cta".localized())
-                .font(.system(size: 16, weight: .semibold, design: .rounded))
-                .frame(maxWidth: .infinity)
-                .frame(minHeight: 48)
-                .background(Color.kidsTrackPrimaryBlue)
-                .foregroundStyle(Color.white)
-                .cornerRadius(12)
+            Group {
+                if isLoading {
+                    ProgressView()
+                        .tint(.white)
+                } else {
+                    Text("login.form.primary.cta".localized())
+                        .font(.system(size: 16, weight: .semibold, design: .rounded))
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(minHeight: 48)
+            .background(Color.kidsTrackPrimaryBlue)
+            .foregroundStyle(Color.white)
+            .cornerRadius(12)
         }
         .buttonStyle(.plain)
+        .disabled(isLoading)
         .shadow(color: Color.kidsTrackPrimaryBlue.opacity(0.25), radius: 4, y: 2)
         .accessibilityHint(Text("login.form.primary.cta.hint".localized()))
     }
@@ -151,6 +160,7 @@ private extension LoginCredentialsFormView {
         email: .constant(""),
         password: .constant(""),
         isPasswordVisible: .constant(false),
+        isLoading: false,
         onTapForgotPassword: {},
         onSubmit: {}
     )

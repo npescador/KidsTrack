@@ -1,0 +1,234 @@
+import Domain
+import Foundation
+import Observation
+import Shared
+
+@MainActor
+@Observable
+public final class LoginViewModel {
+    public struct Banner: Equatable {
+        public enum Style {
+            case success
+            case error
+            case info
+        }
+
+        public let style: Style
+        public let message: String
+
+        public init(style: Style, message: String) {
+            self.style = style
+            self.message = message
+        }
+    }
+
+    public var email = ""
+    public var password = ""
+    public var isLoading = false
+    public var banner: Banner?
+    public var authState: AuthState = .unauthenticated
+
+    private let loginUseCase: LoginUseCase
+    private let registerUseCase: RegisterUseCase
+    private let passwordResetUseCase: SendPasswordResetUseCase
+    private let logoutUseCase: LogoutUseCase
+    private let observeAuthStateUseCase: ObserveAuthStateUseCase
+
+    @ObservationIgnored
+    private var authObservationTask: Task<Void, Never>?
+
+    public init(
+        loginUseCase: LoginUseCase,
+        registerUseCase: RegisterUseCase,
+        passwordResetUseCase: SendPasswordResetUseCase,
+        logoutUseCase: LogoutUseCase,
+        observeAuthStateUseCase: ObserveAuthStateUseCase
+    ) {
+        self.loginUseCase = loginUseCase
+        self.registerUseCase = registerUseCase
+        self.passwordResetUseCase = passwordResetUseCase
+        self.logoutUseCase = logoutUseCase
+        self.observeAuthStateUseCase = observeAuthStateUseCase
+
+        observeAuthState()
+    }
+
+    deinit {
+        authObservationTask?.cancel()
+    }
+
+    public var isAuthenticated: Bool {
+        if case .authenticated = authState {
+            return true
+        }
+        return false
+    }
+
+    public var authenticatedEmail: String? {
+        if case let .authenticated(user) = authState {
+            return user.email
+        }
+        return nil
+    }
+
+    public func login() {
+        guard validateCredentials() else { return }
+        let email = self.email
+        let password = self.password
+        let loginUseCase = self.loginUseCase
+        submit(
+            successMessage: "Welcome back!",
+            operation: {
+                try await loginUseCase.execute(email: email, password: password)
+            }
+        )
+    }
+
+    public func register() {
+        guard validateCredentials() else { return }
+        let email = self.email
+        let password = self.password
+        let registerUseCase = self.registerUseCase
+        submit(
+            successMessage: "Account created successfully.",
+            operation: {
+                try await registerUseCase.execute(email: email, password: password)
+            }
+        )
+    }
+
+    public func sendPasswordReset() {
+        guard validateEmailOnly() else { return }
+        let email = self.email
+        let passwordResetUseCase = self.passwordResetUseCase
+        submit(
+            successMessage: "Password reset email sent.",
+            operation: {
+                try await passwordResetUseCase.execute(email: email)
+                return nil as AuthUser?
+            }
+        )
+    }
+
+    public func logout() {
+        guard isAuthenticated else {
+            banner = Banner(style: .info, message: "No authenticated user to sign out.")
+            return
+        }
+
+        let logoutUseCase = self.logoutUseCase
+        submit(
+            successMessage: "Signed out.",
+            operation: {
+                try await logoutUseCase.execute()
+                return nil as AuthUser?
+            }
+        )
+    }
+}
+
+private extension LoginViewModel {
+    func submit(
+        successMessage: String,
+        operation: @escaping () async throws -> AuthUser?
+    ) {
+        guard !isLoading else { return }
+        isLoading = true
+        banner = nil
+
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                let user = try await operation()
+                self.handleSuccess(
+                    message: successMessage,
+                    user: user
+                )
+            } catch {
+                self.handleFailure(error)
+            }
+        }
+    }
+
+    func validateCredentials() -> Bool {
+        guard !email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              !password.isEmpty else {
+            banner = Banner(style: .error, message: "Email and password are required.")
+            return false
+        }
+        return true
+    }
+
+    func validateEmailOnly() -> Bool {
+        guard !email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            banner = Banner(style: .error, message: "Enter the email associated with your account.")
+            return false
+        }
+        return true
+    }
+
+    @MainActor
+    func handleSuccess(message: String, user: AuthUser?) {
+        if user != nil {
+            password.removeAll()
+        }
+        banner = Banner(style: .success, message: message)
+        isLoading = false
+    }
+
+    @MainActor
+    func handleFailure(_ error: Error) {
+        let authError = error as? AuthError ?? .unknown(message: error.localizedDescription)
+        banner = Banner(style: .error, message: authError.userMessage)
+        isLoading = false
+    }
+
+    func observeAuthState() {
+        authObservationTask = Task { [weak self] in
+            guard let self else { return }
+            for await state in observeAuthStateUseCase.execute() {
+                self.updateAuthState(state)
+            }
+        }
+    }
+
+    @MainActor
+    func updateAuthState(_ state: AuthState) {
+        authState = state
+    }
+}
+
+#if DEBUG
+extension LoginViewModel {
+    public static func preview() -> LoginViewModel {
+        let repository = PreviewAuthRepository()
+        return LoginViewModel(
+            loginUseCase: LoginUseCase(repository: repository),
+            registerUseCase: RegisterUseCase(repository: repository),
+            passwordResetUseCase: SendPasswordResetUseCase(repository: repository),
+            logoutUseCase: LogoutUseCase(repository: repository),
+            observeAuthStateUseCase: ObserveAuthStateUseCase(repository: repository)
+        )
+    }
+}
+
+private final class PreviewAuthRepository: AuthRepositoryProtocol {
+    func login(email: String, password: String) async throws -> AuthUser {
+        AuthUser(id: UUID().uuidString, email: email)
+    }
+
+    func register(email: String, password: String) async throws -> AuthUser {
+        AuthUser(id: UUID().uuidString, email: email)
+    }
+
+    func sendPasswordReset(email: String) async throws {}
+
+    func logout() async throws {}
+
+    func observeAuthState() -> AsyncStream<AuthState> {
+        AsyncStream { continuation in
+            continuation.yield(.unauthenticated)
+        }
+    }
+}
+#endif

@@ -13,13 +13,22 @@ let package = Package(
             targets: ["Domain"]
         )
     ],
+    dependencies: [
+        .package(path: "../Shared")
+    ],
     targets: [
         .target(
-            name: "Domain"
+            name: "Domain",
+            dependencies: [
+                .product(name: "Shared", package: "Shared")
+            ]
         ),
         .testTarget(
             name: "DomainTests",
-            dependencies: ["Domain"]
+            dependencies: [
+                "Domain",
+                .product(name: "Shared", package: "Shared")
+            ]
         )
     ]
 )
