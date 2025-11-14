@@ -15,9 +15,6 @@ public final class FirebaseAuthDataSource: FirebaseAuthDataSourceProtocol, @unch
     private let auth: Auth
 
     public init(auth: Auth = Auth.auth()) {
-        if FirebaseApp.app() == nil {
-            FirebaseApp.configure()
-        }
         self.auth = auth
     }
 
