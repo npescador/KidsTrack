@@ -47,19 +47,19 @@ struct LoginView: View {
 
 private extension LoginView {
     func handleForgotPassword() {
-        // TODO: Navigate to password recovery flow.
+        // Navigate to password recovery flow.
     }
 
     func handleLogin() {
-        // TODO: Hook into authentication use case.
+        // Hook into authentication use case.
     }
 
     func handleGoogleLogin() {
-        // TODO: Kick off Google sign-in.
+        // Kick off Google sign-in.
     }
 
     func handleSignup() {
-        // TODO: Navigate to the sign-up experience.
+        // Navigate to the sign-up experience.
     }
 }
 

@@ -5,18 +5,6 @@ struct WelcomeFeature: Identifiable, Sendable {
     let iconSystemName: String
     let title: LocalizedStringResource
     let description: LocalizedStringResource
-
-    init(
-        id: String,
-        iconSystemName: String,
-        title: LocalizedStringResource,
-        description: LocalizedStringResource
-    ) {
-        self.id = id
-        self.iconSystemName = iconSystemName
-        self.title = title
-        self.description = description
-    }
 }
 
 extension WelcomeFeature {
@@ -38,6 +26,6 @@ extension WelcomeFeature {
             iconSystemName: "creditcard",
             title: "welcome.feature.expenses.title".localized(),
             description: "welcome.feature.expenses.description".localized()
-        ),
+        )
     ]
 }

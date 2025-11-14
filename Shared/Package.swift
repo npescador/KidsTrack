@@ -11,7 +11,7 @@ let package = Package(
         .library(
             name: "Shared",
             targets: ["Shared"]
-        ),
+        )
     ],
     targets: [
         .target(
@@ -20,6 +20,6 @@ let package = Package(
         .testTarget(
             name: "SharedTests",
             dependencies: ["Shared"]
-        ),
+        )
     ]
 )

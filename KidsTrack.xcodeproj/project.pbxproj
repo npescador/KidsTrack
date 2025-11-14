@@ -142,6 +142,7 @@
 				7113DA9B2EAA782D0082B17F /* Sources */,
 				7113DA9C2EAA782D0082B17F /* Frameworks */,
 				7113DA9D2EAA782D0082B17F /* Resources */,
+				71C815372EC63B1900E1BE4D /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -215,7 +216,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2600;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2610;
 				TargetAttributes = {
 					7113DA9E2EAA782D0082B17F = {
 						CreatedOnToolsVersion = 26.0.1;
@@ -274,6 +275,35 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		71C815372EC63B1900E1BE4D /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Tools/SwiftLint/swiftlint",
+				"$(SRCROOT)/.swiftlint.yml",
+				"$(SRCROOT)/KidsTrack",
+				"$(SRCROOT)/Data",
+				"$(SRCROOT)/Domain",
+				"$(SRCROOT)/Presentation",
+				"$(SRCROOT)/Shared",
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SWIFTLINT_BIN=\"${SRCROOT}/Tools/SwiftLint/swiftlint\"\n\n# Ejecutar siempre desde la raíz del repo\ncd \"${SRCROOT}\"\necho \"SwiftLint running in: $(pwd)\"\necho \"Using config: ${SRCROOT}/.swiftlint.yml\"\n\nif [ -f \"$SWIFTLINT_BIN\" ]; then\n  echo \"Running SwiftLint from repository binary\"\n  \"$SWIFTLINT_BIN\" lint \\\n    --reporter xcode \\\n    --config .swiftlint.yml \\\n    .\nelif which swiftlint > /dev/null; then\n  echo \"Running SwiftLint from system installation\"\n  swiftlint lint \\\n    --reporter xcode \\\n    --config .swiftlint.yml \\\n    .\nelse\n  echo \"warning: SwiftLint not found. Add Tools/SwiftLint/swiftlint or install via Homebrew.\"\n  exit 0\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7113DA9B2EAA782D0082B17F /* Sources */ = {
@@ -372,8 +402,10 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
@@ -429,6 +461,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -443,6 +476,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JG82ZU7NLT;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = KidsTrack/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -477,6 +511,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JG82ZU7NLT;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = KidsTrack/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
