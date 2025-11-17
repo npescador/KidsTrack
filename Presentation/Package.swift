@@ -13,16 +13,28 @@ let package = Package(
             targets: ["Presentation"]
         )
     ],
+    dependencies: [
+        .package(path: "../Domain"),
+        .package(path: "../Shared")
+    ],
     targets: [
         .target(
             name: "Presentation",
+            dependencies: [
+                .product(name: "Domain", package: "Domain"),
+                .product(name: "Shared", package: "Shared")
+            ],
             resources: [
                 .process("Resources")
             ]
         ),
         .testTarget(
             name: "PresentationTests",
-            dependencies: ["Presentation"]
+            dependencies: [
+                "Presentation",
+                .product(name: "Domain", package: "Domain"),
+                .product(name: "Shared", package: "Shared")
+            ]
         )
     ]
 )

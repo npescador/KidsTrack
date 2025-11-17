@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LoginSignupCalloutView: View {
     let action: () -> Void
+    var isDisabled: Bool = false
 
     @Environment(\.colorScheme) private var colorScheme
 
@@ -17,6 +18,7 @@ struct LoginSignupCalloutView: View {
                     .underline()
             }
             .buttonStyle(.plain)
+            .disabled(isDisabled)
             .foregroundStyle(Color.kidsTrackPrimaryBlue)
         }
         .accessibilityElement(children: .combine)
@@ -24,7 +26,7 @@ struct LoginSignupCalloutView: View {
 }
 
 #Preview("Login Signup Callout") {
-    LoginSignupCalloutView(action: {})
+    LoginSignupCalloutView(action: {}, isDisabled: false)
         .padding()
         .background(Color.kidsTrackBackground(for: .light))
 }
