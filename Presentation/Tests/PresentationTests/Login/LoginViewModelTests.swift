@@ -4,6 +4,7 @@ import Foundation
 import Shared
 import Testing
 
+@MainActor
 @Suite("LoginViewModel")
 struct LoginViewModelTests {
     @Test("Login success updates banner")
@@ -82,45 +83,10 @@ struct LoginViewModelTests {
     }
 }
 
-private final class MockAuthRepository: AuthRepositoryProtocol {
-    var nextResult: Result<AuthUser, AuthError> = .success(.init(id: "", email: ""))
-    var resetError: AuthError?
-    var logoutCallCount = 0
-    private var continuation: AsyncStream<AuthState>.Continuation?
-
-    func login(email: String, password: String) async throws -> AuthUser {
-        try nextResult.get()
-    }
-
-    func register(email: String, password: String) async throws -> AuthUser {
-        try nextResult.get()
-    }
-
-    func sendPasswordReset(email: String) async throws {
-        if let resetError {
-            throw resetError
-        }
-    }
-
-    func logout() async throws {
-        logoutCallCount += 1
-    }
-
-    func observeAuthState() -> AsyncStream<AuthState> {
-        AsyncStream { continuation in
-            self.continuation = continuation
-            continuation.yield(.unauthenticated)
-        }
-    }
-
-    func emit(state: AuthState) {
-        continuation?.yield(state)
-    }
-}
-
+@MainActor
 private func waitUntil(
     timeout: Duration = .seconds(1),
-    condition: @escaping () -> Bool
+    condition: @escaping @MainActor () -> Bool
 ) async throws {
     let clock = ContinuousClock()
     let deadline = clock.now.advanced(by: timeout)

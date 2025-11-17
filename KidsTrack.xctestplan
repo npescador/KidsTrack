@@ -1,0 +1,52 @@
+{
+  "configurations" : [
+    {
+      "id" : "FF7764B0-19D0-41A7-9F8B-FF7F7E213D26",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Data",
+        "identifier" : "DataTests",
+        "name" : "DataTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Shared",
+        "identifier" : "SharedTests",
+        "name" : "SharedTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:KidsTrack.xcodeproj",
+        "identifier" : "7113DAAB2EAA782F0082B17F",
+        "name" : "KidsTrackTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Presentation",
+        "identifier" : "PresentationTests",
+        "name" : "PresentationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Domain",
+        "identifier" : "DomainTests",
+        "name" : "DomainTests"
+      }
+    }
+  ],
+  "version" : 1
+}

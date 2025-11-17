@@ -83,45 +83,6 @@ struct AuthUseCasesTests {
     }
 }
 
-private final class MockAuthRepository: AuthRepositoryProtocol {
-    var nextUserResult: Result<AuthUser, AuthError>?
-    var resetError: AuthError?
-    var didLogout = false
-    var stateStreamContinuation: AsyncStream<AuthState>.Continuation?
-
-    func login(email: String, password: String) async throws -> AuthUser {
-        guard let nextUserResult else {
-            Issue.record("nextUserResult must be set before calling login")
-            throw AuthError.missingImplementation
-        }
-        return try nextUserResult.get()
-    }
-
-    func register(email: String, password: String) async throws -> AuthUser {
-        guard let nextUserResult else {
-            Issue.record("nextUserResult must be set before calling register")
-            throw AuthError.missingImplementation
-        }
-        return try nextUserResult.get()
-    }
-
-    func sendPasswordReset(email: String) async throws {
-        if let resetError {
-            throw resetError
-        }
-    }
-
-    func logout() async throws {
-        didLogout = true
-    }
-
-    func observeAuthState() -> AsyncStream<AuthState> {
-        AsyncStream { continuation in
-            stateStreamContinuation = continuation
-        }
-    }
-}
-
 private func firstValue(from stream: AsyncStream<AuthState>) async -> AuthState? {
     for await value in stream {
         return value
