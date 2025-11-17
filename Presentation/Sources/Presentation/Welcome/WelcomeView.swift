@@ -15,7 +15,11 @@ public struct WelcomeView: View {
             .replacingOccurrences(of: "\n", with: "")
     )
 
-    public init() {}
+    private let onGetStarted: () -> Void
+
+    public init(onGetStarted: @escaping () -> Void = {}) {
+        self.onGetStarted = onGetStarted
+    }
 
     public var body: some View {
         ZStack {
@@ -95,7 +99,7 @@ private extension WelcomeView {
     var footer: some View {
         VStack(spacing: 16) {
             Button {
-                // Surface navigation to onboarding flow.
+                onGetStarted()
             } label: {
                 Text("welcome.cta.title".localized())
                     .frame(maxWidth: .infinity, minHeight: 48)

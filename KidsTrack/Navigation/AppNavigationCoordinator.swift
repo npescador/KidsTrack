@@ -13,6 +13,7 @@ enum AppNavigationEvent {
     case didAuthenticate
     case didLogout
     case showWelcome
+    case showLogin
 }
 
 /// Coordinates SwiftUI navigation based on high level app flows.
@@ -21,6 +22,7 @@ enum AppNavigationEvent {
 final class AppNavigationCoordinator {
     var path = NavigationPath()
     var root: AppRoute = .welcome
+    // TODO: Persist onboarding completion so we can skip the welcome route when appropriate.
 
     private let container: AppContainer
 
@@ -32,6 +34,8 @@ final class AppNavigationCoordinator {
         switch event {
         case .didAuthenticate, .showWelcome:
             replaceStack(with: .welcome)
+        case .showLogin:
+            navigate(to: .login)
         case .didLogout:
             replaceStack(with: .login)
         }
@@ -47,7 +51,9 @@ final class AppNavigationCoordinator {
         case .login:
             LoginView(viewModel: container.makeLoginViewModel())
         case .welcome:
-            WelcomeView()
+            WelcomeView(onGetStarted: { [weak self] in
+                self?.handle(.showLogin)
+            })
         }
     }
 }
