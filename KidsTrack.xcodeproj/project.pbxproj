@@ -34,6 +34,7 @@
 		7113DA9F2EAA782D0082B17F /* KidsTrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KidsTrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7113DAAC2EAA782F0082B17F /* KidsTrackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KidsTrackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7113DAB62EAA782F0082B17F /* KidsTrackUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KidsTrackUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		716E00432ECAFD78006903D2 /* KidsTrack.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = KidsTrack.xctestplan; sourceTree = "<group>"; };
 		7185565B2EB0CDA600C1348A /* Presentation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Presentation; sourceTree = "<group>"; };
 		7185565F2EB0CE0400C1348A /* Data */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Data; sourceTree = "<group>"; };
 		718556622EB0CE4500C1348A /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Domain; sourceTree = "<group>"; };
@@ -103,6 +104,7 @@
 		7113DA962EAA782D0082B17F = {
 			isa = PBXGroup;
 			children = (
+				716E00432ECAFD78006903D2 /* KidsTrack.xctestplan */,
 				718556652EB0CF1A00C1348A /* Shared */,
 				718556622EB0CE4500C1348A /* Domain */,
 				7185565F2EB0CE0400C1348A /* Data */,

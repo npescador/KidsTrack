@@ -5,7 +5,7 @@ import Testing
 
 @Suite("Auth Repository")
 struct AuthRepositoryTests {
-    private let dataSource = MockFirebaseDataSource()
+    private let dataSource = MockFirebaseAuthDataSource()
     private var repository: AuthRepository { AuthRepository(dataSource: dataSource) }
 
     @Test("Login delegates to data source")
@@ -55,40 +55,6 @@ struct AuthRepositoryTests {
             #expect(value == .authenticated(.init(id: "abc", email: "user@test.com")))
         } else {
             Issue.record("Expected auth state value")
-        }
-    }
-}
-
-private final class MockFirebaseDataSource: FirebaseAuthDataSourceProtocol {
-    var loginResult: Result<AuthUser, AuthError> = .success(.init(id: "", email: ""))
-    var resetError: AuthError?
-    var didLogout = false
-    var receivedEmail: String?
-    var stateContinuation: AsyncStream<AuthState>.Continuation?
-
-    func login(email: String, password: String) async throws -> AuthUser {
-        receivedEmail = email
-        return try loginResult.get()
-    }
-
-    func register(email: String, password: String) async throws -> AuthUser {
-        receivedEmail = email
-        return try loginResult.get()
-    }
-
-    func sendPasswordReset(email: String) async throws {
-        if let resetError {
-            throw resetError
-        }
-    }
-
-    func logout() async throws {
-        didLogout = true
-    }
-
-    func observeAuthState() -> AsyncStream<AuthState> {
-        AsyncStream { continuation in
-            stateContinuation = continuation
         }
     }
 }
