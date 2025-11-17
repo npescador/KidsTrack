@@ -6,7 +6,6 @@
 //
 
 import FirebaseCore
-import Presentation
 import SwiftUI
 
 @main
@@ -20,7 +19,7 @@ struct KidsTrackApp: App {
 
     var body: some Scene {
         WindowGroup {
-            LoginView(viewModel: container.makeLoginViewModel())
+            AppNavigationView(container: container)
         }
     }
 }
