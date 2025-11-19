@@ -198,6 +198,59 @@ Shared/
 - Access control with owner/guardian/viewer roles plus invitation revocation.
 - Honest Privacy Nutrition Label; ATT likely unnecessary if no cross-app tracking.
 - Data lifecycle: export (CSV/PDF), account/data deletion (GDPR Art. 17), explicit retention (e.g., 24 months).
+
+## 10. Blueprint del Producto
+
+### 10.1 Arquitectura
+- Capas: Presentation (SwiftUI + Clean MVVM con `AppNavigationCoordinator` y rutas tipadas), Domain (casos de uso y entidades puras), Data (repositorios concretos SwiftData+iCloud o Firebase). Comunicación Presentation→Domain mediante ViewModels y casos de uso (`LoadWeeklyPlanUseCase`), Domain→Data vía protocolos (`ScheduleRepository`, `ExpensesRepository`, `EventsRepository`, `AuthRepository`, `ChildrenRepository`).
+- Flujo textual: **Vista** → dispara acción → **ViewModel** → invoca **Use Case** → consulta **Repositorio** → persistencia SwiftData (sincronizada con CloudKit) → resultado vuelve al **ViewModel** que proyecta estado en la **Vista**.
+- Clean MVVM se elige sobre TCA para reducir fricción en el MVP y mantener la opción de introducir módulos TCA en features críticas posteriores.
+
+### 10.2 Navegación
+- Estados del orquestador: `.splash`, `.onboardingPending`, `.needsAuth`, `.authenticated(AppShellState)`.
+- Rutas principales: Splash → Onboarding (Welcome, AddChildren, Permissions) → Auth (SignIn, Register, PasswordReset) → Tab principal (TodayWeek, Calendar, Expenses, FamilyProfile). Subrutas: TodayWeek → ChildScheduleDetail; Calendar → EventDetail/CreateEvent; Expenses → ExpenseDetail/AddExpense; FamilyProfile → ChildProfile/Settings.
+- Deep links propuestos: `kidsTrack://event/<id>`, `kidsTrack://expense/<id>`, `kidsTrack://child/<id>` y enlaces universales para invitaciones.
+
+### 10.3 Modelos y Esquemas
+- Domain structs: `Child`, `ClassSession`, `Activity`, `FamilyEvent`, `Expense`, `ExpenseCategory`, `ActivityType`. Restricciones: colores únicos por hijo dentro de la familia; validación de solapamiento horario antes de persistir.
+- SwiftData: `@Model` con relaciones `@Relationship(deleteRule: .cascade)` y plan de migraciones versionadas con `ModelConfiguration`.
+- Alternativa Firebase: colecciones `families/{familyId}/children|classes|activities|events|expenses` con reglas que limitan acceso a owners/guardians; índices por `familyID`, `childID`, `weekday`, `date`.
+
+### 10.4 Casos de Uso
+- Gestión hijos: `CreateChildProfile`, `UpdateChildProfile`, `LoadChildrenList`.
+- Horarios: `CreateClassSession`, `UpdateClassSession`, `DeleteClassSession`, `DuplicateSchedule`, `LoadWeeklyPlan`.
+- Actividades: `CreateActivity`, `UpdateActivity`.
+- Eventos: `AddFamilyEvent`, `UpdateEvent`, `SyncEventToCalendar`.
+- Gastos: `RegisterExpense`, `UpdateExpense`, `DeleteExpense`, `MonthlySummary`, `YearlySummary`, `ExportExpensesCSV/PDF` (fase 2).
+- Sistema: `AuthenticateUser`, `SignOut`, `CheckOnboardingStatus`, `SyncDataUseCase`, `ManageNotifications`.
+
+### 10.5 UI/UX
+- Accesibilidad AA+, soporte Dynamic Type XL, VoiceOver con etiquetas “Niño + actividad + horario”.
+- Colores familiares por hijo, tipografía SF Rounded para headings, tokens de espaciado 8/12/16/24.
+- Estados vacíos con CTA (“No hay clases para Mateo esta semana. Añade la primera clase.”).
+- Estrategia semanal: `Grid` + `ScrollView` horizontal para semana y `TimelineView` diario con `ScrollViewReader`.
+- Conflictos: chips superpuestos con borde/alerta contextual y accesos rápidos para editar.
+
+### 10.6 Roadmap
+- MVP Sprints 1–2: Splash/Onboarding/Auth, CRUD hijos/clases/actividades, vista semanal, gastos básicos, almacenamiento SwiftData offline.
+- MVP Sprints 3–4: Sincronización CloudKit/Firestore, calendario diario, estadísticas mensuales básicas, stub exportación CSV, mejoras accesibilidad y pruebas auth.
+- Fase 2: Exportación PDF, estadísticas avanzadas con Charts, duplicado de horarios, recordatorios inteligentes, EventKit/App Intents, multiidioma, widgets.
+- Fase 3: Notificaciones inteligentes, Apple Watch, resumen fin de curso, integraciones TokkApp/HealthKit, StoreKit 2 con planes familiares.
+
+### 10.7 Estrategia de Pruebas
+- XCTest/swift-testing para casos de uso y ViewModels con repositorios simulados.
+- SnapshotTesting para vistas clave (Semana, Calendario, Gastos) en estados vacío/lleno/conflicto.
+- UI Tests para onboarding/auth y creación de gastos.
+- Focos especiales: solapamientos horarios, zonas horarias, sincronización offline, exportaciones y autenticación multi-proveedor.
+
+### 10.8 Monetización
+- Freemium: hasta 2 hijos, gestión básica de clases/actividades y gastos con estadísticas mensuales simples.
+- Premium familiar (suscripción anual/mensual): hijos ilimitados, estadísticas anuales/comparativas, exportaciones CSV/PDF, recordatorios inteligentes, widgets avanzados, integraciones EventKit completas y multi-guardían. Sin anuncios; transparencia sobre privacidad y descuentos educativos.
+
+### 10.9 Supuestos
+- Target iOS 18 con Swift 6, priorizando SwiftData+iCloud como almacenamiento principal.
+- Firebase se habilita sólo si se necesita multiplataforma; la capa de repositorios permite intercambiar drivers.
+- Autenticación inicial: Email/Password y Sign in with Apple; Google se planifica para fase posterior.
 - Internal audit trail for expense/event edits visible only to owners.
 
 ---
