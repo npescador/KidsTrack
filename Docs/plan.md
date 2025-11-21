@@ -2,6 +2,9 @@
 
 Living document enumerating the agreed next steps. Update status inline as we knock tasks off.
 
+## Workflow Reminder
+- Work item by item from `Docs/# Backlog.KidsTrack.md`: one user story per branch, complete the full scope, and raise a PR tied to that US before merging. Avoid mixing multiple US in a single branch/PR.
+
 ## Ready
 
 1. **Auth Flow Integration**
@@ -27,4 +30,3 @@ Living document enumerating the agreed next steps. Update status inline as we kn
 - Define design tokens for spacing/typography beyond colors and expose them via environment helpers.
 - Introduce data persistence abstraction (SwiftData vs Firestore) for schedules/expenses, keeping repositories protocol-first.
 - Prepare CI recipe (xcodebuild build/test + SwiftLint/SwiftFormat hooks).
-
