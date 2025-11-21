@@ -6,9 +6,11 @@ public struct LoginView: View {
 
     @State private var isPasswordVisible = false
     @State private var viewModel: LoginViewModel
+    private let onAuthenticated: () -> Void
 
-    public init(viewModel: LoginViewModel) {
+    public init(viewModel: LoginViewModel, onAuthenticated: @escaping () -> Void = {}) {
         _viewModel = State(initialValue: viewModel)
+        self.onAuthenticated = onAuthenticated
     }
 
     public var body: some View {
@@ -32,6 +34,7 @@ public struct LoginView: View {
                         password: $viewModel.password,
                         isPasswordVisible: $isPasswordVisible,
                         isLoading: viewModel.isLoading,
+                        isSubmitDisabled: viewModel.isPrimaryActionDisabled,
                         onTapForgotPassword: handleForgotPassword,
                         onSubmit: handleLogin
                     )
@@ -50,7 +53,7 @@ public struct LoginView: View {
 
                     LoginSignupCalloutView(
                         action: handleSignup,
-                        isDisabled: viewModel.isLoading
+                        isDisabled: viewModel.isRegisterDisabled
                     )
                 }
                 .frame(maxWidth: 420)
@@ -70,6 +73,11 @@ public struct LoginView: View {
             }
         }
         .font(.system(.body, design: .rounded))
+        .onChange(of: viewModel.authState) { _, state in
+            if case .authenticated = state {
+                onAuthenticated()
+            }
+        }
     }
 }
 

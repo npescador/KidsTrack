@@ -28,6 +28,23 @@ public final class LoginViewModel {
     public var banner: Banner?
     public var authState: AuthState = .unauthenticated
 
+    public var isLoginFormValid: Bool {
+        isValidEmail(email) && !password.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    public var isRegisterFormValid: Bool {
+        isValidEmail(email) && password.count >= minimumPasswordLength
+    }
+
+    public var isPrimaryActionDisabled: Bool {
+        !isLoginFormValid
+    }
+
+    public var isRegisterDisabled: Bool {
+        isLoading || !isRegisterFormValid
+    }
+
+    private let minimumPasswordLength = 6
     private let loginUseCase: LoginUseCase
     private let registerUseCase: RegisterUseCase
     private let passwordResetUseCase: SendPasswordResetUseCase
@@ -72,7 +89,7 @@ public final class LoginViewModel {
     }
 
     public func login() {
-        guard validateCredentials() else { return }
+        guard validateCredentials(for: .login) else { return }
         let email = self.email
         let password = self.password
         let loginUseCase = self.loginUseCase
@@ -85,7 +102,7 @@ public final class LoginViewModel {
     }
 
     public func register() {
-        guard validateCredentials() else { return }
+        guard validateCredentials(for: .register) else { return }
         let email = self.email
         let password = self.password
         let registerUseCase = self.registerUseCase
@@ -128,6 +145,11 @@ public final class LoginViewModel {
 }
 
 private extension LoginViewModel {
+    enum AuthAction {
+        case login
+        case register
+    }
+
     func submit(
         successMessage: String,
         operation: @escaping () async throws -> AuthUser?
@@ -150,20 +172,36 @@ private extension LoginViewModel {
         }
     }
 
-    func validateCredentials() -> Bool {
-        guard !email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-              !password.isEmpty else {
-            banner = Banner(style: .error, message: "Email and password are required.")
+    func validateEmailOnly() -> Bool {
+        guard isValidEmail(email) else {
+            banner = Banner(style: .error, message: "Enter a valid email address.")
             return false
         }
         return true
     }
 
-    func validateEmailOnly() -> Bool {
-        guard !email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            banner = Banner(style: .error, message: "Enter the email associated with your account.")
+    func validateCredentials(for action: AuthAction) -> Bool {
+        let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard isValidEmail(trimmedEmail) else {
+            banner = Banner(style: .error, message: "Enter a valid email address.")
             return false
         }
+
+        guard !trimmedPassword.isEmpty else {
+            banner = Banner(style: .error, message: "Password is required.")
+            return false
+        }
+
+        if action == .register, trimmedPassword.count < minimumPasswordLength {
+            banner = Banner(
+                style: .error,
+                message: "Password must be at least \(minimumPasswordLength) characters."
+            )
+            return false
+        }
+
         return true
     }
 
@@ -195,6 +233,11 @@ private extension LoginViewModel {
     @MainActor
     func updateAuthState(_ state: AuthState) {
         authState = state
+    }
+
+    func isValidEmail(_ email: String) -> Bool {
+        let pattern = #"^\S+@\S+\.\S+$"#
+        return email.range(of: pattern, options: .regularExpression) != nil
     }
 }
 

@@ -1,5 +1,10 @@
 # Repository Guidelines
 
+## Working Process
+- Use `Docs/# Backlog.KidsTrack.md` as the source of truth for upcoming work.
+- Tackle one user story (US) per branch: create a dedicated branch, complete the full scope of that US, and open a PR for review before merging.
+- Keep branch/PR descriptions tied to the corresponding US; avoid mixing multiple US in the same branch.
+
 ## Project Structure & Module Organization
 - `KidsTrack/` hosts the SwiftUI app entry (`KidsTrackApp.swift`), root view (`ContentView.swift`), and assets under `Assets.xcassets`.
 - `KidsTrackTests/` and `KidsTrackUITests/` contain XCTest targets; mirror production filenames when adding new suites.

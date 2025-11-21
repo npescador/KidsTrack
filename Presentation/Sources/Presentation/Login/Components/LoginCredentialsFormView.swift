@@ -7,6 +7,7 @@ struct LoginCredentialsFormView: View {
     @Binding var password: String
     @Binding var isPasswordVisible: Bool
     var isLoading: Bool = false
+    var isSubmitDisabled: Bool = false
 
     var onTapForgotPassword: () -> Void
     var onSubmit: () -> Void
@@ -149,7 +150,7 @@ private extension LoginCredentialsFormView {
             .cornerRadius(12)
         }
         .buttonStyle(.plain)
-        .disabled(isLoading)
+        .disabled(isLoading || isSubmitDisabled)
         .shadow(color: Color.kidsTrackPrimaryBlue.opacity(0.25), radius: 4, y: 2)
         .accessibilityHint(Text("login.form.primary.cta.hint".localized()))
     }
@@ -161,6 +162,7 @@ private extension LoginCredentialsFormView {
         password: .constant(""),
         isPasswordVisible: .constant(false),
         isLoading: false,
+        isSubmitDisabled: false,
         onTapForgotPassword: {},
         onSubmit: {}
     )

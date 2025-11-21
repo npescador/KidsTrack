@@ -18,7 +18,7 @@ KidsTrack ya cuenta con módulos App/Domain/Data/Presentation iniciales y estruc
 
 ### P0-H1 Autenticación fiable
 **Historia**: Como tutor, quiero iniciar sesión/registrarme con email y Apple ID para acceder desde distintos dispositivos.
-- [ ] (T1) Completar `AuthRepository` con flujos Email/Password y Sign in with Apple, reutilizando `FirebaseAuth` si ya está enlazado o implementando stub seguro.
+- [ ] (T1) Completar `AuthRepository` con flujos Email/Password, Sign in with Apple y Sign in with Google, reutilizando `FirebaseAuth` si ya está enlazado o implementando stub seguro.
 - [ ] (T2) Conectar `LoginViewModel` al repositorio y manejar estados `loading`, `error`, `success`.
 - [ ] (T3) Ajustar `AppNavigationCoordinator` para reaccionar a `.didAuthenticate` y `.logout`, limpiando rutas.
 - [ ] (T4) Tests unitarios de `LoginViewModel` y pruebas UI happy-path + error.
