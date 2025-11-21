@@ -70,6 +70,30 @@ struct LoginViewModelTests {
         #expect(viewModel.banner?.style == .success)
     }
 
+    @Test("Register blocks short passwords")
+    func registerShortPassword() {
+        let (viewModel, repository) = makeSystem()
+        viewModel.email = "new@test.com"
+        viewModel.password = "123"
+
+        viewModel.register()
+
+        #expect(repository.registerCallCount == 0)
+        #expect(viewModel.banner?.style == .error)
+    }
+
+    @Test("Login blocks invalid email format")
+    func loginInvalidEmail() {
+        let (viewModel, repository) = makeSystem()
+        viewModel.email = "invalid-email"
+        viewModel.password = "password"
+
+        viewModel.login()
+
+        #expect(repository.loginCallCount == 0)
+        #expect(viewModel.banner?.style == .error)
+    }
+
     private func makeSystem() -> (LoginViewModel, MockAuthRepository) {
         let repository = MockAuthRepository()
         let viewModel = LoginViewModel(

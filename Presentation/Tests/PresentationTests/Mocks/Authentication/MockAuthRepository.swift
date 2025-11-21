@@ -5,15 +5,19 @@ final class MockAuthRepository: AuthRepositoryProtocol, @unchecked Sendable {
     var nextResult: Result<AuthUser, AuthError> = .success(.init(id: "", email: ""))
     var resetError: AuthError?
     var logoutCallCount = 0
+    var loginCallCount = 0
+    var registerCallCount = 0
     private var continuation: AsyncStream<AuthState>.Continuation?
     private var pendingStates: [AuthState] = []
 
     func login(email: String, password: String) async throws -> AuthUser {
-        try nextResult.get()
+        loginCallCount += 1
+        return try nextResult.get()
     }
 
     func register(email: String, password: String) async throws -> AuthUser {
-        try nextResult.get()
+        registerCallCount += 1
+        return try nextResult.get()
     }
 
     func sendPasswordReset(email: String) async throws {
