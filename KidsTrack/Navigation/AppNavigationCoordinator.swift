@@ -6,6 +6,7 @@ import SwiftUI
 enum AppRoute: Hashable {
     case login
     case welcome
+    case authenticatedShell
 }
 
 /// High level events that mutate the active flow (auth completed, logout, etc).
@@ -24,15 +25,19 @@ final class AppNavigationCoordinator {
     var root: AppRoute = .welcome
     // TODO: Persist onboarding completion so we can skip the welcome route when appropriate.
 
-    private let container: AppContainer
+    private let loginFactory: LoginViewModelBuilding
+    private let sessionHandler: AuthSessionHandling
 
-    init(container: AppContainer) {
-        self.container = container
+    init(container: LoginViewModelBuilding & AuthSessionHandling) {
+        self.loginFactory = container
+        self.sessionHandler = container
     }
 
     func handle(_ event: AppNavigationEvent) {
         switch event {
-        case .didAuthenticate, .showWelcome:
+        case .didAuthenticate:
+            replaceStack(with: .authenticatedShell)
+        case .showWelcome:
             replaceStack(with: .welcome)
         case .showLogin:
             navigate(to: .login)
@@ -49,10 +54,25 @@ final class AppNavigationCoordinator {
     func makeDestination(for route: AppRoute) -> some View {
         switch route {
         case .login:
-            LoginView(viewModel: container.makeLoginViewModel())
+            LoginView(
+                viewModel: loginFactory.makeLoginViewModel(),
+                onAuthenticated: { [weak self] in
+                    self?.handle(.didAuthenticate)
+                }
+            )
         case .welcome:
             WelcomeView(onGetStarted: { [weak self] in
                 self?.handle(.showLogin)
+            })
+        case .authenticatedShell:
+            FamilySelectionPlaceholderView(onLogout: { [weak self] in
+                Task { [weak self] in
+                    guard let self else { return }
+                    try? await sessionHandler.logout()
+                    await MainActor.run {
+                        self.handle(.didLogout)
+                    }
+                }
             })
         }
     }

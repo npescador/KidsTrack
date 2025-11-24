@@ -32,6 +32,20 @@ final class KidsTrackUITests: XCTestCase {
     }
 
     @MainActor
+    func testWelcomeNavigatesToLoginForm() {
+        let app = XCUIApplication()
+        app.launch()
+
+        let cta = app.buttons["Get Started"]
+        XCTAssertTrue(cta.waitForExistence(timeout: 2))
+        cta.tap()
+
+        XCTAssertTrue(app.staticTexts["Email"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.staticTexts["Password"].exists)
+        XCTAssertTrue(app.buttons["Log In"].exists)
+    }
+
+    @MainActor
     func testLaunchPerformance() throws {
         // This measures how long it takes to launch your application.
         measure(metrics: [XCTApplicationLaunchMetric()]) {
