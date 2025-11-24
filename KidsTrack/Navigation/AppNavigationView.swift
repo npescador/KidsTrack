@@ -6,7 +6,7 @@ struct AppNavigationView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var coordinator: AppNavigationCoordinator
 
-    init(container: AppContainer) {
+    init(container: LoginViewModelBuilding & AuthSessionHandling) {
         _coordinator = State(initialValue: AppNavigationCoordinator(container: container))
     }
 
