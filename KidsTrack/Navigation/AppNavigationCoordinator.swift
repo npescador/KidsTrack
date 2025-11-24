@@ -1,5 +1,6 @@
 import Observation
 import Presentation
+import Shared
 import SwiftUI
 
 /// Routes supported by the application level navigation stack.
@@ -23,6 +24,8 @@ enum AppNavigationEvent {
 final class AppNavigationCoordinator {
     var path = NavigationPath()
     var root: AppRoute = .welcome
+    var logoutError: String?
+    var shouldConfirmLogout = false
     // TODO: Persist onboarding completion so we can skip the welcome route when appropriate.
 
     private let loginFactory: LoginViewModelBuilding
@@ -65,22 +68,49 @@ final class AppNavigationCoordinator {
                 self?.handle(.showLogin)
             })
         case .authenticatedShell:
-            FamilySelectionPlaceholderView(onLogout: { [weak self] in
-                Task { [weak self] in
-                    guard let self else { return }
-                    try? await sessionHandler.logout()
-                    await MainActor.run {
-                        self.handle(.didLogout)
-                    }
+            FamilySelectionPlaceholderView(
+                isShowingLogoutAlert: shouldConfirmLogout,
+                onConfirmLogout: { [weak self] in
+                    self?.attemptLogout()
+                },
+                onCancelLogout: { [weak self] in
+                    self?.shouldConfirmLogout = false
+                },
+                errorMessage: logoutError,
+                onDismissError: { [weak self] in
+                    self?.logoutError = nil
+                },
+                onCreateFamily: {},
+                onLogout: { [weak self] in
+                    self?.shouldConfirmLogout = true
                 }
-            })
+            )
         }
     }
 }
 
-private extension AppNavigationCoordinator {
+extension AppNavigationCoordinator {
     func replaceStack(with route: AppRoute) {
         root = route
         path = NavigationPath()
+    }
+
+    func attemptLogout() {
+        logoutError = nil
+        shouldConfirmLogout = false
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                try await sessionHandler.logout()
+                await MainActor.run {
+                    self.handle(.didLogout)
+                }
+            } catch {
+                await MainActor.run {
+                    let authError = error as? AuthError
+                    self.logoutError = authError?.userMessage ?? error.localizedDescription
+                }
+            }
+        }
     }
 }

@@ -1,34 +1,12 @@
 # Backlog MVP KidsTrack  
 ## Historias de usuario + Criterios de aceptación  
-_Basado en SDD – versión 1.1.1_
+_Renumerado y ordenado según dependencias (auth → familias → hijos → horarios → actividades → vista combinada → gastos → calendario → revisiones)._
 
 ---
 
-## ÉPICA 1 — Autenticación (Email, Apple, Google)
+## ÉPICA 1 — Autenticación y sesión
 
-### US-01 — Registro con Email/Password (RF-01)
-
-**Como** usuario nuevo,  
-**quiero** registrarme usando mi email y una contraseña válida,  
-**para** acceder por primera vez y crear mi familia.
-
-**Criterios de aceptación**
-
-- Debe existir un formulario con campos:
-  - Email (obligatorio, formato válido).
-  - Password (obligatorio, mínimo 6 caracteres).
-- Si el email ya existe se muestra un mensaje de error claro.
-- Si la contraseña no cumple los requisitos se muestra un mensaje claro.
-- Mientras se procesa la petición se muestra un indicador de carga.
-- Si el registro es correcto:
-  - El usuario queda autenticado en Firebase.
-  - La app navega a la pantalla de “Crear familia”.
-- Los errores de red o servidor muestran mensajes amigables y la app no queda bloqueada.
-- El botón de enviar se desactiva si hay validaciones locales incumplidas.
-
----
-
-### US-02 — Inicio de sesión con Email/Password (RF-02)
+### US-01 — Inicio de sesión con Email/Password (RF-02)
 
 **Como** usuario registrado,  
 **quiero** iniciar sesión con mi email y mi contraseña,  
@@ -47,7 +25,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-03 — Recuperación de contraseña (RF-03)
+### US-02 — Recuperación de contraseña (RF-03)
 
 **Como** usuario,  
 **quiero** solicitar un enlace de recuperación de contraseña por email,  
@@ -64,7 +42,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-04 — Cierre de sesión (RF-04)
+### US-03 — Cierre de sesión (RF-04)
 
 **Como** usuario,  
 **quiero** cerrar sesión,  
@@ -80,7 +58,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-05 — Inicio de sesión con Apple (RF-05)
+### US-04 — Inicio de sesión con Apple (RF-05)
 
 **Como** usuario de iOS,  
 **quiero** iniciar sesión con mi Apple ID,  
@@ -96,7 +74,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-06 — Inicio de sesión con Google (RF-06)
+### US-05 — Inicio de sesión con Google (RF-06)
 
 **Como** usuario con cuenta de Google,  
 **quiero** iniciar sesión usando Google,  
@@ -112,22 +90,9 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-07 — Unificación de cuentas por email (opcional MVP) (RF-07)
+## ÉPICA 2 — Familias compartidas
 
-**Como** usuario,  
-**quiero** que mis accesos (email, Apple, Google) se asocien a la misma cuenta cuando usen el mismo email,  
-**para** no tener datos duplicados.
-
-**Criterios de aceptación**
-
-- Cuando Firebase detecte el mismo email verificado, se intentará asociar los proveedores a la misma cuenta.
-- Si no es posible (limitación técnica o de tiempo en el MVP), se permite duplicidad siempre que no rompa la experiencia (este comportamiento puede documentarse como “pendiente de mejora”).
-
----
-
-## ÉPICA 2 — Familias compartidas (multiusuario + tiempo real)
-
-### US-10 — Crear familia (RF-15)
+### US-06 — Crear familia (RF-15)
 
 **Como** usuario autenticado,  
 **quiero** crear una familia con un nombre,  
@@ -144,7 +109,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-11 — Seleccionar familia activa (RF-16)
+### US-07 — Seleccionar familia activa (RF-16)
 
 **Como** usuario que pertenece a varias familias,  
 **quiero** seleccionar con qué familia trabajar,  
@@ -161,7 +126,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-12 — Invitar a otro adulto a la familia (RF-17)
+### US-08 — Invitar a otro adulto a la familia (RF-17)
 
 **Como** Owner de una familia,  
 **quiero** invitar a otro adulto por email,  
@@ -182,7 +147,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-13 — Aceptar o rechazar invitación (RF-18)
+### US-09 — Aceptar o rechazar invitación (RF-18)
 
 **Como** adulto invitado,  
 **quiero** ver mis invitaciones y aceptarlas o rechazarlas,  
@@ -203,7 +168,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-14 — Sincronización en tiempo real de datos familiares (RF-19)
+### US-10 — Sincronización en tiempo real de datos familiares (RF-19)
 
 **Como** miembro de una familia,  
 **quiero** que los cambios en hijos, horarios, actividades y gastos se reflejen en tiempo real,  
@@ -226,7 +191,7 @@ _Basado en SDD – versión 1.1.1_
 
 ## ÉPICA 3 — Gestión de hijos
 
-### US-20 — Ver listado de hijos (RF-10)
+### US-11 — Ver listado de hijos (RF-10)
 
 **Como** miembro de una familia,  
 **quiero** ver la lista de hijos de la familia activa,  
@@ -245,7 +210,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-21 — Crear hijo (RF-11)
+### US-12 — Crear hijo (RF-11)
 
 **Como** miembro de una familia,  
 **quiero** crear un hijo dentro de la familia,  
@@ -266,7 +231,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-22 — Editar hijo (RF-12)
+### US-13 — Editar hijo (RF-12)
 
 **Como** miembro de la familia,  
 **quiero** editar los datos de un hijo,  
@@ -287,7 +252,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-23 — Eliminar hijo (RF-13)
+### US-14 — Eliminar hijo (RF-13)
 
 **Como** miembro con permisos,  
 **quiero** eliminar un hijo,  
@@ -310,7 +275,7 @@ _Basado en SDD – versión 1.1.1_
 
 ## ÉPICA 4 — Horario escolar
 
-### US-30 — Crear franja de horario escolar (RF-20)
+### US-15 — Crear franja de horario escolar (RF-20)
 
 **Como** miembro de la familia,  
 **quiero** añadir una franja de clase al horario escolar de un hijo,  
@@ -335,7 +300,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-31 — Ver horario escolar semanal (RF-21)
+### US-16 — Ver horario escolar semanal (RF-21)
 
 **Como** miembro de la familia,  
 **quiero** ver el horario escolar de un hijo en formato semanal,  
@@ -352,7 +317,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-32 — Editar o eliminar franjas escolares (RF-22)
+### US-17 — Editar o eliminar franjas escolares (RF-22)
 
 **Como** miembro,  
 **quiero** poder editar o eliminar una franja escolar desde la vista del horario,  
@@ -374,7 +339,7 @@ _Basado en SDD – versión 1.1.1_
 
 ## ÉPICA 5 — Actividades extraescolares
 
-### US-40 — Crear actividad extraescolar (RF-30)
+### US-18 — Crear actividad extraescolar (RF-30)
 
 **Como** miembro,  
 **quiero** crear una actividad extraescolar asociada a un hijo,  
@@ -401,7 +366,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-41 — Ver listado de actividades extraescolares por hijo (RF-31)
+### US-19 — Ver listado de actividades extraescolares por hijo (RF-31)
 
 **Como** miembro,  
 **quiero** ver una lista de las actividades extraescolares de un hijo,  
@@ -419,7 +384,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-42 — Editar actividad extraescolar (RF-32)
+### US-20 — Editar actividad extraescolar (RF-32)
 
 **Como** miembro,  
 **quiero** editar una actividad extraescolar,  
@@ -438,7 +403,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-43 — Eliminar actividad extraescolar (RF-33)
+### US-21 — Eliminar actividad extraescolar (RF-33)
 
 **Como** miembro,  
 **quiero** eliminar una actividad extraescolar,  
@@ -459,7 +424,7 @@ _Basado en SDD – versión 1.1.1_
 
 ## ÉPICA 6 — Vista semanal combinada
 
-### US-50 — Ver vista semanal combinada (RF-40)
+### US-22 — Ver vista semanal combinada (RF-40)
 
 **Como** miembro,  
 **quiero** ver en una sola vista las clases y actividades extraescolares de un hijo,  
@@ -479,7 +444,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-51 — Cambiar rápidamente de hijo en vista semanal (RF-41)
+### US-23 — Cambiar rápidamente de hijo en vista semanal (RF-41)
 
 **Como** miembro,  
 **quiero** cambiar de hijo desde la vista semanal combinada,  
@@ -497,7 +462,7 @@ _Basado en SDD – versión 1.1.1_
 
 ## ÉPICA 7 — Control de gastos
 
-### US-60 — Registrar gasto recurrente por actividad (RF-50)
+### US-24 — Registrar gasto recurrente por actividad (RF-50)
 
 **Como** miembro,  
 **quiero** indicar el coste recurrente de una actividad extraescolar,  
@@ -514,7 +479,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-61 — Registrar gasto puntual (RF-51)
+### US-25 — Registrar gasto puntual (RF-51)
 
 **Como** miembro,  
 **quiero** registrar gastos puntuales relacionados con un hijo (material, equipación, etc.),  
@@ -534,7 +499,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-62 — Ver resumen de gastos por hijo (RF-52)
+### US-26 — Ver resumen de gastos por hijo (RF-52)
 
 **Como** adulto responsable,  
 **quiero** ver un resumen mensual de los gastos por hijo,  
@@ -550,7 +515,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-63 — Ver resumen de gastos por actividad (RF-53)
+### US-27 — Ver resumen de gastos por actividad (RF-53)
 
 **Como** adulto,  
 **quiero** ver el coste mensual estimado por actividad,  
@@ -568,7 +533,7 @@ _Basado en SDD – versión 1.1.1_
 
 ## ÉPICA 8 — Exportación a Calendario del iPhone
 
-### US-70 — Solicitar permisos de Calendario (RF-80)
+### US-28 — Solicitar permisos de Calendario (RF-80)
 
 **Como** usuario,  
 **quiero** conceder permisos de acceso al Calendario del sistema cuando vaya a exportar horarios,  
@@ -584,7 +549,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-71 — Exportar horario escolar de un hijo (RF-81)
+### US-29 — Exportar horario escolar de un hijo (RF-81)
 
 **Como** usuario,  
 **quiero** exportar el horario escolar de un hijo a mi Calendario,  
@@ -602,7 +567,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-72 — Exportar actividades extraescolares de un hijo (RF-82)
+### US-30 — Exportar actividades extraescolares de un hijo (RF-82)
 
 **Como** usuario,  
 **quiero** exportar las actividades extraescolares de un hijo a mi Calendario,  
@@ -620,22 +585,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-73 — Exportar todos los hijos de una familia (RF-83) [Opcional MVP]
-
-**Como** usuario,  
-**quiero** exportar de una vez los horarios de todos mis hijos al Calendario,  
-**para** ahorrar tiempo y tener una visión de toda la familia.
-
-**Criterios de aceptación**
-
-- Desde una sección de Calendario o Ajustes de la familia se ofrece “Exportar todos los horarios”.
-- El sistema recorre todos los hijos de la familia:
-  - Exporta horario escolar y extraescolar usando las reglas anteriores.
-- Se reutilizan calendarios existentes por hijo.
-
----
-
-### US-74 — Reexportar eventos actualizados (RF-84)
+### US-31 — Reexportar eventos actualizados (RF-84)
 
 **Como** usuario,  
 **quiero** poder reexportar los horarios al Calendario cuando haya cambios significativos,  
@@ -651,7 +601,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-75 — Evitar calendarios duplicados (RF-85)
+### US-32 — Evitar calendarios duplicados (RF-85)
 
 **Como** usuario,  
 **quiero** que la app no cree múltiples calendarios con el mismo nombre para un hijo,  
@@ -667,9 +617,24 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
+### US-33 — Exportar todos los hijos de una familia (RF-83) [Opcional MVP]
+
+**Como** usuario,  
+**quiero** exportar de una vez los horarios de todos mis hijos al Calendario,  
+**para** ahorrar tiempo y tener una visión de toda la familia.
+
+**Criterios de aceptación**
+
+- Desde una sección de Calendario o Ajustes de la familia se ofrece “Exportar todos los horarios”.
+- El sistema recorre todos los hijos de la familia:
+  - Exporta horario escolar y extraescolar usando las reglas anteriores.
+- Se reutilizan calendarios existentes por hijo.
+
+---
+
 ## ÉPICA 9 — Calidad, accesibilidad, seguridad y rendimiento
 
-### US-90 — Revisión y corrección de accesibilidad (Sección 9.1)
+### US-34 — Revisión y corrección de accesibilidad (Sección 9.1)
 
 **Como** equipo de desarrollo,  
 **quiero** revisar y corregir aspectos de accesibilidad,  
@@ -690,7 +655,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-91 — Revisión y corrección de seguridad (Sección 9.2)
+### US-35 — Revisión y corrección de seguridad (Sección 9.2)
 
 **Como** equipo,  
 **quiero** revisar la seguridad de la app y de los datos en Firebase,  
@@ -709,7 +674,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-92 — Revisión y corrección de rendimiento (Sección 9.3)
+### US-36 — Revisión y corrección de rendimiento (Sección 9.3)
 
 **Como** equipo,  
 **quiero** optimizar el rendimiento de la app,  
@@ -729,7 +694,7 @@ _Basado en SDD – versión 1.1.1_
 
 ---
 
-### US-93 — Revisión de UI/UX y mejoras (Sección 9.4)
+### US-37 — Revisión de UI/UX y mejoras (Sección 9.4)
 
 **Como** equipo,  
 **quiero** revisar la interfaz y la experiencia de usuario,  
