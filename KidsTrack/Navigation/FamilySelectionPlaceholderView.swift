@@ -2,6 +2,11 @@ import SwiftUI
 
 /// Placeholder for the authenticated area until real family selection is wired.
 struct FamilySelectionPlaceholderView: View {
+    var isShowingLogoutAlert: Bool = false
+    var onConfirmLogout: () -> Void = {}
+    var onCancelLogout: () -> Void = {}
+    var errorMessage: String?
+    var onDismissError: () -> Void = {}
     var onCreateFamily: () -> Void = {}
     var onLogout: () -> Void
 
@@ -44,6 +49,37 @@ struct FamilySelectionPlaceholderView: View {
         }
         .padding()
         .navigationTitle("Families")
+        .alert(
+            "Do you want to sign out?",
+            isPresented: .init(
+                get: { isShowingLogoutAlert },
+                set: { isPresented in
+                    if !isPresented {
+                        onCancelLogout()
+                    }
+                }
+            ),
+            actions: {
+                Button("Cancel", role: .cancel, action: onCancelLogout)
+                Button("Sign out", role: .destructive, action: onConfirmLogout)
+            }
+        )
+        .alert(
+            "Sign out failed",
+            isPresented: .init(
+                get: { errorMessage != nil },
+                set: { isPresented in
+                    if !isPresented {
+                        onDismissError()
+                    }
+                }
+            ),
+            presenting: errorMessage
+        ) { _ in
+            Button("OK", role: .cancel, action: onDismissError)
+        } message: { message in
+            Text(message)
+        }
     }
 }
 

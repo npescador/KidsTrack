@@ -8,3 +8,6 @@
 
 ## Próximo Paso Inmediato
 - US-02 (Inicio de sesión Email/Password): integrar `onAuthenticated` en el coordinador para navegar al shell autenticado, asegurar estados de error/éxito en login y ampliar pruebas de presentación/UI.
+
+## Notas de referencia
+- No revisar ni mantener `Docs/Specification.md` como fuente activa; guiarse únicamente por `Docs/# Backlog.KidsTrack.md` y este `Docs/Progress.md` para prioridades y seguimiento.
