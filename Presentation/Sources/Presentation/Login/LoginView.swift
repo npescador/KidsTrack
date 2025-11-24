@@ -7,10 +7,16 @@ public struct LoginView: View {
     @State private var isPasswordVisible = false
     @State private var viewModel: LoginViewModel
     private let onAuthenticated: () -> Void
+    private let onForgotPassword: () -> Void
 
-    public init(viewModel: LoginViewModel, onAuthenticated: @escaping () -> Void = {}) {
+    public init(
+        viewModel: LoginViewModel,
+        onAuthenticated: @escaping () -> Void = {},
+        onForgotPassword: @escaping () -> Void = {}
+    ) {
         _viewModel = State(initialValue: viewModel)
         self.onAuthenticated = onAuthenticated
+        self.onForgotPassword = onForgotPassword
     }
 
     public var body: some View {
@@ -83,7 +89,7 @@ public struct LoginView: View {
 
 private extension LoginView {
     func handleForgotPassword() {
-        viewModel.sendPasswordReset()
+        onForgotPassword()
     }
 
     func handleLogin() {

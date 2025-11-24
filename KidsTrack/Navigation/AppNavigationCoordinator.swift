@@ -8,6 +8,7 @@ enum AppRoute: Hashable {
     case login
     case welcome
     case authenticatedShell
+    case passwordReset
 }
 
 /// High level events that mutate the active flow (auth completed, logout, etc).
@@ -16,6 +17,7 @@ enum AppNavigationEvent {
     case didLogout
     case showWelcome
     case showLogin
+    case showPasswordReset
 }
 
 /// Coordinates SwiftUI navigation based on high level app flows.
@@ -29,11 +31,17 @@ final class AppNavigationCoordinator {
     // TODO: Persist onboarding completion so we can skip the welcome route when appropriate.
 
     private let loginFactory: LoginViewModelBuilding
+    private let passwordResetFactory: PasswordResetViewModelBuilding
     private let sessionHandler: AuthSessionHandling
 
-    init(container: LoginViewModelBuilding & AuthSessionHandling) {
-        self.loginFactory = container
-        self.sessionHandler = container
+    init(
+        loginFactory: LoginViewModelBuilding,
+        passwordResetFactory: PasswordResetViewModelBuilding,
+        sessionHandler: AuthSessionHandling
+    ) {
+        self.loginFactory = loginFactory
+        self.passwordResetFactory = passwordResetFactory
+        self.sessionHandler = sessionHandler
     }
 
     func handle(_ event: AppNavigationEvent) {
@@ -46,6 +54,8 @@ final class AppNavigationCoordinator {
             navigate(to: .login)
         case .didLogout:
             replaceStack(with: .login)
+        case .showPasswordReset:
+            navigate(to: .passwordReset)
         }
     }
 
@@ -61,12 +71,19 @@ final class AppNavigationCoordinator {
                 viewModel: loginFactory.makeLoginViewModel(),
                 onAuthenticated: { [weak self] in
                     self?.handle(.didAuthenticate)
+                },
+                onForgotPassword: { [weak self] in
+                    self?.handle(.showPasswordReset)
                 }
             )
         case .welcome:
             WelcomeView(onGetStarted: { [weak self] in
                 self?.handle(.showLogin)
             })
+        case .passwordReset:
+            PasswordResetView(
+                viewModel: passwordResetFactory.makePasswordResetViewModel()
+            )
         case .authenticatedShell:
             FamilySelectionPlaceholderView(
                 isShowingLogoutAlert: shouldConfirmLogout,
