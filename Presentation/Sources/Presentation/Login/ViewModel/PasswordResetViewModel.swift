@@ -79,3 +79,14 @@ private extension PasswordResetViewModel {
         return email.range(of: pattern, options: .regularExpression) != nil
     }
 }
+
+#if DEBUG
+extension PasswordResetViewModel {
+    public static func preview() -> PasswordResetViewModel {
+        let repository = PreviewAuthRepository()
+        return PasswordResetViewModel(
+            resetUseCase: SendPasswordResetUseCase(repository: repository)
+        )
+    }
+}
+#endif

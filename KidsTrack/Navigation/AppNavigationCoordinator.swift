@@ -33,15 +33,18 @@ final class AppNavigationCoordinator {
     private let loginFactory: LoginViewModelBuilding
     private let passwordResetFactory: PasswordResetViewModelBuilding
     private let sessionHandler: AuthSessionHandling
+    private let sessionResetter: SessionResetting
 
     init(
         loginFactory: LoginViewModelBuilding,
         passwordResetFactory: PasswordResetViewModelBuilding,
-        sessionHandler: AuthSessionHandling
+        sessionHandler: AuthSessionHandling,
+        sessionResetter: SessionResetting
     ) {
         self.loginFactory = loginFactory
         self.passwordResetFactory = passwordResetFactory
         self.sessionHandler = sessionHandler
+        self.sessionResetter = sessionResetter
     }
 
     func handle(_ event: AppNavigationEvent) {
@@ -117,6 +120,7 @@ extension AppNavigationCoordinator {
         shouldConfirmLogout = false
         Task { [weak self] in
             guard let self else { return }
+            await sessionResetter.resetSession()
             do {
                 try await sessionHandler.logout()
                 await MainActor.run {
@@ -129,5 +133,18 @@ extension AppNavigationCoordinator {
                 }
             }
         }
+    }
+}
+
+extension AppNavigationCoordinator {
+    convenience init(
+        container: LoginViewModelBuilding & PasswordResetViewModelBuilding & AuthSessionHandling & SessionResetting
+    ) {
+        self.init(
+            loginFactory: container,
+            passwordResetFactory: container,
+            sessionHandler: container,
+            sessionResetter: container
+        )
     }
 }

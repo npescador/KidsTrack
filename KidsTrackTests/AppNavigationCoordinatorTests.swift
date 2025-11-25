@@ -50,6 +50,7 @@ struct AppNavigationCoordinatorTests {
 
         try await waitUntil { coordinator.root == .login }
         #expect(container.logoutCallCount == 1)
+        #expect(container.resetCallCount == 1)
     }
 
     @Test("attemptLogout surfaces error and stays on shell when failing")
@@ -64,6 +65,7 @@ struct AppNavigationCoordinatorTests {
         try await waitUntil { container.logoutCallCount == 1 }
         #expect(coordinator.root == .authenticatedShell)
         #expect(coordinator.logoutError?.isEmpty == false)
+        #expect(container.resetCallCount == 1)
     }
 }
 
