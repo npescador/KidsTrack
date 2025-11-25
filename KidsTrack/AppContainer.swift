@@ -11,6 +11,11 @@ protocol PasswordResetViewModelBuilding {
     func makePasswordResetViewModel() -> PasswordResetViewModel
 }
 
+/// Contract for clearing app/session state (listeners, caches) on logout.
+protocol SessionResetting {
+    func resetSession() async
+}
+
 /// Minimal auth session actions needed outside the login screen.
 protocol AuthSessionHandling {
     func logout() async throws
@@ -18,7 +23,7 @@ protocol AuthSessionHandling {
 
 /// Simple composition root wiring Firebase-backed dependencies.
 @MainActor
-final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding, AuthSessionHandling {
+final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding, AuthSessionHandling, SessionResetting {
     private let authRepository: AuthRepositoryProtocol
 
     init() {
@@ -46,6 +51,10 @@ final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding
         PasswordResetViewModel(
             resetUseCase: SendPasswordResetUseCase(repository: authRepository)
         )
+    }
+
+    func resetSession() async {
+        // No listeners/caches yet; hook repositories here when available.
     }
 
     func logout() async throws {
