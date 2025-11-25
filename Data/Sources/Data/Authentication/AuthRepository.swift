@@ -16,6 +16,10 @@ public final class AuthRepository: AuthRepositoryProtocol, @unchecked Sendable {
         try await dataSource.register(email: email, password: password)
     }
 
+    public func signInWithGoogle(idToken: String, accessToken: String) async throws -> AuthUser {
+        try await dataSource.signInWithGoogle(idToken: idToken, accessToken: accessToken)
+    }
+
     public func sendPasswordReset(email: String) async throws {
         try await dataSource.sendPasswordReset(email: email)
     }

@@ -1,4 +1,5 @@
 import Domain
+import Foundation
 import Shared
 
 final class PreviewAuthRepository: AuthRepositoryProtocol, @unchecked Sendable {
@@ -8,6 +9,10 @@ final class PreviewAuthRepository: AuthRepositoryProtocol, @unchecked Sendable {
 
     func register(email: String, password: String) async throws -> AuthUser {
         AuthUser(id: UUID().uuidString, email: email)
+    }
+
+    func signInWithGoogle(idToken: String, accessToken: String) async throws -> AuthUser {
+        AuthUser(id: UUID().uuidString, email: "google-user@test.com")
     }
 
     func sendPasswordReset(email: String) async throws {}

@@ -2,6 +2,7 @@ import Domain
 import Foundation
 import Observation
 import Shared
+import UIKit
 
 @MainActor
 @Observable
@@ -47,6 +48,8 @@ public final class LoginViewModel {
     private let minimumPasswordLength = 6
     private let loginUseCase: LoginUseCase
     private let registerUseCase: RegisterUseCase
+    private let googleSignInUseCase: SignInWithGoogleUseCase
+    private let googleSignInHandler: GoogleSignInHandling
     private let passwordResetUseCase: SendPasswordResetUseCase
     private let logoutUseCase: LogoutUseCase
     private let observeAuthStateUseCase: ObserveAuthStateUseCase
@@ -57,12 +60,16 @@ public final class LoginViewModel {
     public init(
         loginUseCase: LoginUseCase,
         registerUseCase: RegisterUseCase,
+        googleSignInUseCase: SignInWithGoogleUseCase,
+        googleSignInHandler: GoogleSignInHandling,
         passwordResetUseCase: SendPasswordResetUseCase,
         logoutUseCase: LogoutUseCase,
         observeAuthStateUseCase: ObserveAuthStateUseCase
     ) {
         self.loginUseCase = loginUseCase
         self.registerUseCase = registerUseCase
+        self.googleSignInUseCase = googleSignInUseCase
+        self.googleSignInHandler = googleSignInHandler
         self.passwordResetUseCase = passwordResetUseCase
         self.logoutUseCase = logoutUseCase
         self.observeAuthStateUseCase = observeAuthStateUseCase
@@ -112,6 +119,30 @@ public final class LoginViewModel {
                 try await registerUseCase.execute(email: email, password: password)
             }
         )
+    }
+
+    public func signInWithGoogle(presentingViewController: UIViewController) {
+        guard !isLoading else { return }
+        isLoading = true
+        banner = nil
+
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            do {
+                let tokens = try await googleSignInHandler.signIn(presentingViewController: presentingViewController)
+                let user = try await googleSignInUseCase.execute(
+                    idToken: tokens.idToken,
+                    accessToken: tokens.accessToken
+                )
+                await MainActor.run {
+                    self.handleSuccess(message: "Signed in with Google.", user: user)
+                }
+            } catch {
+                await MainActor.run {
+                    self.handleFailure(error)
+                }
+            }
+        }
     }
 
     public func sendPasswordReset() {
@@ -217,6 +248,11 @@ private extension LoginViewModel {
     @MainActor
     func handleFailure(_ error: Error) {
         let authError = error as? AuthError ?? .unknown(message: error.localizedDescription)
+        if authError == .userCancelled {
+            banner = Banner(style: .info, message: authError.userMessage)
+            isLoading = false
+            return
+        }
         banner = Banner(style: .error, message: authError.userMessage)
         isLoading = false
     }
@@ -248,6 +284,8 @@ extension LoginViewModel {
         return LoginViewModel(
             loginUseCase: LoginUseCase(repository: repository),
             registerUseCase: RegisterUseCase(repository: repository),
+            googleSignInUseCase: SignInWithGoogleUseCase(repository: repository),
+            googleSignInHandler: PreviewGoogleSignInHandler(),
             passwordResetUseCase: SendPasswordResetUseCase(repository: repository),
             logoutUseCase: LogoutUseCase(repository: repository),
             observeAuthStateUseCase: ObserveAuthStateUseCase(repository: repository)

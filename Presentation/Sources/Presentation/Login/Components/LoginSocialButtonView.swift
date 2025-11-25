@@ -33,20 +33,11 @@ struct LoginSocialButtonView: View {
     }
 
     private var providerGlyph: some View {
-        ZStack {
-            Circle()
-                .fill(Color.white)
-                .frame(width: 22, height: 22)
-                .overlay(
-                    Circle()
-                        .stroke(Color.kidsTrackBorder(for: colorScheme).opacity(0.4), lineWidth: 0.7)
-                )
-
-            Text("G")
-                .font(.system(size: 14, weight: .bold, design: .rounded))
-                .foregroundStyle(.red)
-        }
-        .accessibilityHidden(true)
+        Image("ic_google")
+            .resizable()
+            .renderingMode(.original)
+            .frame(width: 22, height: 22)
+            .accessibilityHidden(true)
     }
 }
 

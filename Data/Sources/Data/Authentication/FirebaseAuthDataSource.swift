@@ -6,6 +6,7 @@ import Shared
 public protocol FirebaseAuthDataSourceProtocol: Sendable {
     func login(email: String, password: String) async throws -> AuthUser
     func register(email: String, password: String) async throws -> AuthUser
+    func signInWithGoogle(idToken: String, accessToken: String) async throws -> AuthUser
     func sendPasswordReset(email: String) async throws
     func logout() async throws
     func observeAuthState() -> AsyncStream<AuthState>
@@ -24,6 +25,22 @@ public final class FirebaseAuthDataSource: FirebaseAuthDataSourceProtocol, @unch
 
     public func register(email: String, password: String) async throws -> AuthUser {
         try await createUser(email: email, password: password)
+    }
+
+    public func signInWithGoogle(idToken: String, accessToken: String) async throws -> AuthUser {
+        let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+        let auth = self.auth
+        return try await wrapAsync { continuation in
+            auth.signIn(with: credential) { result, error in
+                if let error {
+                    continuation.resume(throwing: Self.map(error))
+                } else if let user = result?.user {
+                    continuation.resume(returning: AuthUser(id: user.uid, email: user.email ?? ""))
+                } else {
+                    continuation.resume(throwing: AuthError.unknown(message: "Empty response"))
+                }
+            }
+        }
     }
 
     public func sendPasswordReset(email: String) async throws {
