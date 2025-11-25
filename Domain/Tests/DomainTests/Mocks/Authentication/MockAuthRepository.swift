@@ -24,6 +24,14 @@ final class MockAuthRepository: AuthRepositoryProtocol, @unchecked Sendable {
         return try nextUserResult.get()
     }
 
+    func signInWithGoogle(idToken: String, accessToken: String) async throws -> AuthUser {
+        guard let nextUserResult else {
+            Issue.record("nextUserResult must be set before calling signInWithGoogle")
+            throw AuthError.missingImplementation
+        }
+        return try nextUserResult.get()
+    }
+
     func sendPasswordReset(email: String) async throws {
         if let resetError {
             throw resetError

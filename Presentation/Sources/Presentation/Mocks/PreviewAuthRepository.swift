@@ -13,6 +13,10 @@ final class PreviewAuthRepository: AuthRepositoryProtocol, @unchecked Sendable {
         AuthUser(id: UUID().uuidString, email: email)
     }
 
+    func signInWithGoogle(idToken: String, accessToken: String) async throws -> AuthUser {
+        AuthUser(id: UUID().uuidString, email: "google-user@test.com")
+    }
+
     func sendPasswordReset(email: String) async throws {}
 
     func logout() async throws {}

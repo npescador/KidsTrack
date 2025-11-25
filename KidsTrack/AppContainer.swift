@@ -23,17 +23,23 @@ protocol AuthSessionHandling {
 
 /// Simple composition root wiring Firebase-backed dependencies.
 @MainActor
-final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding, AuthSessionHandling, SessionResetting {
+final class AppContainer: LoginViewModelBuilding,
+                            PasswordResetViewModelBuilding,
+                            AuthSessionHandling,
+                            SessionResetting {
     private let authRepository: AuthRepositoryProtocol
+    private let googleSignInHandler: GoogleSignInHandling
 
     init() {
         let dataSource = FirebaseAuthDataSource()
         self.authRepository = AuthRepository(dataSource: dataSource)
+        self.googleSignInHandler = GoogleSignInAdapter()
     }
 
     func makeLoginViewModel() -> LoginViewModel {
         let login = LoginUseCase(repository: authRepository)
         let register = RegisterUseCase(repository: authRepository)
+        let google = SignInWithGoogleUseCase(repository: authRepository)
         let reset = SendPasswordResetUseCase(repository: authRepository)
         let logout = LogoutUseCase(repository: authRepository)
         let observe = ObserveAuthStateUseCase(repository: authRepository)
@@ -41,6 +47,8 @@ final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding
         return LoginViewModel(
             loginUseCase: login,
             registerUseCase: register,
+            googleSignInUseCase: google,
+            googleSignInHandler: googleSignInHandler,
             passwordResetUseCase: reset,
             logoutUseCase: logout,
             observeAuthStateUseCase: observe

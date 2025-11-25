@@ -54,7 +54,7 @@ final class AppNavigationCoordinator {
         case .showWelcome:
             replaceStack(with: .welcome)
         case .showLogin:
-            navigate(to: .login)
+            replaceStack(with: .login)
         case .didLogout:
             replaceStack(with: .login)
         case .showPasswordReset:

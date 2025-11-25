@@ -8,6 +8,7 @@ public enum AuthError: Error, Equatable, Sendable {
     case userAlreadyExists
     case sessionExpired
     case missingImplementation
+    case userCancelled
     case unknown(message: String)
 
     /// User-friendly message that Presentation can surface without duplicating logic.
@@ -25,6 +26,8 @@ public enum AuthError: Error, Equatable, Sendable {
             return "Your session expired. Please sign in again."
         case .missingImplementation:
             return "Authentication is not configured for this build."
+        case .userCancelled:
+            return "Sign-in was cancelled."
         case let .unknown(message):
             return message.isEmpty ? "Something went wrong. Please try again." : message
         }

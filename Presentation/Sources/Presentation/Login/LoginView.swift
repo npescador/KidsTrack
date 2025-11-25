@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 /// Login screen binding directly to `LoginViewModel` so it can react to Firebase-auth backed states.
 public struct LoginView: View {
@@ -97,7 +98,8 @@ private extension LoginView {
     }
 
     func handleGoogleLogin() {
-        // Kick off Google sign-in. Pending future implementation.
+        guard let presenter = UIApplication.shared.topMostViewController() else { return }
+        viewModel.signInWithGoogle(presentingViewController: presenter)
     }
 
     func handleSignup() {
@@ -137,4 +139,22 @@ private extension LoginView {
 #Preview("Login • Dark", traits: .fixedLayout(width: 430, height: 932)) {
     LoginView(viewModel: .preview())
         .preferredColorScheme(.dark)
+}
+
+private extension UIApplication {
+    func topMostViewController(base: UIViewController? = nil) -> UIViewController? {
+        let base = base ?? connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first(where: { $0.isKeyWindow })?.rootViewController
+
+        if let nav = base as? UINavigationController {
+            return topMostViewController(base: nav.visibleViewController)
+        } else if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
+            return topMostViewController(base: selected)
+        } else if let presented = base?.presentedViewController {
+            return topMostViewController(base: presented)
+        }
+        return base
+    }
 }

@@ -8,6 +8,7 @@ struct AuthUseCasesTests {
 
     private var loginUseCase: LoginUseCase { LoginUseCase(repository: repository) }
     private var registerUseCase: RegisterUseCase { RegisterUseCase(repository: repository) }
+    private var googleUseCase: SignInWithGoogleUseCase { SignInWithGoogleUseCase(repository: repository) }
     private var resetUseCase: SendPasswordResetUseCase { SendPasswordResetUseCase(repository: repository) }
     private var logoutUseCase: LogoutUseCase { LogoutUseCase(repository: repository) }
     private var observeUseCase: ObserveAuthStateUseCase {
@@ -49,6 +50,25 @@ struct AuthUseCasesTests {
             Issue.record("Expected duplicate error")
         } catch {
             #expect(error as? AuthError == .userAlreadyExists)
+        }
+    }
+
+    @Test("Google sign-in returns user")
+    func googleSignInSuccess() async throws {
+        repository.nextUserResult = .success(.init(id: "google-123", email: "user@test.com"))
+        let user = try await googleUseCase.execute(idToken: "id", accessToken: "token")
+        #expect(user.id == "google-123")
+    }
+
+    @Test("Google sign-in surfaces errors")
+    func googleSignInFailure() async {
+        repository.nextUserResult = .failure(.network)
+
+        do {
+            _ = try await googleUseCase.execute(idToken: "id", accessToken: "token")
+            Issue.record("Expected network error")
+        } catch {
+            #expect(error as? AuthError == .network)
         }
     }
 

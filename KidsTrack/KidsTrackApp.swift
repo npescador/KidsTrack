@@ -6,6 +6,7 @@
 //
 
 import FirebaseCore
+import GoogleSignIn
 import SwiftUI
 
 @main
@@ -20,6 +21,9 @@ struct KidsTrackApp: App {
     var body: some Scene {
         WindowGroup {
             AppNavigationView(container: container)
+                .onOpenURL { url in
+                    _ = GIDSignIn.sharedInstance.handle(url)
+                }
         }
     }
 }

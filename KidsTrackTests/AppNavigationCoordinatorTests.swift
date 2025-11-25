@@ -24,7 +24,8 @@ struct AppNavigationCoordinatorTests {
 
         coordinator.handle(.showLogin)
 
-        #expect(coordinator.path.count == 1)
+        #expect(coordinator.root == .login)
+        #expect(coordinator.path.count == 0)
     }
 
     @Test("didLogout resets to login root")

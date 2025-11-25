@@ -8,6 +8,7 @@ final class MockAuthRepository: AuthRepositoryProtocol, @unchecked Sendable {
     var loginCallCount = 0
     var registerCallCount = 0
     var resetCallCount = 0
+    var googleCallCount = 0
     private var continuation: AsyncStream<AuthState>.Continuation?
     private var pendingStates: [AuthState] = []
 
@@ -29,6 +30,11 @@ final class MockAuthRepository: AuthRepositoryProtocol, @unchecked Sendable {
         case .failure(let error):
             throw error
         }
+    }
+
+    func signInWithGoogle(idToken: String, accessToken: String) async throws -> AuthUser {
+        googleCallCount += 1
+        return try nextResult.get()
     }
 
     func logout() async throws {
