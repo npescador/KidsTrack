@@ -476,7 +476,92 @@
           }
         }
       }
+    },
+    "password.reset.title": {
+      "comment": "Password reset screen title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset your password"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restablecer tu contraseña"
+          }
+        }
+      }
+    },
+    "password.reset.subtitle": {
+      "comment": "Password reset subtitle copy",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the email associated with your account. If it exists, we'll send instructions to reset your password."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Introduce el email asociado a tu cuenta. Si existe, enviaremos instrucciones para restablecer la contraseña."
+          }
+        }
+      }
+    },
+    "password.reset.email.label": {
+      "comment": "Label for password reset email field",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Email"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Email"
+          }
+        }
+      }
+    },
+    "password.reset.email.placeholder": {
+      "comment": "Placeholder for password reset email",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter your email"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Introduce tu email"
+          }
+        }
+      }
+    },
+    "password.reset.cta": {
+      "comment": "Primary CTA for password reset",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send reset email"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enviar email de restablecimiento"
+          }
+        }
+      }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

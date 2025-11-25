@@ -3,10 +3,11 @@ import Shared
 
 final class MockAuthRepository: AuthRepositoryProtocol, @unchecked Sendable {
     var nextResult: Result<AuthUser, AuthError> = .success(.init(id: "", email: ""))
-    var resetError: AuthError?
+    var resetResult: Result<Void, AuthError> = .success(())
     var logoutCallCount = 0
     var loginCallCount = 0
     var registerCallCount = 0
+    var resetCallCount = 0
     private var continuation: AsyncStream<AuthState>.Continuation?
     private var pendingStates: [AuthState] = []
 
@@ -21,8 +22,12 @@ final class MockAuthRepository: AuthRepositoryProtocol, @unchecked Sendable {
     }
 
     func sendPasswordReset(email: String) async throws {
-        if let resetError {
-            throw resetError
+        resetCallCount += 1
+        switch resetResult {
+        case .success:
+            return
+        case .failure(let error):
+            throw error
         }
     }
 

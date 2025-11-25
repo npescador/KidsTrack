@@ -7,6 +7,10 @@ protocol LoginViewModelBuilding {
     func makeLoginViewModel() -> LoginViewModel
 }
 
+protocol PasswordResetViewModelBuilding {
+    func makePasswordResetViewModel() -> PasswordResetViewModel
+}
+
 /// Minimal auth session actions needed outside the login screen.
 protocol AuthSessionHandling {
     func logout() async throws
@@ -14,7 +18,7 @@ protocol AuthSessionHandling {
 
 /// Simple composition root wiring Firebase-backed dependencies.
 @MainActor
-final class AppContainer: LoginViewModelBuilding, AuthSessionHandling {
+final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding, AuthSessionHandling {
     private let authRepository: AuthRepositoryProtocol
 
     init() {
@@ -35,6 +39,12 @@ final class AppContainer: LoginViewModelBuilding, AuthSessionHandling {
             passwordResetUseCase: reset,
             logoutUseCase: logout,
             observeAuthStateUseCase: observe
+        )
+    }
+
+    func makePasswordResetViewModel() -> PasswordResetViewModel {
+        PasswordResetViewModel(
+            resetUseCase: SendPasswordResetUseCase(repository: authRepository)
         )
     }
 

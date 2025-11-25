@@ -49,7 +49,7 @@ struct LoginViewModelTests {
     @Test("Password reset errors are presented")
     func passwordResetError() async throws {
         let (viewModel, repository) = makeSystem()
-        repository.resetError = .userNotFound
+        repository.resetResult = .failure(.userNotFound)
         viewModel.email = "none@test.com"
 
         viewModel.sendPasswordReset()
