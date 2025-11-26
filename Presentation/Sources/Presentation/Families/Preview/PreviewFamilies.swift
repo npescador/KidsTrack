@@ -15,6 +15,8 @@ public struct PreviewFamilyRepository: FamilyRepositoryProtocol {
             Family(id: "preview-1", name: "Preview Family", ownerId: userId)
         ]
     }
+
+    public func addFamily(_ family: Family, for userId: String) async throws {}
 }
 
 public struct PreviewActiveFamilyStore: ActiveFamilyStoreProtocol {
@@ -36,8 +38,14 @@ public struct PreviewUserSessionProvider: UserSessionProviding {
 public struct PreviewInvitationRepository: InvitationRepositoryProtocol {
     public init() {}
 
-    public func sendInvitation(familyId: String, email: String) async throws -> FamilyInvitation {
-        FamilyInvitation(id: UUID().uuidString, familyId: familyId, email: email)
+    public func sendInvitation(family: Family, email: String) async throws -> FamilyInvitation {
+        FamilyInvitation(id: UUID().uuidString, familyId: family.id, familyName: family.name, email: email)
     }
+
+    public func fetchInvitations(for email: String) async throws -> [FamilyInvitation] { [] }
+    public func acceptInvitation(id: String, userId: String) async throws -> Family {
+        Family(id: "inv-\(id)", name: "Preview Invited Family", ownerId: "preview-owner")
+    }
+    public func rejectInvitation(id: String) async throws {}
 }
 #endif

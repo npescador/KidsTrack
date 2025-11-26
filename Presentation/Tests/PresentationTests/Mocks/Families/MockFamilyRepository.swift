@@ -23,4 +23,8 @@ final class MockFamilyRepository: FamilyRepositoryProtocol, @unchecked Sendable 
             throw error
         }
     }
+
+    func addFamily(_ family: Family, for userId: String) async throws {
+        receivedFetchUserId = userId
+    }
 }

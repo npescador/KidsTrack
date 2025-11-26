@@ -885,6 +885,40 @@
         }
       }
     },
+    "invite.error.notfound": {
+      "comment": "Error when an invitation is missing or expired.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitation not found or expired."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitación no encontrada o caducada."
+          }
+        }
+      }
+    },
+    "invite.error.already.handled": {
+      "comment": "Error when invitation was already accepted or rejected.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This invitation was already handled."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta invitación ya fue gestionada."
+          }
+        }
+      }
+    },
     "password.reset.cta": {
       "comment": "Primary CTA for password reset",
       "localizations": {
@@ -898,6 +932,176 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enviar email de restablecimiento"
+          }
+        }
+      }
+    },
+    "invitations.title": {
+      "comment": "Title for the pending invitations screen.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pending invitations"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitaciones pendientes"
+          }
+        }
+      }
+    },
+    "invitations.banner.pending": {
+      "comment": "Banner message to notify user about pending invitations.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You have pending invitations."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tienes invitaciones pendientes."
+          }
+        }
+      }
+    },
+    "invitations.action.review": {
+      "comment": "Action to review pending invitations.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revisar"
+          }
+        }
+      }
+    },
+    "invitations.action.accept": {
+      "comment": "Button to accept an invitation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accept"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aceptar"
+          }
+        }
+      }
+    },
+    "invitations.action.reject": {
+      "comment": "Button to reject an invitation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reject"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechazar"
+          }
+        }
+      }
+    },
+    "invitations.empty.title": {
+      "comment": "Empty state title when no invitations are found.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No pending invitations"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No hay invitaciones pendientes"
+          }
+        }
+      }
+    },
+    "invitations.empty.subtitle": {
+      "comment": "Empty state subtitle when no invitations are found.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When someone invites you, it will appear here."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuando alguien te invite, aparecerá aquí."
+          }
+        }
+      }
+    },
+    "invitations.error.title": {
+      "comment": "Title for error state on invitations screen.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We couldn't load invitations."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No pudimos cargar las invitaciones."
+          }
+        }
+      }
+    },
+    "invitations.accept.success": {
+      "comment": "Banner after accepting an invitation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitation accepted."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitación aceptada."
+          }
+        }
+      }
+    },
+    "invitations.reject.success": {
+      "comment": "Banner after rejecting an invitation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitation rejected."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitación rechazada."
           }
         }
       }

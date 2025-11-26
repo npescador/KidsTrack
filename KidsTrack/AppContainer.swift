@@ -17,7 +17,11 @@ protocol CreateFamilyViewModelBuilding {
 }
 
 protocol InviteAdultViewModelBuilding {
-    func makeInviteAdultViewModel(familyId: String) -> InviteAdultViewModel
+    func makeInviteAdultViewModel(family: Family) -> InviteAdultViewModel
+}
+
+protocol PendingInvitationsViewModelBuilding {
+    func makePendingInvitationsViewModel(userEmail: String, userId: String) -> PendingInvitationsViewModel
 }
 
 protocol FamilySelectionViewModelBuilding {
@@ -37,7 +41,7 @@ protocol AuthSessionHandling {
 /// Simple composition root wiring Firebase-backed dependencies.
 @MainActor
 final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding,
-    CreateFamilyViewModelBuilding, InviteAdultViewModelBuilding,
+    CreateFamilyViewModelBuilding, InviteAdultViewModelBuilding, PendingInvitationsViewModelBuilding,
                             FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting {
     private let authRepository: AuthRepositoryProtocol
     private let googleSignInHandler: GoogleSignInHandling
@@ -104,10 +108,23 @@ final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding
         )
     }
 
-    func makeInviteAdultViewModel(familyId: String) -> InviteAdultViewModel {
+    func makeInviteAdultViewModel(family: Family) -> InviteAdultViewModel {
         InviteAdultViewModel(
             sendInvitation: SendFamilyInvitationUseCase(repository: invitationRepository),
-            familyId: familyId
+            family: family
+        )
+    }
+
+    func makePendingInvitationsViewModel(userEmail: String, userId: String) -> PendingInvitationsViewModel {
+        PendingInvitationsViewModel(
+            getInvitations: GetPendingInvitationsUseCase(repository: invitationRepository),
+            acceptInvitation: AcceptInvitationUseCase(
+                repository: invitationRepository,
+                familyRepository: familyRepository
+            ),
+            rejectInvitation: RejectInvitationUseCase(repository: invitationRepository),
+            userEmail: userEmail,
+            userId: userId
         )
     }
 

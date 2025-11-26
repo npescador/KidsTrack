@@ -36,6 +36,7 @@ final class AppNavigationCoordinator {
     private let familySelectionFactory: FamilySelectionViewModelBuilding
     private let createFamilyFactory: CreateFamilyViewModelBuilding
     private let inviteAdultFactory: InviteAdultViewModelBuilding
+    private let pendingInvitesFactory: PendingInvitationsViewModelBuilding
     private let sessionHandler: AuthSessionHandling
     private let sessionResetter: SessionResetting
 
@@ -45,6 +46,7 @@ final class AppNavigationCoordinator {
         familySelectionFactory: FamilySelectionViewModelBuilding,
         createFamilyFactory: CreateFamilyViewModelBuilding,
         inviteAdultFactory: InviteAdultViewModelBuilding,
+        pendingInvitesFactory: PendingInvitationsViewModelBuilding,
         sessionHandler: AuthSessionHandling,
         sessionResetter: SessionResetting
     ) {
@@ -53,6 +55,7 @@ final class AppNavigationCoordinator {
         self.familySelectionFactory = familySelectionFactory
         self.createFamilyFactory = createFamilyFactory
         self.inviteAdultFactory = inviteAdultFactory
+        self.pendingInvitesFactory = pendingInvitesFactory
         self.sessionHandler = sessionHandler
         self.sessionResetter = sessionResetter
     }
@@ -107,14 +110,18 @@ final class AppNavigationCoordinator {
                     }
                     return self.createFamilyFactory.makeCreateFamilyViewModel()
                 },
-                makeInviteAdultViewModel: { [weak self] familyId in
+                makeInviteAdultViewModel: { [weak self] family in
                     guard let self else {
                         return nil
                     }
-                    return self.inviteAdultFactory.makeInviteAdultViewModel(familyId: familyId)
+                    return self.inviteAdultFactory.makeInviteAdultViewModel(family: family)
+                },
+                makePendingInvitationsViewModel: { [weak self] email, userId in
+                    guard let self else { return nil }
+                    return self.pendingInvitesFactory.makePendingInvitationsViewModel(userEmail: email, userId: userId)
                 },
                 onLogout: { [weak self] in
-                    self?.shouldConfirmLogout = true
+                    self?.attemptLogout()
                 },
                 onCreateFamily: { [weak self] family in
                     self?.handleFamilyCreated(family)
@@ -159,7 +166,7 @@ extension AppNavigationCoordinator {
 extension AppNavigationCoordinator {
     convenience init(
         container: LoginViewModelBuilding & PasswordResetViewModelBuilding &
-        CreateFamilyViewModelBuilding & InviteAdultViewModelBuilding &
+        CreateFamilyViewModelBuilding & InviteAdultViewModelBuilding & PendingInvitationsViewModelBuilding &
         FamilySelectionViewModelBuilding & AuthSessionHandling & SessionResetting
     ) {
         self.init(
@@ -168,6 +175,7 @@ extension AppNavigationCoordinator {
             familySelectionFactory: container,
             createFamilyFactory: container,
             inviteAdultFactory: container,
+            pendingInvitesFactory: container,
             sessionHandler: container,
             sessionResetter: container
         )

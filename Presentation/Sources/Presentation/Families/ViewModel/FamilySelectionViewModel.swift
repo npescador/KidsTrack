@@ -26,6 +26,9 @@ public final class FamilySelectionViewModel {
     private let activeFamilyStore: ActiveFamilyStoreProtocol
     private let sessionProvider: UserSessionProviding
 
+    public var currentUserEmail: String? { sessionProvider.currentUser?.email }
+    public var currentUserId: String? { sessionProvider.currentUser?.id }
+
     public init(
         getFamilies: GetFamiliesForUserUseCase,
         setActiveFamily: SetActiveFamilyUseCase,
@@ -91,6 +94,19 @@ public final class FamilySelectionViewModel {
             state = .loaded([family])
         }
         setBanner("families.banner.created".localized())
+        select(family)
+    }
+
+    public func handleAccepted(_ family: Family) {
+        switch state {
+        case .loaded(var families):
+            if !families.contains(where: { $0.id == family.id }) {
+                families.append(family)
+            }
+            state = .loaded(families)
+        default:
+            state = .loaded([family])
+        }
         select(family)
     }
 
