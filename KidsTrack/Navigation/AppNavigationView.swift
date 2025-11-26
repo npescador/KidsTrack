@@ -7,12 +7,14 @@ struct AppNavigationView: View {
     @State private var coordinator: AppNavigationCoordinator
 
     init(
-        container: LoginViewModelBuilding & PasswordResetViewModelBuilding & AuthSessionHandling & SessionResetting
+        container: LoginViewModelBuilding & PasswordResetViewModelBuilding &
+        CreateFamilyViewModelBuilding & AuthSessionHandling & SessionResetting
     ) {
         _coordinator = State(
             initialValue: AppNavigationCoordinator(
                 loginFactory: container,
                 passwordResetFactory: container,
+                createFamilyFactory: container,
                 sessionHandler: container,
                 sessionResetter: container
             )

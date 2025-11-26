@@ -10,112 +10,112 @@ import UIKit
 struct LoginViewModelTests {
     @Test("Login success updates banner")
     func loginSuccess() async throws {
-        let (viewModel, repository, _) = makeSystem()
-        repository.nextResult = .success(.init(id: "abc", email: "user@test.com"))
-        viewModel.email = "user@test.com"
-        viewModel.password = "secret"
+        let system = makeSystem()
+        system.repository.nextResult = .success(.init(id: "abc", email: "user@test.com"))
+        system.viewModel.email = "user@test.com"
+        system.viewModel.password = "secret"
 
-        viewModel.login()
+        system.viewModel.login()
 
-        try await waitUntil { viewModel.banner?.style == .success }
-        #expect(viewModel.password.isEmpty)
-        #expect(!viewModel.isLoading)
+        try await waitUntil { system.viewModel.banner?.style == .success }
+        #expect(system.viewModel.password.isEmpty)
+        #expect(!system.viewModel.isLoading)
     }
 
     @Test("Login failure surfaces domain error")
     func loginFailure() async throws {
-        let (viewModel, repository, _) = makeSystem()
-        repository.nextResult = .failure(.invalidCredentials)
-        viewModel.email = "user@test.com"
-        viewModel.password = "bad"
+        let system = makeSystem()
+        system.repository.nextResult = .failure(.invalidCredentials)
+        system.viewModel.email = "user@test.com"
+        system.viewModel.password = "bad"
 
-        viewModel.login()
+        system.viewModel.login()
 
-        try await waitUntil { viewModel.banner?.style == .error }
-        #expect(viewModel.banner?.message.contains("invalid") == true)
+        try await waitUntil { system.viewModel.banner?.style == .error }
+        #expect(system.viewModel.banner?.message.contains("invalid") == true)
     }
 
     @Test("Register success message appears")
     func registerSuccess() async throws {
-        let (viewModel, repository, _) = makeSystem()
-        repository.nextResult = .success(.init(id: "abc", email: "new@test.com"))
-        viewModel.email = "new@test.com"
-        viewModel.password = "123456"
+        let system = makeSystem()
+        system.repository.nextResult = .success(.init(id: "abc", email: "new@test.com"))
+        system.viewModel.email = "new@test.com"
+        system.viewModel.password = "123456"
 
-        viewModel.register()
+        system.viewModel.register()
 
-        try await waitUntil { viewModel.banner?.style == .success }
+        try await waitUntil { system.viewModel.banner?.style == .success }
     }
 
     @Test("Password reset errors are presented")
     func passwordResetError() async throws {
-        let (viewModel, repository, _) = makeSystem()
-        repository.resetResult = .failure(.userNotFound)
-        viewModel.email = "none@test.com"
+        let system = makeSystem()
+        system.repository.resetResult = .failure(.userNotFound)
+        system.viewModel.email = "none@test.com"
 
-        viewModel.sendPasswordReset()
+        system.viewModel.sendPasswordReset()
 
-        try await waitUntil { viewModel.banner?.style == .error }
-        #expect(viewModel.banner?.message.contains("No account") == true)
+        try await waitUntil { system.viewModel.banner?.style == .error }
+        #expect(system.viewModel.banner?.message.contains("No account") == true)
     }
 
     @Test("Logout emits success after state observer authenticates user")
     func logoutFlow() async throws {
-        let (viewModel, repository, _) = makeSystem()
-        repository.emit(state: .authenticated(.init(id: "abc", email: "me@test.com")))
-        try await waitUntil { viewModel.isAuthenticated }
+        let system = makeSystem()
+        system.repository.emit(state: .authenticated(.init(id: "abc", email: "me@test.com")))
+        try await waitUntil { system.viewModel.isAuthenticated }
 
-        viewModel.logout()
+        system.viewModel.logout()
 
-        try await waitUntil { repository.logoutCallCount == 1 }
-        #expect(viewModel.banner?.style == .success)
+        try await waitUntil { system.repository.logoutCallCount == 1 }
+        #expect(system.viewModel.banner?.style == .success)
     }
 
     @Test("Register blocks short passwords")
     func registerShortPassword() {
-        let (viewModel, repository, _) = makeSystem()
-        viewModel.email = "new@test.com"
-        viewModel.password = "123"
+        let system = makeSystem()
+        system.viewModel.email = "new@test.com"
+        system.viewModel.password = "123"
 
-        viewModel.register()
+        system.viewModel.register()
 
-        #expect(repository.registerCallCount == 0)
-        #expect(viewModel.banner?.style == .error)
+        #expect(system.repository.registerCallCount == 0)
+        #expect(system.viewModel.banner?.style == .error)
     }
 
     @Test("Login blocks invalid email format")
     func loginInvalidEmail() {
-        let (viewModel, repository, _) = makeSystem()
-        viewModel.email = "invalid-email"
-        viewModel.password = "password"
+        let system = makeSystem()
+        system.viewModel.email = "invalid-email"
+        system.viewModel.password = "password"
 
-        viewModel.login()
+        system.viewModel.login()
 
-        #expect(repository.loginCallCount == 0)
-        #expect(viewModel.banner?.style == .error)
+        #expect(system.repository.loginCallCount == 0)
+        #expect(system.viewModel.banner?.style == .error)
     }
 
     @Test("Google sign-in succeeds and updates banner")
     func googleSignInSuccess() async throws {
-        let (viewModel, repository, _) = makeSystem()
-        repository.nextResult = .success(.init(id: "google-123", email: "g@test.com"))
+        let system = makeSystem()
+        system.repository.nextResult = .success(.init(id: "google-123", email: "g@test.com"))
 
-        viewModel.signInWithGoogle(presentingViewController: UIViewController())
+        system.viewModel.signInWithGoogle(presentingViewController: UIViewController())
 
-        try await waitUntil { viewModel.banner?.style == .success }
-        #expect(repository.googleCallCount == 1)
+        try await waitUntil { system.viewModel.banner?.style == .success }
+        #expect(system.repository.googleCallCount == 1)
     }
 
     @Test("Google sign-in cancellation shows info banner and skips repository call")
     func googleSignInCancelled() async throws {
-        let (viewModel, repository, _) = makeSystem(googleResult: .failure(AuthError.userCancelled))
-        repository.nextResult = .success(.init(id: "google-123", email: "g@test.com"))
+        let system = makeSystem(googleResult: .failure(AuthError.userCancelled))
+        system.repository.nextResult = .success(.init(id: "google-123", email: "g@test.com"))
 
-        viewModel.signInWithGoogle(presentingViewController: UIViewController())
+        system.viewModel.signInWithGoogle(presentingViewController: UIViewController())
 
-        try await waitUntil { viewModel.banner?.style == .info }
-        #expect(repository.googleCallCount == 0)
-        #expect(!viewModel.isLoading)
+        try await waitUntil { system.viewModel.banner?.style == .info }
+        #expect(system.repository.googleCallCount == 0)
+        #expect(!system.viewModel.isLoading)
     }
 
     private func makeSystem(
@@ -125,7 +125,7 @@ struct LoginViewModelTests {
                 accessToken: "token"
             )
         )
-    ) -> (LoginViewModel, MockAuthRepository, GoogleSignInHandlerStub) {
+    ) -> System {
         let repository = MockAuthRepository()
         let googleHandler = GoogleSignInHandlerStub(result: googleResult)
         let viewModel = LoginViewModel(
@@ -137,8 +137,14 @@ struct LoginViewModelTests {
             logoutUseCase: LogoutUseCase(repository: repository),
             observeAuthStateUseCase: ObserveAuthStateUseCase(repository: repository)
         )
-        return (viewModel, repository, googleHandler)
+        return System(viewModel: viewModel, repository: repository, googleHandler: googleHandler)
     }
+}
+
+private struct System {
+    let viewModel: LoginViewModel
+    let repository: MockAuthRepository
+    let googleHandler: GoogleSignInHandlerStub
 }
 
 @MainActor

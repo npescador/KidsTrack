@@ -1,0 +1,5 @@
+import Shared
+
+public protocol FamilyRepositoryProtocol: Sendable {
+    func createFamily(name: String, ownerId: String) async throws -> Family
+}

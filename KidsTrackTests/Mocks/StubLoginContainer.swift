@@ -3,8 +3,8 @@ import Foundation
 import Presentation
 import Shared
 
-final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding, AuthSessionHandling,
-    SessionResetting
+final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding, CreateFamilyViewModelBuilding,
+    AuthSessionHandling, SessionResetting
 {
     var shouldFailLogout: Bool
     var logoutCallCount = 0
@@ -19,6 +19,10 @@ final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBu
     }
 
     func makePasswordResetViewModel() -> PasswordResetViewModel {
+        .preview()
+    }
+
+    func makeCreateFamilyViewModel() -> CreateFamilyViewModel {
         .preview()
     }
 

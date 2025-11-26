@@ -28,21 +28,25 @@ final class AppNavigationCoordinator {
     var root: AppRoute = .welcome
     var logoutError: String?
     var shouldConfirmLogout = false
+    var activeFamily: Family?
     // TODO: Persist onboarding completion so we can skip the welcome route when appropriate.
 
     private let loginFactory: LoginViewModelBuilding
     private let passwordResetFactory: PasswordResetViewModelBuilding
+    private let createFamilyFactory: CreateFamilyViewModelBuilding
     private let sessionHandler: AuthSessionHandling
     private let sessionResetter: SessionResetting
 
     init(
         loginFactory: LoginViewModelBuilding,
         passwordResetFactory: PasswordResetViewModelBuilding,
+        createFamilyFactory: CreateFamilyViewModelBuilding,
         sessionHandler: AuthSessionHandling,
         sessionResetter: SessionResetting
     ) {
         self.loginFactory = loginFactory
         self.passwordResetFactory = passwordResetFactory
+        self.createFamilyFactory = createFamilyFactory
         self.sessionHandler = sessionHandler
         self.sessionResetter = sessionResetter
     }
@@ -56,6 +60,7 @@ final class AppNavigationCoordinator {
         case .showLogin:
             replaceStack(with: .login)
         case .didLogout:
+            activeFamily = nil
             replaceStack(with: .login)
         case .showPasswordReset:
             navigate(to: .passwordReset)
@@ -100,7 +105,16 @@ final class AppNavigationCoordinator {
                 onDismissError: { [weak self] in
                     self?.logoutError = nil
                 },
-                onCreateFamily: {},
+                createFamilyViewModelBuilder: { [weak self] in
+                    guard let self else {
+                        return CreateFamilyViewModel.preview()
+                    }
+                    return self.createFamilyFactory.makeCreateFamilyViewModel()
+                },
+                onFamilyCreated: { [weak self] family in
+                    self?.handleFamilyCreated(family)
+                },
+                activeFamily: activeFamily,
                 onLogout: { [weak self] in
                     self?.shouldConfirmLogout = true
                 }
@@ -134,15 +148,22 @@ extension AppNavigationCoordinator {
             }
         }
     }
+
+    func handleFamilyCreated(_ family: Family) {
+        activeFamily = family
+        // In future this should trigger navigation to the family dashboard.
+    }
 }
 
 extension AppNavigationCoordinator {
     convenience init(
-        container: LoginViewModelBuilding & PasswordResetViewModelBuilding & AuthSessionHandling & SessionResetting
+        container: LoginViewModelBuilding & PasswordResetViewModelBuilding &
+        CreateFamilyViewModelBuilding & AuthSessionHandling & SessionResetting
     ) {
         self.init(
             loginFactory: container,
             passwordResetFactory: container,
+            createFamilyFactory: container,
             sessionHandler: container,
             sessionResetter: container
         )
