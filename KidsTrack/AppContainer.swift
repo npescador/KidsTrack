@@ -1,6 +1,7 @@
 import Data
 import Domain
 import Presentation
+import Shared
 
 /// Factory surface to create login view models without binding callers to the concrete container.
 protocol LoginViewModelBuilding {
@@ -9,6 +10,10 @@ protocol LoginViewModelBuilding {
 
 protocol PasswordResetViewModelBuilding {
     func makePasswordResetViewModel() -> PasswordResetViewModel
+}
+
+protocol CreateFamilyViewModelBuilding {
+    func makeCreateFamilyViewModel() -> CreateFamilyViewModel
 }
 
 /// Contract for clearing app/session state (listeners, caches) on logout.
@@ -23,17 +28,24 @@ protocol AuthSessionHandling {
 
 /// Simple composition root wiring Firebase-backed dependencies.
 @MainActor
-final class AppContainer: LoginViewModelBuilding,
-                            PasswordResetViewModelBuilding,
-                            AuthSessionHandling,
-                            SessionResetting {
+final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding,
+    CreateFamilyViewModelBuilding, AuthSessionHandling, SessionResetting
+{
     private let authRepository: AuthRepositoryProtocol
     private let googleSignInHandler: GoogleSignInHandling
+    private let familyRepository: FamilyRepositoryProtocol
+    private let activeFamilyStore: ActiveFamilyStoreProtocol
+    private let sessionProvider: UserSessionProviding
 
     init() {
         let dataSource = FirebaseAuthDataSource()
         self.authRepository = AuthRepository(dataSource: dataSource)
         self.googleSignInHandler = GoogleSignInAdapter()
+        self.familyRepository = FamiliesRepository(
+            remoteDataSource: InMemoryFamiliesRemoteDataSource()
+        )
+        self.activeFamilyStore = UserDefaultsActiveFamilyStore()
+        self.sessionProvider = FirebaseUserSessionProvider()
     }
 
     func makeLoginViewModel() -> LoginViewModel {
@@ -61,8 +73,18 @@ final class AppContainer: LoginViewModelBuilding,
         )
     }
 
+    func makeCreateFamilyViewModel() -> CreateFamilyViewModel {
+        CreateFamilyViewModel(
+            createFamilyUseCase: CreateFamilyUseCase(
+                repository: familyRepository,
+                activeStore: activeFamilyStore
+            ),
+            sessionProvider: sessionProvider
+        )
+    }
+
     func resetSession() async {
-        // No listeners/caches yet; hook repositories here when available.
+        await activeFamilyStore.clearActiveFamily()
     }
 
     func logout() async throws {
