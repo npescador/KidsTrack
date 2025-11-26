@@ -16,6 +16,10 @@ protocol CreateFamilyViewModelBuilding {
     func makeCreateFamilyViewModel() -> CreateFamilyViewModel
 }
 
+protocol InviteAdultViewModelBuilding {
+    func makeInviteAdultViewModel(familyId: String) -> InviteAdultViewModel
+}
+
 protocol FamilySelectionViewModelBuilding {
     func makeFamilySelectionViewModel() -> FamilySelectionViewModel
 }
@@ -33,12 +37,14 @@ protocol AuthSessionHandling {
 /// Simple composition root wiring Firebase-backed dependencies.
 @MainActor
 final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding,
-    CreateFamilyViewModelBuilding, FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting {
+    CreateFamilyViewModelBuilding, InviteAdultViewModelBuilding,
+                            FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting {
     private let authRepository: AuthRepositoryProtocol
     private let googleSignInHandler: GoogleSignInHandling
     private let familyRepository: FamilyRepositoryProtocol
     private let activeFamilyStore: ActiveFamilyStoreProtocol
     private let sessionProvider: UserSessionProviding
+    private let invitationRepository: InvitationRepositoryProtocol
 
     init() {
         let dataSource = FirebaseAuthDataSource()
@@ -49,6 +55,9 @@ final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding
         )
         self.activeFamilyStore = UserDefaultsActiveFamilyStore()
         self.sessionProvider = FirebaseUserSessionProvider()
+        self.invitationRepository = InvitationsRepository(
+            remote: InMemoryInvitationsRemoteDataSource()
+        )
     }
 
     func makeLoginViewModel() -> LoginViewModel {
@@ -92,6 +101,13 @@ final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding
             setActiveFamily: SetActiveFamilyUseCase(store: activeFamilyStore),
             activeFamilyStore: activeFamilyStore,
             sessionProvider: sessionProvider
+        )
+    }
+
+    func makeInviteAdultViewModel(familyId: String) -> InviteAdultViewModel {
+        InviteAdultViewModel(
+            sendInvitation: SendFamilyInvitationUseCase(repository: invitationRepository),
+            familyId: familyId
         )
     }
 

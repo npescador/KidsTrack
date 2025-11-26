@@ -35,6 +35,7 @@ final class AppNavigationCoordinator {
     private let passwordResetFactory: PasswordResetViewModelBuilding
     private let familySelectionFactory: FamilySelectionViewModelBuilding
     private let createFamilyFactory: CreateFamilyViewModelBuilding
+    private let inviteAdultFactory: InviteAdultViewModelBuilding
     private let sessionHandler: AuthSessionHandling
     private let sessionResetter: SessionResetting
 
@@ -43,6 +44,7 @@ final class AppNavigationCoordinator {
         passwordResetFactory: PasswordResetViewModelBuilding,
         familySelectionFactory: FamilySelectionViewModelBuilding,
         createFamilyFactory: CreateFamilyViewModelBuilding,
+        inviteAdultFactory: InviteAdultViewModelBuilding,
         sessionHandler: AuthSessionHandling,
         sessionResetter: SessionResetting
     ) {
@@ -50,6 +52,7 @@ final class AppNavigationCoordinator {
         self.passwordResetFactory = passwordResetFactory
         self.familySelectionFactory = familySelectionFactory
         self.createFamilyFactory = createFamilyFactory
+        self.inviteAdultFactory = inviteAdultFactory
         self.sessionHandler = sessionHandler
         self.sessionResetter = sessionResetter
     }
@@ -104,6 +107,12 @@ final class AppNavigationCoordinator {
                     }
                     return self.createFamilyFactory.makeCreateFamilyViewModel()
                 },
+                makeInviteAdultViewModel: { [weak self] familyId in
+                    guard let self else {
+                        return nil
+                    }
+                    return self.inviteAdultFactory.makeInviteAdultViewModel(familyId: familyId)
+                },
                 onLogout: { [weak self] in
                     self?.shouldConfirmLogout = true
                 },
@@ -150,13 +159,15 @@ extension AppNavigationCoordinator {
 extension AppNavigationCoordinator {
     convenience init(
         container: LoginViewModelBuilding & PasswordResetViewModelBuilding &
-        CreateFamilyViewModelBuilding & FamilySelectionViewModelBuilding & AuthSessionHandling & SessionResetting
+        CreateFamilyViewModelBuilding & InviteAdultViewModelBuilding &
+        FamilySelectionViewModelBuilding & AuthSessionHandling & SessionResetting
     ) {
         self.init(
             loginFactory: container,
             passwordResetFactory: container,
             familySelectionFactory: container,
             createFamilyFactory: container,
+            inviteAdultFactory: container,
             sessionHandler: container,
             sessionResetter: container
         )

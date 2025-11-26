@@ -5,7 +5,7 @@ import Shared
 import Domain
 
 final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding, CreateFamilyViewModelBuilding,
-    FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting
+    InviteAdultViewModelBuilding, FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting
 {
     var shouldFailLogout: Bool
     var logoutCallCount = 0
@@ -33,6 +33,13 @@ final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBu
             setActiveFamily: SetActiveFamilyUseCase(store: PreviewActiveFamilyStore()),
             activeFamilyStore: PreviewActiveFamilyStore(),
             sessionProvider: PreviewUserSessionProvider()
+        )
+    }
+
+    func makeInviteAdultViewModel(familyId: String) -> InviteAdultViewModel {
+        InviteAdultViewModel(
+            sendInvitation: SendFamilyInvitationUseCase(repository: PreviewInvitationRepository()),
+            familyId: familyId
         )
     }
 

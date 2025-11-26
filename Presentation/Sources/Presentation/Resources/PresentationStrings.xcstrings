@@ -681,6 +681,210 @@
         }
       }
     },
+    "invite.title": {
+      "comment": "Headline for the invite adult sheet.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invite an adult"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitar a un adulto"
+          }
+        }
+      }
+    },
+    "invite.subtitle": {
+      "comment": "Subtitle explaining the invite flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send an email so they can join your family."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envía un correo para que se una a tu familia."
+          }
+        }
+      }
+    },
+    "invite.email.label": {
+      "comment": "Label for the invite email field.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Email"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correo electrónico"
+          }
+        }
+      }
+    },
+    "invite.email.placeholder": {
+      "comment": "Placeholder for the invite email field.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "adult@example.com"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "adulto@ejemplo.com"
+          }
+        }
+      }
+    },
+    "invite.action.send": {
+      "comment": "Primary action to send invitation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send invitation"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enviar invitación"
+          }
+        }
+      }
+    },
+    "invite.action.cancel": {
+      "comment": "Cancel action on invite sheet.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
+          }
+        }
+      }
+    },
+    "invite.action.primary": {
+      "comment": "Button text to open invite flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invite adult"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitar adulto"
+          }
+        }
+      }
+    },
+    "invite.success.banner": {
+      "comment": "Success message after sending invitation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitation sent."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitación enviada."
+          }
+        }
+      }
+    },
+    "invite.error.duplicate.pending": {
+      "comment": "Error shown when an invitation is already pending for the email.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "There's already a pending invitation for this email."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ya hay una invitación pendiente para este correo."
+          }
+        }
+      }
+    },
+    "invite.error.network": {
+      "comment": "Error shown when the invite fails due to network issues.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We couldn't send the invitation. Check your connection and try again."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No pudimos enviar la invitación. Comprueba tu conexión e inténtalo de nuevo."
+          }
+        }
+      }
+    },
+    "invite.error.unknown": {
+      "comment": "Fallback error for invite flow when no specific message is available.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something went wrong. Please try again."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Algo salió mal. Inténtalo de nuevo."
+          }
+        }
+      }
+    },
+    "invite.error.invalid.email": {
+      "comment": "Error message for invalid email in invite flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter a valid email address."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Introduce un email válido."
+          }
+        }
+      }
+    },
     "password.reset.cta": {
       "comment": "Primary CTA for password reset",
       "localizations": {
