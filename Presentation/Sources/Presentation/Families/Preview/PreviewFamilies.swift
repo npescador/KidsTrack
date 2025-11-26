@@ -32,4 +32,12 @@ public struct PreviewUserSessionProvider: UserSessionProviding {
         self.currentUser = currentUser
     }
 }
+
+public struct PreviewInvitationRepository: InvitationRepositoryProtocol {
+    public init() {}
+
+    public func sendInvitation(familyId: String, email: String) async throws -> FamilyInvitation {
+        FamilyInvitation(id: UUID().uuidString, familyId: familyId, email: email)
+    }
+}
 #endif

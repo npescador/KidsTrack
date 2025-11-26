@@ -5,19 +5,23 @@ public struct FamilySelectionView: View {
     @Environment(\.colorScheme) private var colorScheme
     @State private var viewModel: FamilySelectionViewModel
     private let makeCreateFamilyViewModel: () -> CreateFamilyViewModel
+    private let makeInviteAdultViewModel: (String) -> InviteAdultViewModel?
     private let onLogout: () -> Void
     private let onCreateFamily: (Family) -> Void
 
     @State private var isPresentingCreateFamily = false
+    @State private var isPresentingInvite = false
 
     public init(
         viewModel: FamilySelectionViewModel,
         makeCreateFamilyViewModel: @escaping () -> CreateFamilyViewModel,
+        makeInviteAdultViewModel: @escaping (String) -> InviteAdultViewModel?,
         onLogout: @escaping () -> Void,
         onCreateFamily: @escaping (Family) -> Void = { _ in }
     ) {
         _viewModel = State(initialValue: viewModel)
         self.makeCreateFamilyViewModel = makeCreateFamilyViewModel
+        self.makeInviteAdultViewModel = makeInviteAdultViewModel
         self.onLogout = onLogout
         self.onCreateFamily = onCreateFamily
     }
@@ -35,13 +39,13 @@ public struct FamilySelectionView: View {
 
                 content(viewModel: viewModel)
 
-                primaryActions
+                primaryActions(canInvite: canInvite)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .padding()
-        .navigationTitle("Families")
+        .navigationTitle("families.title".localized())
         .animation(.easeInOut(duration: 0.25), value: viewModel.banner)
         .animation(.easeInOut(duration: 0.25), value: viewModel.state)
         .onAppear {
@@ -62,6 +66,21 @@ public struct FamilySelectionView: View {
                 )
             }
             .presentationDetents([.medium, .large])
+        }
+        .sheet(isPresented: $isPresentingInvite) {
+            if let familyId = viewModel.activeFamily?.id, let inviteVM = makeInviteAdultViewModel(familyId) {
+                NavigationStack {
+                    InviteAdultView(
+                        viewModel: inviteVM,
+                        onSent: {
+                            isPresentingInvite = false
+                            viewModel.banner = String(localized: "invite.success.banner".localized())
+                        },
+                        onCancel: { isPresentingInvite = false }
+                    )
+                }
+                .presentationDetents([.medium])
+            }
         }
     }
 }
@@ -146,8 +165,38 @@ private extension FamilySelectionView {
         }
     }
 
-    var primaryActions: some View {
+    var hasFamilies: Bool {
+        if case .loaded(let families) = viewModel.state {
+            return !families.isEmpty
+        }
+        return false
+    }
+
+    var canInvite: Bool {
+        hasFamilies && viewModel.activeFamily != nil
+    }
+
+    func primaryActions(canInvite: Bool) -> some View {
         VStack(spacing: 12) {
+            Button {
+                isPresentingInvite = true
+            } label: {
+                Text("invite.action.primary".localized())
+                    .frame(maxWidth: .infinity)
+                    .frame(minHeight: 48)
+                    .background(canInvite ? Color.kidsTrackSurface(for: colorScheme) : Color.gray.opacity(0.2))
+                    .foregroundStyle(canInvite ? Color.kidsTrackTextPrimary(for: colorScheme) : Color.gray)
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .stroke(Color.kidsTrackBorder(for: colorScheme), lineWidth: 1)
+                    )
+            }
+            .buttonStyle(.plain)
+            .disabled(!canInvite)
+            .accessibilityLabel("invite.action.primary".localized())
+            .accessibilityHint("invite.subtitle".localized())
+
             Button {
                 isPresentingCreateFamily = true
             } label: {
