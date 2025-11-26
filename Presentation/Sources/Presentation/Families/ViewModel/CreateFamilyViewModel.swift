@@ -26,13 +26,16 @@ public final class CreateFamilyViewModel {
 
     private let createFamilyUseCase: CreateFamilyUseCase
     private let sessionProvider: UserSessionProviding
+    private let clock: any Clock<Duration>
 
     public init(
         createFamilyUseCase: CreateFamilyUseCase,
-        sessionProvider: UserSessionProviding
+        sessionProvider: UserSessionProviding,
+        clock: any Clock<Duration> = ContinuousClock()
     ) {
         self.createFamilyUseCase = createFamilyUseCase
         self.sessionProvider = sessionProvider
+        self.clock = clock
     }
 
     public func createFamily() {
@@ -52,10 +55,11 @@ public final class CreateFamilyViewModel {
         isLoading = true
         banner = nil
 
-        Task { [weak self] in
+        Task { @MainActor [weak self, clock] in
             guard let self else { return }
             do {
                 let family = try await createFamilyUseCase.execute(name: trimmedName, ownerId: ownerId)
+                _ = clock
                 self.handleSuccess(family)
             } catch {
                 self.handleFailure(error)

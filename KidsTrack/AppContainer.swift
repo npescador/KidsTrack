@@ -29,8 +29,7 @@ protocol AuthSessionHandling {
 /// Simple composition root wiring Firebase-backed dependencies.
 @MainActor
 final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding,
-    CreateFamilyViewModelBuilding, AuthSessionHandling, SessionResetting
-{
+    CreateFamilyViewModelBuilding, AuthSessionHandling, SessionResetting {
     private let authRepository: AuthRepositoryProtocol
     private let googleSignInHandler: GoogleSignInHandling
     private let familyRepository: FamilyRepositoryProtocol
