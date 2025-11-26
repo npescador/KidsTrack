@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents a family grouping within the app.
-public struct Family: Codable, Equatable, Identifiable, Sendable {
+public struct Family: Codable, Hashable, Equatable, Identifiable, Sendable {
     public let id: String
     public let name: String
     public let ownerId: String

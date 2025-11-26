@@ -15,4 +15,9 @@ final class MockActiveFamilyStore: ActiveFamilyStoreProtocol, @unchecked Sendabl
     func clearActiveFamily() async {
         storedFamily = nil
     }
+
+    // Helper for tests
+    func setActiveFamilySync(_ family: Family) {
+        storedFamily = family
+    }
 }

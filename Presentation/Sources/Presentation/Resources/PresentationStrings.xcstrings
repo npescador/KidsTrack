@@ -545,6 +545,142 @@
         }
       }
     },
+    "families.title": {
+      "comment": "Headline for the family selection screen.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Families"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Familias"
+          }
+        }
+      }
+    },
+    "families.subtitle.select": {
+      "comment": "Subtitle prompting the user to choose a family.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a family to continue."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecciona una familia para continuar."
+          }
+        }
+      }
+    },
+    "families.error.title": {
+      "comment": "Title for the error state when loading families fails.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We couldn't load your families."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No pudimos cargar tus familias."
+          }
+        }
+      }
+    },
+    "families.empty.title": {
+      "comment": "Title for the empty state when there are no families.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No families yet."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aún no tienes familias."
+          }
+        }
+      }
+    },
+    "families.empty.subtitle": {
+      "comment": "Subtitle explaining the empty state for families.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create a family to start tracking schedules and expenses."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crea una familia para empezar a registrar horarios y gastos."
+          }
+        }
+      }
+    },
+    "families.owner.prefix": {
+      "comment": "Prefix label for showing the owner of a family.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Owner:"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Propietario:"
+          }
+        }
+      }
+    },
+    "families.action.create": {
+      "comment": "Primary action to create a new family.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create family"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crear familia"
+          }
+        }
+      }
+    },
+    "families.banner.created": {
+      "comment": "Success banner shown after creating a family.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Family created successfully."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Familia creada correctamente."
+          }
+        }
+      }
+    },
     "password.reset.cta": {
       "comment": "Primary CTA for password reset",
       "localizations": {
