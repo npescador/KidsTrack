@@ -9,6 +9,12 @@ public struct PreviewFamilyRepository: FamilyRepositoryProtocol {
     public func createFamily(name: String, ownerId: String) async throws -> Family {
         Family(id: UUID().uuidString, name: name, ownerId: ownerId)
     }
+
+    public func fetchFamilies(for userId: String) async throws -> [Family] {
+        [
+            Family(id: "preview-1", name: "Preview Family", ownerId: userId)
+        ]
+    }
 }
 
 public struct PreviewActiveFamilyStore: ActiveFamilyStoreProtocol {

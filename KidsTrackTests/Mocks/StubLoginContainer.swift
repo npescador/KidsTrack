@@ -2,9 +2,10 @@ import Foundation
 @testable import KidsTrack
 import Presentation
 import Shared
+import Domain
 
 final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding, CreateFamilyViewModelBuilding,
-    AuthSessionHandling, SessionResetting
+    FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting
 {
     var shouldFailLogout: Bool
     var logoutCallCount = 0
@@ -24,6 +25,15 @@ final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBu
 
     func makeCreateFamilyViewModel() -> CreateFamilyViewModel {
         .preview()
+    }
+
+    func makeFamilySelectionViewModel() -> FamilySelectionViewModel {
+        FamilySelectionViewModel(
+            getFamilies: GetFamiliesForUserUseCase(repository: PreviewFamilyRepository()),
+            setActiveFamily: SetActiveFamilyUseCase(store: PreviewActiveFamilyStore()),
+            activeFamilyStore: PreviewActiveFamilyStore(),
+            sessionProvider: PreviewUserSessionProvider()
+        )
     }
 
     func resetSession() async {

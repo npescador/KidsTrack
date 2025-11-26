@@ -16,6 +16,10 @@ protocol CreateFamilyViewModelBuilding {
     func makeCreateFamilyViewModel() -> CreateFamilyViewModel
 }
 
+protocol FamilySelectionViewModelBuilding {
+    func makeFamilySelectionViewModel() -> FamilySelectionViewModel
+}
+
 /// Contract for clearing app/session state (listeners, caches) on logout.
 protocol SessionResetting {
     func resetSession() async
@@ -29,7 +33,7 @@ protocol AuthSessionHandling {
 /// Simple composition root wiring Firebase-backed dependencies.
 @MainActor
 final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding,
-    CreateFamilyViewModelBuilding, AuthSessionHandling, SessionResetting {
+    CreateFamilyViewModelBuilding, FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting {
     private let authRepository: AuthRepositoryProtocol
     private let googleSignInHandler: GoogleSignInHandling
     private let familyRepository: FamilyRepositoryProtocol
@@ -78,6 +82,15 @@ final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding
                 repository: familyRepository,
                 activeStore: activeFamilyStore
             ),
+            sessionProvider: sessionProvider
+        )
+    }
+
+    func makeFamilySelectionViewModel() -> FamilySelectionViewModel {
+        FamilySelectionViewModel(
+            getFamilies: GetFamiliesForUserUseCase(repository: familyRepository),
+            setActiveFamily: SetActiveFamilyUseCase(store: activeFamilyStore),
+            activeFamilyStore: activeFamilyStore,
             sessionProvider: sessionProvider
         )
     }

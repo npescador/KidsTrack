@@ -33,6 +33,7 @@ final class AppNavigationCoordinator {
 
     private let loginFactory: LoginViewModelBuilding
     private let passwordResetFactory: PasswordResetViewModelBuilding
+    private let familySelectionFactory: FamilySelectionViewModelBuilding
     private let createFamilyFactory: CreateFamilyViewModelBuilding
     private let sessionHandler: AuthSessionHandling
     private let sessionResetter: SessionResetting
@@ -40,12 +41,14 @@ final class AppNavigationCoordinator {
     init(
         loginFactory: LoginViewModelBuilding,
         passwordResetFactory: PasswordResetViewModelBuilding,
+        familySelectionFactory: FamilySelectionViewModelBuilding,
         createFamilyFactory: CreateFamilyViewModelBuilding,
         sessionHandler: AuthSessionHandling,
         sessionResetter: SessionResetting
     ) {
         self.loginFactory = loginFactory
         self.passwordResetFactory = passwordResetFactory
+        self.familySelectionFactory = familySelectionFactory
         self.createFamilyFactory = createFamilyFactory
         self.sessionHandler = sessionHandler
         self.sessionResetter = sessionResetter
@@ -93,30 +96,19 @@ final class AppNavigationCoordinator {
                 viewModel: passwordResetFactory.makePasswordResetViewModel()
             )
         case .authenticatedShell:
-            FamilySelectionPlaceholderView(
-                isShowingLogoutAlert: shouldConfirmLogout,
-                onConfirmLogout: { [weak self] in
-                    self?.attemptLogout()
-                },
-                onCancelLogout: { [weak self] in
-                    self?.shouldConfirmLogout = false
-                },
-                errorMessage: logoutError,
-                onDismissError: { [weak self] in
-                    self?.logoutError = nil
-                },
-                createFamilyViewModelBuilder: { [weak self] in
+            FamilySelectionView(
+                viewModel: familySelectionFactory.makeFamilySelectionViewModel(),
+                makeCreateFamilyViewModel: { [weak self] in
                     guard let self else {
                         return CreateFamilyViewModel.preview()
                     }
                     return self.createFamilyFactory.makeCreateFamilyViewModel()
                 },
-                onFamilyCreated: { [weak self] family in
-                    self?.handleFamilyCreated(family)
-                },
-                activeFamily: activeFamily,
                 onLogout: { [weak self] in
                     self?.shouldConfirmLogout = true
+                },
+                onCreateFamily: { [weak self] family in
+                    self?.handleFamilyCreated(family)
                 }
             )
         }
@@ -158,11 +150,12 @@ extension AppNavigationCoordinator {
 extension AppNavigationCoordinator {
     convenience init(
         container: LoginViewModelBuilding & PasswordResetViewModelBuilding &
-        CreateFamilyViewModelBuilding & AuthSessionHandling & SessionResetting
+        CreateFamilyViewModelBuilding & FamilySelectionViewModelBuilding & AuthSessionHandling & SessionResetting
     ) {
         self.init(
             loginFactory: container,
             passwordResetFactory: container,
+            familySelectionFactory: container,
             createFamilyFactory: container,
             sessionHandler: container,
             sessionResetter: container
