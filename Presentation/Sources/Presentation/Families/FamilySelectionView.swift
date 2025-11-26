@@ -45,7 +45,7 @@ public struct FamilySelectionView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .padding()
-        .navigationTitle("families.title".localized())
+        .navigationTitle(Text("families.title".localized()))
         .animation(.easeInOut(duration: 0.25), value: viewModel.banner)
         .animation(.easeInOut(duration: 0.25), value: viewModel.state)
         .onAppear {
@@ -194,8 +194,8 @@ private extension FamilySelectionView {
             }
             .buttonStyle(.plain)
             .disabled(!canInvite)
-            .accessibilityLabel("invite.action.primary".localized())
-            .accessibilityHint("invite.subtitle".localized())
+            .accessibilityLabel(Text("invite.action.primary".localized()))
+            .accessibilityHint(Text("invite.subtitle".localized()))
 
             Button {
                 isPresentingCreateFamily = true
