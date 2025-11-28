@@ -7,8 +7,8 @@ final class MockInvitationRepository: InvitationRepositoryProtocol, @unchecked S
     var sentFamilyId: String?
     var sentEmail: String?
 
-    func sendInvitation(familyId: String, email: String) async throws -> FamilyInvitation {
-        sentFamilyId = familyId
+    func sendInvitation(family: Family, email: String) async throws -> FamilyInvitation {
+        sentFamilyId = family.id
         sentEmail = email
         guard let nextResult else {
             Issue.record("nextResult must be set before invoking sendInvitation")
@@ -16,4 +16,14 @@ final class MockInvitationRepository: InvitationRepositoryProtocol, @unchecked S
         }
         return try nextResult.get()
     }
+
+    func fetchInvitations(for email: String) async throws -> [FamilyInvitation] {
+        []
+    }
+
+    func acceptInvitation(id: String, userId: String) async throws -> Family {
+        Family(id: "fam-accepted", name: "Accepted", ownerId: "owner")
+    }
+
+    func rejectInvitation(id: String) async throws {}
 }

@@ -11,7 +11,7 @@ struct InviteAdultViewModelTests {
         let repository = MockInvitationRepository()
         let viewModel = InviteAdultViewModel(
             sendInvitation: SendFamilyInvitationUseCase(repository: repository),
-            familyId: "fam-1"
+            family: Family(id: "fam-1", name: "Test", ownerId: "owner")
         )
         viewModel.email = "adult@test.com"
 
@@ -29,7 +29,7 @@ struct InviteAdultViewModelTests {
         let repository = MockInvitationRepository()
         let viewModel = InviteAdultViewModel(
             sendInvitation: SendFamilyInvitationUseCase(repository: repository),
-            familyId: "fam-1"
+            family: Family(id: "fam-1", name: "Test", ownerId: "owner")
         )
         viewModel.email = "invalid"
 
@@ -45,7 +45,7 @@ struct InviteAdultViewModelTests {
         repository.nextResult = .failure(InvitationError.duplicatePending)
         let viewModel = InviteAdultViewModel(
             sendInvitation: SendFamilyInvitationUseCase(repository: repository),
-            familyId: "fam-1"
+            family: Family(id: "fam-1", name: "Test", ownerId: "owner")
         )
         viewModel.email = "dup@test.com"
 

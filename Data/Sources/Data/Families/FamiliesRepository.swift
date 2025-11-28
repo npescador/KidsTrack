@@ -15,4 +15,8 @@ public final class FamiliesRepository: FamilyRepositoryProtocol, @unchecked Send
     public func fetchFamilies(for userId: String) async throws -> [Family] {
         try await remoteDataSource.fetchFamilies(for: userId)
     }
+
+    public func addFamily(_ family: Family, for userId: String) async throws {
+        try await remoteDataSource.addFamily(family, for: userId)
+    }
 }

@@ -7,11 +7,14 @@ struct SendFamilyInvitationUseCaseTests {
     @Test("Sends invitation successfully")
     func sendInvitationSuccess() async throws {
         let repository = MockInvitationRepository()
-        let expected = FamilyInvitation(id: "inv-1", familyId: "fam-1", email: "test@kidstrack.app")
+        let expected = FamilyInvitation(id: "inv-1", familyId: "fam-1", familyName: "Test", email: "test@kidstrack.app")
         repository.nextResult = .success(expected)
         let useCase = SendFamilyInvitationUseCase(repository: repository)
 
-        let invitation = try await useCase.execute(familyId: "fam-1", email: "test@kidstrack.app")
+        let invitation = try await useCase.execute(
+            family: Family(id: "fam-1", name: "Test", ownerId: "owner-1"),
+            email: "test@kidstrack.app"
+        )
 
         #expect(invitation == expected)
         #expect(repository.sentFamilyId == "fam-1")
@@ -25,7 +28,10 @@ struct SendFamilyInvitationUseCaseTests {
         let useCase = SendFamilyInvitationUseCase(repository: repository)
 
         do {
-            _ = try await useCase.execute(familyId: "fam-1", email: "dup@kidstrack.app")
+            _ = try await useCase.execute(
+                family: Family(id: "fam-1", name: "Test", ownerId: "owner-1"),
+                email: "dup@kidstrack.app"
+            )
             Issue.record("Expected duplicate error")
         } catch {
             #expect(error as? InvitationError == .duplicatePending)

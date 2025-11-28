@@ -8,9 +8,12 @@
 - US-02 (Recuperación de contraseña) implementada: pantalla dedicada `PasswordResetView` con validación de email, estados de carga, mensajes genéricos “si existe la cuenta…”, navegación desde login, y tests de view model (éxito/error/validación). Ajustado `Info.plist` para priorizar localización en español/inglés.
 - US-03 (Logout robusto) implementada: contrato `SessionResetting` para limpiar listeners/estado al cerrar sesión, coordinador navega a login tras logout, alerta de error mantenida, y tests de coordinador cubriendo éxito/fallo.
 - US-06 (Crear familia) implementada: contrato Domain/Data con repositorio y store de familia activa, flujo de creación en SwiftUI con validación/banners, persistencia en UserDefaults y visualización de familia activa en el placeholder autenticado.
+- US-07 (Seleccionar familia activa) completada: listado de familias del usuario, selección con persistencia de familia activa, listeners reconfigurados al cambiar y UI deshabilita acciones sin familia.
+- US-08 (Invitar adulto) completada: flujo de invitación con validación de email, estado pendiente deduplicado, banners de éxito/error localizados y gating del CTA a tener familia activa (backend in-memory temporal).
+- US-09 (Aceptar/Rechazar invitaciones) implementada: banner de invitaciones pendientes al iniciar sesión, hoja para aceptar o rechazar con feedback localizado, actualización del listado de familias al aceptar y acciones in-memory para estado de invitaciones.
 
 ## Próximo Paso Inmediato
-- US-07 (Seleccionar familia activa): listado de familias del usuario, selección y persistencia de la familia activa reconfigurando listeners/estado para el `familyId` elegido.
+- Definir e implementar data source real para invitaciones (persistencia/sincronización) y cablear backend; pendiente de priorización.
 
 ## Notas de referencia
 - No revisar ni mantener `Docs/Specification.md` como fuente activa; guiarse únicamente por `Docs/# Backlog.KidsTrack.md` y este `Docs/Progress.md` para prioridades y seguimiento.

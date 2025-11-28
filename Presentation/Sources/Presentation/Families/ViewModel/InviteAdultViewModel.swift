@@ -16,14 +16,14 @@ public final class InviteAdultViewModel {
     public var didSendSuccessfully = false
 
     private let sendInvitation: SendFamilyInvitationUseCase
-    private let familyId: String
+    private let family: Family
 
     public init(
         sendInvitation: SendFamilyInvitationUseCase,
-        familyId: String
+        family: Family
     ) {
         self.sendInvitation = sendInvitation
-        self.familyId = familyId
+        self.family = family
     }
 
     public var isSubmitDisabled: Bool {
@@ -47,7 +47,7 @@ public final class InviteAdultViewModel {
         Task { [weak self] in
             guard let self else { return }
             do {
-                _ = try await useCase.execute(familyId: familyId, email: email)
+                _ = try await useCase.execute(family: family, email: email)
                 await MainActor.run {
                     self.isLoading = false
                     self.banner = Banner(

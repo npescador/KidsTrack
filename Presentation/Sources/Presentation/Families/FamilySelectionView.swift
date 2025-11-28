@@ -5,23 +5,28 @@ public struct FamilySelectionView: View {
     @Environment(\.colorScheme) private var colorScheme
     @State private var viewModel: FamilySelectionViewModel
     private let makeCreateFamilyViewModel: () -> CreateFamilyViewModel
-    private let makeInviteAdultViewModel: (String) -> InviteAdultViewModel?
+    private let makeInviteAdultViewModel: (Family) -> InviteAdultViewModel?
+    private let makePendingInvitationsViewModel: (String, String) -> PendingInvitationsViewModel?
     private let onLogout: () -> Void
     private let onCreateFamily: (Family) -> Void
 
     @State private var isPresentingCreateFamily = false
     @State private var isPresentingInvite = false
+    @State private var isPresentingInvitations = false
+    @State private var invitationsViewModel: PendingInvitationsViewModel?
 
     public init(
         viewModel: FamilySelectionViewModel,
         makeCreateFamilyViewModel: @escaping () -> CreateFamilyViewModel,
-        makeInviteAdultViewModel: @escaping (String) -> InviteAdultViewModel?,
+        makeInviteAdultViewModel: @escaping (Family) -> InviteAdultViewModel?,
+        makePendingInvitationsViewModel: @escaping (String, String) -> PendingInvitationsViewModel?,
         onLogout: @escaping () -> Void,
         onCreateFamily: @escaping (Family) -> Void = { _ in }
     ) {
         _viewModel = State(initialValue: viewModel)
         self.makeCreateFamilyViewModel = makeCreateFamilyViewModel
         self.makeInviteAdultViewModel = makeInviteAdultViewModel
+        self.makePendingInvitationsViewModel = makePendingInvitationsViewModel
         self.onLogout = onLogout
         self.onCreateFamily = onCreateFamily
     }
@@ -32,6 +37,12 @@ public struct FamilySelectionView: View {
         ScrollView {
             VStack(spacing: 12) {
                 header(viewModel: viewModel)
+
+                if let invitesVM = invitationsViewModel,
+                   case .loaded(let invitations) = invitesVM.state,
+                   !invitations.isEmpty {
+                    pendingInvitationsBanner(count: invitations.count)
+                }
 
                 if let banner = viewModel.banner {
                     successBanner(banner)
@@ -52,6 +63,7 @@ public struct FamilySelectionView: View {
             if case .idle = viewModel.state {
                 viewModel.load()
             }
+            bootstrapInvitations()
         }
         .sheet(isPresented: $isPresentingCreateFamily) {
             NavigationStack {
@@ -68,7 +80,7 @@ public struct FamilySelectionView: View {
             .presentationDetents([.medium, .large])
         }
         .sheet(isPresented: $isPresentingInvite) {
-            if let familyId = viewModel.activeFamily?.id, let inviteVM = makeInviteAdultViewModel(familyId) {
+            if let family = viewModel.activeFamily, let inviteVM = makeInviteAdultViewModel(family) {
                 NavigationStack {
                     InviteAdultView(
                         viewModel: inviteVM,
@@ -80,6 +92,18 @@ public struct FamilySelectionView: View {
                     )
                 }
                 .presentationDetents([.medium])
+            }
+        }
+        .sheet(isPresented: $isPresentingInvitations) {
+            if let invitesVM = invitationsViewModel {
+                PendingInvitationsView(
+                    viewModel: invitesVM,
+                    onAccepted: { family in
+                        viewModel.handleAccepted(family)
+                        isPresentingInvitations = false
+                    },
+                    onClose: { isPresentingInvitations = false }
+                )
             }
         }
     }
@@ -163,6 +187,47 @@ private extension FamilySelectionView {
                 }
             }
         }
+    }
+
+    func bootstrapInvitations() {
+        guard invitationsViewModel == nil,
+              let email = viewModel.currentUserEmail,
+              let userId = viewModel.currentUserId,
+              let vm = makePendingInvitationsViewModel(email, userId)
+        else { return }
+        invitationsViewModel = vm
+        vm.load()
+    }
+
+    @ViewBuilder
+    func pendingInvitationsBanner(count: Int) -> some View {
+        Button {
+            isPresentingInvitations = true
+        } label: {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("invitations.banner.pending".localized())
+                        .font(.system(size: 14, weight: .semibold, design: .rounded))
+                    Text(String(localized: "invitations.action.review".localized()))
+                        .font(.system(size: 13, weight: .regular, design: .rounded))
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                }
+                Spacer()
+                Text("\(count)")
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Color.accentColor.opacity(0.15))
+                    .clipShape(Capsule())
+            }
+            .padding(.vertical, 10)
+            .padding(.horizontal, 12)
+            .background(Color(.systemYellow).opacity(0.15))
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint(Text("invitations.action.review".localized()))
     }
 
     var hasFamilies: Bool {

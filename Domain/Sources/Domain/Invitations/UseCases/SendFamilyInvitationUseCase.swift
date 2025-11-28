@@ -7,7 +7,7 @@ public struct SendFamilyInvitationUseCase: Sendable {
         self.repository = repository
     }
 
-    public func execute(familyId: String, email: String) async throws -> FamilyInvitation {
-        try await repository.sendInvitation(familyId: familyId, email: email)
+    public func execute(family: Family, email: String) async throws -> FamilyInvitation {
+        try await repository.sendInvitation(family: family, email: email)
     }
 }

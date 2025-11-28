@@ -8,7 +8,7 @@ struct AppNavigationView: View {
 
     init(
         container: LoginViewModelBuilding & PasswordResetViewModelBuilding &
-        CreateFamilyViewModelBuilding & InviteAdultViewModelBuilding &
+        CreateFamilyViewModelBuilding & InviteAdultViewModelBuilding & PendingInvitationsViewModelBuilding &
         FamilySelectionViewModelBuilding & AuthSessionHandling & SessionResetting
     ) {
         _coordinator = State(
@@ -18,6 +18,7 @@ struct AppNavigationView: View {
                 familySelectionFactory: container,
                 createFamilyFactory: container,
                 inviteAdultFactory: container,
+                pendingInvitesFactory: container,
                 sessionHandler: container,
                 sessionResetter: container
             )
