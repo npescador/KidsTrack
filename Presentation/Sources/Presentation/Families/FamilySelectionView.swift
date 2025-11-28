@@ -227,7 +227,7 @@ private extension FamilySelectionView {
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
         .buttonStyle(.plain)
-        .accessibilityHint("invitations.action.review".localized())
+        .accessibilityHint(Text("invitations.action.review".localized()))
     }
 
     var hasFamilies: Bool {

@@ -42,11 +42,11 @@ public struct PendingInvitationsView: View {
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .navigationTitle("invitations.title".localized())
+            .navigationTitle(Text("invitations.title".localized()))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("invite.action.cancel".localized(), action: onClose)
+                    Button(String(localized: "invite.action.cancel".localized()), action: onClose)
                 }
             }
         }
