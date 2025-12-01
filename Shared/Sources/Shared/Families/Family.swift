@@ -11,7 +11,7 @@ public struct Family: Codable, Hashable, Equatable, Identifiable, Sendable {
         id: String,
         name: String,
         ownerId: String,
-        createdAt: Date = .now
+        createdAt: Date = Date()
     ) {
         self.id = id
         self.name = name

@@ -1,16 +1,19 @@
 import Observation
+import Presentation
 import SwiftUI
 
 /// Root view wiring the shared navigation coordinator into a `NavigationStack`.
 struct AppNavigationView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var coordinator: AppNavigationCoordinator
+    private let realtimeSyncer: FamilyRealtimeSyncCoordinating?
 
     init(
         container: LoginViewModelBuilding & PasswordResetViewModelBuilding &
         CreateFamilyViewModelBuilding & InviteAdultViewModelBuilding & PendingInvitationsViewModelBuilding &
-        FamilySelectionViewModelBuilding & AuthSessionHandling & SessionResetting
+        FamilySelectionViewModelBuilding & AuthSessionHandling & SessionResetting & FamilyRealtimeSyncProviding
     ) {
+        self.realtimeSyncer = container.familyRealtimeSyncer
         _coordinator = State(
             initialValue: AppNavigationCoordinator(
                 loginFactory: container,
@@ -25,8 +28,9 @@ struct AppNavigationView: View {
         )
     }
 
-    init(coordinator: AppNavigationCoordinator) {
+    init(coordinator: AppNavigationCoordinator, realtimeSyncer: FamilyRealtimeSyncCoordinating? = nil) {
         _coordinator = State(initialValue: coordinator)
+        self.realtimeSyncer = realtimeSyncer
     }
 
     var body: some View {
@@ -39,8 +43,15 @@ struct AppNavigationView: View {
                 }
         }
         .onChange(of: scenePhase) { _, phase in
-            guard phase == .inactive else { return }
-            coordinator.path = NavigationPath() // reset ephemeral pushes on background
+            switch phase {
+            case .inactive:
+                coordinator.path = NavigationPath() // reset ephemeral pushes on background
+            case .active:
+                realtimeSyncer?.restart() // reattach listeners after background/network drops
+            default:
+                break
+            }
         }
+        .environment(\.familyRealtimeSyncer, realtimeSyncer)
     }
 }

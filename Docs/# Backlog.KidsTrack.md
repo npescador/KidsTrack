@@ -204,6 +204,8 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - Nombre
   - Avatar/color
   - Curso (si se ha rellenado)
+- La lista se alimenta de datos en tiempo real (FamilyRealtimeSnapshot) y refleja altas/bajas/ediciones en ≤ 5 segundos sin recargar manualmente.
+- Al cambiar de familia activa, la vista se actualiza al nuevo snapshot.
 - Si no hay hijos:
   - Se muestra un estado vacío con texto explicativo.
   - Se muestra un botón “Añadir hijo”.
@@ -227,6 +229,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
 - Al guardar:
   - El nuevo hijo aparece en la lista inmediatamente.
   - Se sincroniza en tiempo real con los demás miembros.
+  - La UI se actualiza desde el snapshot sin recarga manual.
 - Si el nombre está vacío, el formulario no se puede enviar.
 
 ---
@@ -248,6 +251,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
 - Al guardar:
   - Los cambios se reflejan en las vistas que muestren los datos del hijo.
   - Se sincronizan en tiempo real para otros miembros.
+  - La UI se actualiza desde el snapshot sin recarga manual.
 - Si hay errores (red, permisos), se muestra mensaje y no se pierde la edición actual.
 
 ---
@@ -294,6 +298,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
 - Al guardar:
   - Aparece en la vista semanal escolar del hijo.
   - Se sincroniza en tiempo real.
+  - La UI se actualiza desde el snapshot sin recarga manual.
 - Validaciones:
   - La hora fin debe ser posterior a la hora inicio.
   - No se permite un campo obligatorio vacío.
@@ -313,6 +318,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - Las franjas en su posición según día y hora.
 - Se diferencian las franjas por color, asignatura o ambos.
 - Cambios en SchoolSlot se reflejan automáticamente sin recargar manualmente la pantalla.
+- Al cambiar de familia activa o hijo seleccionado, la vista se rehidrata desde el snapshot en vivo correspondiente.
 - Scroll o navegación cómoda si hay muchas franjas.
 
 ---
@@ -331,6 +337,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - Permite cambiar día, horas, asignatura, aula.
   - Validaciones iguales que en creación.
   - Cambios en tiempo real.
+  - La UI se actualiza desde el snapshot sin recarga manual.
 - Eliminar:
   - Requiere confirmación.
   - Elimina la franja y la hace desaparecer de la vista de todos los miembros.
@@ -363,6 +370,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - La actividad aparece en la lista de actividades del hijo.
   - La actividad aparece en la vista semanal combinada.
   - Se sincroniza en tiempo real con otros miembros.
+  - La UI se alimenta del snapshot en vivo (lista y vista semanal).
 
 ---
 
@@ -381,6 +389,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - Coste recurrente (si está definido).
 - Tocar una actividad lleva a detalle/edición.
 - Lista actualizada en tiempo real si alguien añade, edita o elimina actividades.
+- Al cambiar de familia activa o hijo seleccionado, la lista se rehidrata desde el snapshot en vivo.
 
 ---
 
@@ -400,6 +409,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
 - Al guardar:
   - Los cambios se reflejan en la lista y la vista semanal combinada.
   - Se sincronizan en tiempo real con otros dispositivos.
+  - La UI se alimenta del snapshot sin recarga manual.
 
 ---
 
@@ -417,6 +427,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - La actividad se borra.
   - Desaparece de la lista y la vista semanal.
 - Se sincroniza en tiempo real con todos los miembros.
+  - La UI se alimenta del snapshot en vivo (lista y vista semanal) sin recarga manual.
 - Si hay gastos asociados, se puede definir la estrategia:
   - MVP: mantener gastos históricos asociados a una actividad eliminada o borrarlos (decisión de producto documentada).
 
@@ -475,6 +486,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - Tipo de recurrencia (mensual, trimestral, anual).
   - Fecha de inicio de pago.
 - El coste recurrente se usa en los resúmenes de gastos por hijo y por actividad.
+- Cambios se reflejan en tiempo real en los resúmenes alimentados por el snapshot.
 - Si se deja vacío, la actividad se considera sin coste recurrente.
 
 ---
@@ -495,7 +507,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - Fecha (obligatorio, por defecto fecha actual).
 - Al guardar:
   - El gasto queda asociado al hijo y, si se ha seleccionado, a la actividad.
-- El gasto aparece en los resúmenes correspondientes.
+- El gasto aparece en los resúmenes correspondientes y se sincroniza en tiempo real (snapshot) para otros miembros.
 
 ---
 
@@ -512,6 +524,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - Total de gastos recurrentes estimados en ese periodo.
   - Total de gastos puntuales en ese periodo.
 - Puede haber un desglose por actividad y/o listado de gastos.
+- Resumen alimentado por snapshot para reflejar altas/bajas/ediciones de gastos en ≤ 5 segundos.
 
 ---
 
@@ -528,6 +541,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - Coste recurrente (normalizado al mes).
   - Suma de gastos puntuales asociados en el periodo seleccionado (opcional).
 - Opción de ordenar por coste total estimado.
+- Resumen alimentado por snapshot para reflejar altas/bajas/ediciones de gastos en ≤ 5 segundos.
 
 ---
 

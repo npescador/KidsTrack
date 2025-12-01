@@ -20,7 +20,7 @@ public struct FamilyInvitation: Codable, Equatable, Identifiable, Sendable {
         familyName: String,
         email: String,
         status: InvitationStatus = .pending,
-        createdAt: Date = .now
+        createdAt: Date = Date()
     ) {
         self.id = id
         self.familyId = familyId

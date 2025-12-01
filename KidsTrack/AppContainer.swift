@@ -1,5 +1,6 @@
 import Data
 import Domain
+import Foundation
 import Presentation
 import Shared
 
@@ -28,6 +29,10 @@ protocol FamilySelectionViewModelBuilding {
     func makeFamilySelectionViewModel() -> FamilySelectionViewModel
 }
 
+protocol FamilyRealtimeSyncProviding {
+    var familyRealtimeSyncer: FamilyRealtimeSyncCoordinating { get }
+}
+
 /// Contract for clearing app/session state (listeners, caches) on logout.
 protocol SessionResetting {
     func resetSession() async
@@ -42,26 +47,53 @@ protocol AuthSessionHandling {
 @MainActor
 final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding,
     CreateFamilyViewModelBuilding, InviteAdultViewModelBuilding, PendingInvitationsViewModelBuilding,
-                            FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting {
+    FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting, FamilyRealtimeSyncProviding {
     private let authRepository: AuthRepositoryProtocol
     private let googleSignInHandler: GoogleSignInHandling
     private let familyRepository: FamilyRepositoryProtocol
     private let activeFamilyStore: ActiveFamilyStoreProtocol
     private let sessionProvider: UserSessionProviding
     private let invitationRepository: InvitationRepositoryProtocol
+    private let realtimeRepository: FamilyRealtimeRepositoryProtocol
+    private let realtimeSyncer: FamilyRealtimeSyncCoordinator
 
     init() {
         let dataSource = FirebaseAuthDataSource()
         self.authRepository = AuthRepository(dataSource: dataSource)
         self.googleSignInHandler = GoogleSignInAdapter()
+        #if DEBUG
+        let useInMemoryFamilies = ProcessInfo.processInfo.environment["KIDSTRACK_FAMILIES_INMEMORY"] == "1"
+        let familiesRemote: FamiliesRemoteDataSourceProtocol = useInMemoryFamilies
+            ? InMemoryFamiliesRemoteDataSource()
+            : FirestoreFamiliesRemoteDataSource()
+        #else
+        let familiesRemote: FamiliesRemoteDataSourceProtocol = FirestoreFamiliesRemoteDataSource()
+        #endif
+
         self.familyRepository = FamiliesRepository(
-            remoteDataSource: InMemoryFamiliesRemoteDataSource()
+            remoteDataSource: familiesRemote
         )
         self.activeFamilyStore = UserDefaultsActiveFamilyStore()
         self.sessionProvider = FirebaseUserSessionProvider()
         self.invitationRepository = InvitationsRepository(
             remote: InMemoryInvitationsRemoteDataSource()
         )
+        #if DEBUG
+        let useInMemoryRealtime = ProcessInfo.processInfo.environment["KIDSTRACK_REALTIME_INMEMORY"] == "1"
+        let realtimeRemote: FamilyRealtimeRemoteDataSourceProtocol = useInMemoryRealtime
+            ? InMemoryFamilyRealtimeRemoteDataSource()
+            : FirestoreFamilyRealtimeRemoteDataSource()
+        #else
+        let realtimeRemote = FirestoreFamilyRealtimeRemoteDataSource()
+        #endif
+        self.realtimeRepository = FamilyRealtimeRepository(remote: realtimeRemote)
+        self.realtimeSyncer = FamilyRealtimeSyncCoordinator(
+            observeRealtime: ObserveFamilyRealtimeUseCase(repository: realtimeRepository)
+        )
+    }
+
+    var familyRealtimeSyncer: FamilyRealtimeSyncCoordinating {
+        realtimeSyncer
     }
 
     func makeLoginViewModel() -> LoginViewModel {
@@ -104,7 +136,8 @@ final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding
             getFamilies: GetFamiliesForUserUseCase(repository: familyRepository),
             setActiveFamily: SetActiveFamilyUseCase(store: activeFamilyStore),
             activeFamilyStore: activeFamilyStore,
-            sessionProvider: sessionProvider
+            sessionProvider: sessionProvider,
+            realtimeSyncer: realtimeSyncer
         )
     }
 
@@ -130,6 +163,7 @@ final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding
 
     func resetSession() async {
         await activeFamilyStore.clearActiveFamily()
+        realtimeSyncer.stop()
     }
 
     func logout() async throws {
