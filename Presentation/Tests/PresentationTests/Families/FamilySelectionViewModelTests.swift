@@ -165,5 +165,9 @@ private func waitUntil(
         try await Task.sleep(nanoseconds: 20_000_000)
     }
 
-    throw WaitError.timeout
+    throw FamilySelectionWaitError.timeout
+}
+
+enum FamilySelectionWaitError: Error {
+    case timeout
 }

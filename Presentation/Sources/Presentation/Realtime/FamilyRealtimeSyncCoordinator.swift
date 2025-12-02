@@ -4,11 +4,12 @@ import Observation
 import Shared
 
 @MainActor
-public protocol FamilyRealtimeSyncCoordinating: AnyObject {
+public protocol FamilyRealtimeSyncCoordinating: Observable, AnyObject {
     var snapshot: FamilyRealtimeSnapshot { get }
     func switchFamily(to familyId: String)
     func restart()
     func stop()
+    func observeSnapshot() -> AsyncStream<FamilyRealtimeSnapshot>
 }
 
 @MainActor
@@ -19,6 +20,7 @@ public final class FamilyRealtimeSyncCoordinator: FamilyRealtimeSyncCoordinating
     private let observeRealtime: ObserveFamilyRealtimeUseCase
     private var currentFamilyId: String?
     private var tasks: [Task<Void, Never>] = []
+    private var snapshotContinuations: [UUID: AsyncStream<FamilyRealtimeSnapshot>.Continuation] = [:]
 
     public init(observeRealtime: ObserveFamilyRealtimeUseCase) {
         self.observeRealtime = observeRealtime
@@ -43,6 +45,23 @@ public final class FamilyRealtimeSyncCoordinator: FamilyRealtimeSyncCoordinating
         tasks.removeAll()
         currentFamilyId = nil
         snapshot = .empty
+        broadcastSnapshot()
+    }
+
+    public func observeSnapshot() -> AsyncStream<FamilyRealtimeSnapshot> {
+        AsyncStream { continuation in
+            let id = UUID()
+            Task { @MainActor [weak self] in
+                self?.snapshotContinuations[id] = continuation
+                continuation.yield(self?.snapshot ?? .empty)
+            }
+
+            continuation.onTermination = { [weak self] _ in
+                Task { @MainActor [weak self] in
+                    self?.snapshotContinuations[id] = nil
+                }
+            }
+        }
     }
 }
 
@@ -52,6 +71,7 @@ private extension FamilyRealtimeSyncCoordinator {
         tasks.removeAll()
         if resetSnapshot {
             snapshot = .empty
+            broadcastSnapshot()
         }
         currentFamilyId = familyId
         let streams = observeRealtime.execute(familyId: familyId)
@@ -100,10 +120,15 @@ private extension FamilyRealtimeSyncCoordinator {
         mutate(&updated)
         guard updated != snapshot else { return }
         snapshot = updated
+        broadcastSnapshot()
     }
 
     static func uniqueById<T: Identifiable>(_ values: [T]) -> [T] where T.ID: Hashable {
         var seen: Set<T.ID> = []
         return values.filter { seen.insert($0.id).inserted }
+    }
+
+    func broadcastSnapshot() {
+        snapshotContinuations.values.forEach { $0.yield(snapshot) }
     }
 }

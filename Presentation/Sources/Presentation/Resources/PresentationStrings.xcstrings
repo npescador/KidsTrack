@@ -13,7 +13,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "¡Bienvenida, Sarah!"
+            "value": "\u00a1Bienvenida, Sarah!"
           }
         }
       }
@@ -47,7 +47,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ilustración del panel familiar"
+            "value": "Ilustraci\u00f3n del panel familiar"
           }
         }
       }
@@ -81,7 +81,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Iniciar la incorporación a KidsTrack"
+            "value": "Iniciar la incorporaci\u00f3n a KidsTrack"
           }
         }
       }
@@ -98,7 +98,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Avanza al flujo de configuración para tu familia."
+            "value": "Avanza al flujo de configuraci\u00f3n para tu familia."
           }
         }
       }
@@ -132,7 +132,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Controla fácilmente los horarios escolares y de clases en un solo lugar."
+            "value": "Controla f\u00e1cilmente los horarios escolares y de clases en un solo lugar."
           }
         }
       }
@@ -166,7 +166,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "No te pierdas ningún entrenamiento ni evento extracurricular."
+            "value": "No te pierdas ning\u00fan entrenamiento ni evento extracurricular."
           }
         }
       }
@@ -200,7 +200,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mantén a la vista las cuotas de actividades y los gastos escolares."
+            "value": "Mant\u00e9n a la vista las cuotas de actividades y los gastos escolares."
           }
         }
       }
@@ -217,7 +217,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "¡Te damos la bienvenida de nuevo!"
+            "value": "\u00a1Te damos la bienvenida de nuevo!"
           }
         }
       }
@@ -234,7 +234,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Inicia sesión para gestionar la agenda de tu familia."
+            "value": "Inicia sesi\u00f3n para gestionar la agenda de tu familia."
           }
         }
       }
@@ -251,7 +251,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Correo electrónico"
+            "value": "Correo electr\u00f3nico"
           }
         }
       }
@@ -268,7 +268,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Introduce tu correo electrónico"
+            "value": "Introduce tu correo electr\u00f3nico"
           }
         }
       }
@@ -285,7 +285,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Contraseña"
+            "value": "Contrase\u00f1a"
           }
         }
       }
@@ -302,7 +302,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Introduce tu contraseña"
+            "value": "Introduce tu contrase\u00f1a"
           }
         }
       }
@@ -319,7 +319,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "¿Olvidaste tu contraseña?"
+            "value": "\u00bfOlvidaste tu contrase\u00f1a?"
           }
         }
       }
@@ -336,7 +336,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostrar contraseña"
+            "value": "Mostrar contrase\u00f1a"
           }
         }
       }
@@ -353,7 +353,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ocultar contraseña"
+            "value": "Ocultar contrase\u00f1a"
           }
         }
       }
@@ -370,7 +370,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Iniciar sesión"
+            "value": "Iniciar sesi\u00f3n"
           }
         }
       }
@@ -438,7 +438,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Abre el inicio de sesión de Google para autenticarte."
+            "value": "Abre el inicio de sesi\u00f3n de Google para autenticarte."
           }
         }
       }
@@ -455,7 +455,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "¿No tienes una cuenta?"
+            "value": "\u00bfNo tienes una cuenta?"
           }
         }
       }
@@ -472,7 +472,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Regístrate"
+            "value": "Reg\u00edstrate"
           }
         }
       }
@@ -489,7 +489,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restablecer tu contraseña"
+            "value": "Restablecer tu contrase\u00f1a"
           }
         }
       }
@@ -506,7 +506,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Introduce el email asociado a tu cuenta. Si existe, enviaremos instrucciones para restablecer la contraseña."
+            "value": "Introduce el email asociado a tu cuenta. Si existe, enviaremos instrucciones para restablecer la contrase\u00f1a."
           }
         }
       }
@@ -608,7 +608,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aún no tienes familias."
+            "value": "A\u00fan no tienes familias."
           }
         }
       }
@@ -710,7 +710,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Envía un correo para que se una a tu familia."
+            "value": "Env\u00eda un correo para que se una a tu familia."
           }
         }
       }
@@ -727,7 +727,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Correo electrónico"
+            "value": "Correo electr\u00f3nico"
           }
         }
       }
@@ -761,7 +761,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enviar invitación"
+            "value": "Enviar invitaci\u00f3n"
           }
         }
       }
@@ -812,7 +812,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Invitación enviada."
+            "value": "Invitaci\u00f3n enviada."
           }
         }
       }
@@ -829,7 +829,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ya hay una invitación pendiente para este correo."
+            "value": "Ya hay una invitaci\u00f3n pendiente para este correo."
           }
         }
       }
@@ -846,7 +846,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "No pudimos enviar la invitación. Comprueba tu conexión e inténtalo de nuevo."
+            "value": "No pudimos enviar la invitaci\u00f3n. Comprueba tu conexi\u00f3n e int\u00e9ntalo de nuevo."
           }
         }
       }
@@ -863,7 +863,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Algo salió mal. Inténtalo de nuevo."
+            "value": "Algo sali\u00f3 mal. Int\u00e9ntalo de nuevo."
           }
         }
       }
@@ -880,7 +880,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Introduce un email válido."
+            "value": "Introduce un email v\u00e1lido."
           }
         }
       }
@@ -897,7 +897,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Invitación no encontrada o caducada."
+            "value": "Invitaci\u00f3n no encontrada o caducada."
           }
         }
       }
@@ -914,7 +914,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Esta invitación ya fue gestionada."
+            "value": "Esta invitaci\u00f3n ya fue gestionada."
           }
         }
       }
@@ -1050,7 +1050,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cuando alguien te invite, aparecerá aquí."
+            "value": "Cuando alguien te invite, aparecer\u00e1 aqu\u00ed."
           }
         }
       }
@@ -1084,7 +1084,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Invitación aceptada."
+            "value": "Invitaci\u00f3n aceptada."
           }
         }
       }
@@ -1101,7 +1101,194 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Invitación rechazada."
+            "value": "Invitaci\u00f3n rechazada."
+          }
+        }
+      }
+    },
+    "children.section.title": {
+      "comment": "Section title for the children list card inside the authenticated shell.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Children"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hijos"
+          }
+        }
+      }
+    },
+    "children.section.subtitle": {
+      "comment": "Supporting copy shown when no family name is set on the children section header.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "See the kids in your active family in real time."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consulta los hijos de tu familia activa en tiempo real."
+          }
+        }
+      }
+    },
+    "children.section.family.prefix": {
+      "comment": "Prefix label shown before the active family name in the children section header.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Family"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Familia"
+          }
+        }
+      }
+    },
+    "children.family.missing.title": {
+      "comment": "Title shown when the children section has no active family to display data for.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a family to continue"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecciona una familia para continuar"
+          }
+        }
+      }
+    },
+    "children.family.missing.subtitle": {
+      "comment": "Subtitle explaining the missing family state in the children section.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose or create a family to sync children, schedules, and activities."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige o crea una familia para sincronizar hijos, horarios y actividades."
+          }
+        }
+      }
+    },
+    "children.loading.title": {
+      "comment": "Label displayed next to the loading indicator while children are streaming.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Syncing children\u2026"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronizando hijos\u2026"
+          }
+        }
+      }
+    },
+    "children.empty.title": {
+      "comment": "Title shown when the active family has no children in the realtime snapshot.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No children yet"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A\u00fan no hay hijos"
+          }
+        }
+      }
+    },
+    "children.empty.subtitle": {
+      "comment": "Supporting copy for the empty children state.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add the first child to start tracking schedules and activities."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A\u00f1ade el primer hijo para comenzar a organizar horarios y actividades."
+          }
+        }
+      }
+    },
+    "children.action.add": {
+      "comment": "Primary call-to-action to add a new child in the active family.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add child"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A\u00f1adir hijo"
+          }
+        }
+      }
+    },
+    "children.action.add.hint": {
+      "comment": "Accessibility hint for the add child action.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens the flow to register a new child in this family."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abre el flujo para registrar un nuevo hijo en esta familia."
+          }
+        }
+      }
+    },
+    "children.placeholder.add": {
+      "comment": "Temporary message shown while the add child flow is not yet implemented.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adding children will arrive in the next iteration."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El alta de hijos llegar\u00e1 en la siguiente iteraci\u00f3n."
           }
         }
       }
