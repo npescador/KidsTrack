@@ -46,7 +46,7 @@ public struct PendingInvitationsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "invite.action.cancel".localized()), action: onClose)
+                    Button("invite.action.cancel".localizedText(), action: onClose)
                 }
             }
         }

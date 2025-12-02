@@ -72,7 +72,7 @@ public final class PendingInvitationsViewModel {
                 await MainActor.run {
                     remove(invitation)
                     banner = Banner(
-                        message: String(localized: "invitations.accept.success".localized()),
+                        message: "invitations.accept.success".localizedText(),
                         isError: false
                     )
                     onAccepted(family)
@@ -93,7 +93,7 @@ public final class PendingInvitationsViewModel {
                 await MainActor.run {
                     remove(invitation)
                     banner = Banner(
-                        message: String(localized: "invitations.reject.success".localized()),
+                        message: "invitations.reject.success".localizedText(),
                         isError: false
                     )
                 }
@@ -113,7 +113,7 @@ public final class PendingInvitationsViewModel {
 
     private func message(for error: Error) -> String {
         if let invitationError = error as? InvitationError, let key = invitationError.localizationKey {
-            return String(localized: key.localized())
+            return key.localizedText()
         }
         return error.localizedDescription
     }

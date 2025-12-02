@@ -32,7 +32,7 @@ public struct InviteAdultView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text("invite.email.label".localized())
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
-                TextField(String(localized: "invite.email.placeholder".localized()), text: $viewModel.email)
+                TextField("invite.email.placeholder".localizedText(), text: $viewModel.email)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
                     .disableAutocorrection(true)

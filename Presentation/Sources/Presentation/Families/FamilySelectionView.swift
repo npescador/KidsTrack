@@ -115,7 +115,7 @@ public struct FamilySelectionView: View {
                         viewModel: inviteVM,
                         onSent: {
                             isPresentingInvite = false
-                            viewModel.banner = String(localized: "invite.success.banner".localized())
+                            viewModel.banner = "invite.success.banner".localizedText()
                         },
                         onCancel: { isPresentingInvite = false }
                     )
@@ -142,7 +142,7 @@ public struct FamilySelectionView: View {
                     onSaved: { _ in
                         createChildViewModel = nil
                         let bannerKey = vm.isEditing ? "children.banner.updated" : "children.banner.created"
-                        viewModel.banner = String(localized: bannerKey.localized())
+                            viewModel.banner = bannerKey.localizedText()
                     },
                     onCancel: {
                         createChildViewModel = nil
@@ -156,7 +156,7 @@ public struct FamilySelectionView: View {
                 viewModel: vm,
                 onDeleted: {
                     deleteChildViewModel = nil
-                    viewModel.banner = String(localized: "children.banner.deleted".localized())
+                    viewModel.banner = "children.banner.deleted".localizedText()
                 },
                 onCancel: {
                     deleteChildViewModel = nil
@@ -227,7 +227,7 @@ private extension FamilySelectionView {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(family.name)
                                 .font(.system(size: 16, weight: .semibold, design: .rounded))
-                            Text(String(localized: "families.owner.prefix".localized()) + " \(family.ownerId)")
+                            Text("families.owner.prefix".localizedText() + " \(family.ownerId)")
                                 .font(.system(size: 13, weight: .regular, design: .rounded))
                                 .foregroundStyle(.secondary)
                         }
@@ -265,7 +265,7 @@ private extension FamilySelectionView {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("invitations.banner.pending".localized())
                         .font(.system(size: 14, weight: .semibold, design: .rounded))
-                    Text(String(localized: "invitations.action.review".localized()))
+                    Text("invitations.action.review".localized())
                         .font(.system(size: 13, weight: .regular, design: .rounded))
                         .foregroundStyle(.secondary)
                         .lineLimit(2)
