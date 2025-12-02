@@ -5,7 +5,7 @@ public struct CreateChildView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     @State private var viewModel: CreateChildViewModel
-    private let onCreated: (Child) -> Void
+    private let onSaved: (Child) -> Void
     private let onCancel: () -> Void
 
     private let colorOptions: [String] = [
@@ -14,11 +14,11 @@ public struct CreateChildView: View {
 
     public init(
         viewModel: CreateChildViewModel,
-        onCreated: @escaping (Child) -> Void,
+        onSaved: @escaping (Child) -> Void,
         onCancel: @escaping () -> Void
     ) {
         _viewModel = State(initialValue: viewModel)
-        self.onCreated = onCreated
+        self.onSaved = onSaved
         self.onCancel = onCancel
     }
 
@@ -26,13 +26,13 @@ public struct CreateChildView: View {
         @Bindable var viewModel = viewModel
 
         Form {
-            Section(header: Text("child.form.section.info".localized())) {
+            Section(header: Text("child.form.section.info".localizedText())) {
                 TextField("child.form.name.placeholder".localizedText(), text: $viewModel.name)
                     .textContentType(.name)
                 TextField("child.form.grade.placeholder".localizedText(), text: $viewModel.grade)
                     .textContentType(.none)
                 Toggle(isOn: $viewModel.includeBirthDate) {
-                    Text("child.form.birthdate.label".localized())
+                    Text("child.form.birthdate.label".localizedText())
                 }
                 if viewModel.includeBirthDate {
                     DatePicker(
@@ -45,7 +45,7 @@ public struct CreateChildView: View {
                 }
             }
 
-            Section(header: Text("child.form.color.label".localized())) {
+            Section(header: Text("child.form.color.label".localizedText())) {
                 colorPalette(selected: viewModel.selectedColorHex) { selected in
                     viewModel.selectedColorHex = selected
                 }
@@ -64,7 +64,7 @@ public struct CreateChildView: View {
                         .font(.system(size: 13, weight: .regular, design: .rounded))
                     }
                 } else {
-                    Text("child.form.color.helper".localized())
+                    Text("child.form.color.helper".localizedText())
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
@@ -79,13 +79,13 @@ public struct CreateChildView: View {
 
             Section {
                 Button {
-                    viewModel.submit(onCreated: onCreated)
+                    viewModel.submit(onSaved: onSaved)
                 } label: {
                     if viewModel.isSubmitting {
                         ProgressView()
                             .frame(maxWidth: .infinity)
                     } else {
-                        Text("child.form.submit".localized())
+                        Text(submitLabel)
                             .frame(maxWidth: .infinity)
                     }
                 }
@@ -94,11 +94,19 @@ public struct CreateChildView: View {
                 Button("child.form.cancel".localizedText(), role: .cancel, action: onCancel)
             }
         }
-        .navigationTitle(Text("child.form.title".localized()))
+        .navigationTitle(Text(formTitle))
     }
 }
 
 private extension CreateChildView {
+    var formTitle: String {
+        viewModel.isEditing ? "child.form.title.edit".localizedText() : "child.form.title".localizedText()
+    }
+
+    var submitLabel: String {
+        viewModel.isEditing ? "child.form.submit.edit".localizedText() : "child.form.submit".localizedText()
+    }
+
     func colorPalette(selected: String?, onSelect: @escaping (String?) -> Void) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {

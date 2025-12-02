@@ -1479,6 +1479,57 @@
           }
         }
       }
+    },
+    "child.form.title.edit": {
+      "comment": "Navigation title when editing an existing child.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit child"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editar hijo"
+          }
+        }
+      }
+    },
+    "child.form.submit.edit": {
+      "comment": "Primary action label for updating a child.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save changes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar cambios"
+          }
+        }
+      }
+    },
+    "children.banner.updated": {
+      "comment": "Banner message after editing a child.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Child updated successfully"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hijo actualizado correctamente"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

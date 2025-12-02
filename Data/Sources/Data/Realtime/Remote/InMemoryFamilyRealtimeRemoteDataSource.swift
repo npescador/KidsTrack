@@ -124,6 +124,32 @@ extension InMemoryFamilyRealtimeRemoteDataSource: ChildrenRemoteDataSourceProtoc
         targets.forEach { $0.yield(children) }
         return newChild
     }
+
+    public func updateChild(_ request: UpdateChildRequest) async throws -> Child {
+        let updatedChild = Child(
+            id: request.id,
+            familyId: request.familyId,
+            name: request.name,
+            birthDate: request.birthDate,
+            grade: request.grade,
+            colorHex: request.colorHex
+        )
+
+        let (children, targets) = lock.withLock {
+            var children = childrenByFamily[request.familyId, default: []]
+            if let index = children.firstIndex(where: { $0.id == request.id }) {
+                children[index] = updatedChild
+            } else {
+                children.append(updatedChild)
+            }
+            childrenByFamily[request.familyId] = children
+            let targets = childContinuations[request.familyId, default: []]
+            return (children, targets)
+        }
+
+        targets.forEach { $0.yield(children) }
+        return updatedChild
+    }
 }
 
 private extension NSLock {

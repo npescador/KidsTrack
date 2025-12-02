@@ -23,6 +23,23 @@ public final class FirestoreChildrenRemoteDataSource: ChildrenRemoteDataSourcePr
             colorHex: request.colorHex
         )
     }
+
+    public func updateChild(_ request: UpdateChildRequest) async throws -> Child {
+        let data = makePayload(from: request)
+        let document = db.collection("families")
+            .document(request.familyId)
+            .collection("children")
+            .document(request.id)
+        try await document.setData(data, merge: true)
+        return Child(
+            id: request.id,
+            familyId: request.familyId,
+            name: request.name,
+            birthDate: request.birthDate,
+            grade: request.grade,
+            colorHex: request.colorHex
+        )
+    }
 }
 
 private extension FirestoreChildrenRemoteDataSource {
@@ -40,6 +57,31 @@ private extension FirestoreChildrenRemoteDataSource {
         }
         if let colorHex = request.colorHex, !colorHex.isEmpty {
             data["colorHex"] = colorHex
+        }
+
+        return data
+    }
+
+    func makePayload(from request: UpdateChildRequest) -> [String: Any] {
+        var data: [String: Any] = [
+            "name": request.name,
+            "familyId": request.familyId
+        ]
+
+        if let birthDate = request.birthDate {
+            data["birthDate"] = Timestamp(date: birthDate)
+        } else {
+            data["birthDate"] = FieldValue.delete()
+        }
+        if let grade = request.grade, !grade.isEmpty {
+            data["grade"] = grade
+        } else {
+            data["grade"] = FieldValue.delete()
+        }
+        if let colorHex = request.colorHex, !colorHex.isEmpty {
+            data["colorHex"] = colorHex
+        } else {
+            data["colorHex"] = FieldValue.delete()
         }
 
         return data
