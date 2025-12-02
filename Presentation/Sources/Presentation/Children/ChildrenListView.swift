@@ -8,6 +8,7 @@ public struct ChildrenListView: View {
     private let activeFamily: Family?
     private let onSelectChild: ((Child) -> Void)?
     private let onAddChild: (() -> Void)?
+    private let onDeleteChild: ((Child) -> Void)?
 
     @State private var viewModel: ChildrenListViewModel
 
@@ -15,11 +16,13 @@ public struct ChildrenListView: View {
         activeFamily: Family?,
         viewModel: ChildrenListViewModel? = nil,
         onSelectChild: ((Child) -> Void)? = nil,
-        onAddChild: (() -> Void)? = nil
+        onAddChild: (() -> Void)? = nil,
+        onDeleteChild: ((Child) -> Void)? = nil
     ) {
         self.activeFamily = activeFamily
         self.onSelectChild = onSelectChild
         self.onAddChild = onAddChild
+        self.onDeleteChild = onDeleteChild
         _viewModel = State(
             initialValue: viewModel ?? ChildrenListViewModel(
                 activeFamily: activeFamily
@@ -217,13 +220,20 @@ private extension ChildrenListView {
         )
 
         if let onSelectChild {
-            Button {
-                onSelectChild(child)
-            } label: {
+            Button(action: { onSelectChild(child) }) {
                 row
             }
             .buttonStyle(.plain)
             .accessibilityLabel(Text(child.name))
+            .contextMenu {
+                if let onDeleteChild {
+                    Button(role: .destructive) {
+                        onDeleteChild(child)
+                    } label: {
+                        Label("child.delete.confirm".localized(), systemImage: "trash")
+                    }
+                }
+            }
         } else {
             row
         }

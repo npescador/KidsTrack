@@ -10,6 +10,7 @@ final class MockChildrenRepository: ChildrenRepositoryProtocol, @unchecked Senda
     var mode: Mode
     private(set) var receivedCreateRequest: CreateChildRequest?
     private(set) var receivedUpdateRequest: UpdateChildRequest?
+    private(set) var deleteIds: [(id: String, familyId: String)] = []
     private(set) var callCount = 0
 
     init(mode: Mode) {
@@ -33,6 +34,17 @@ final class MockChildrenRepository: ChildrenRepositoryProtocol, @unchecked Senda
         switch mode {
         case .succeed(let child):
             return child
+        case .fail(let error):
+            throw error
+        }
+    }
+
+    func deleteChild(id: String, familyId: String) async throws {
+        callCount += 1
+        deleteIds.append((id, familyId))
+        switch mode {
+        case .succeed:
+            return
         case .fail(let error):
             throw error
         }

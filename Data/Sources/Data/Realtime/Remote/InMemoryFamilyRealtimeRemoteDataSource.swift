@@ -150,6 +150,17 @@ extension InMemoryFamilyRealtimeRemoteDataSource: ChildrenRemoteDataSourceProtoc
         targets.forEach { $0.yield(children) }
         return updatedChild
     }
+
+    public func deleteChild(id: String, familyId: String) async throws {
+        let (children, targets) = lock.withLock {
+            var children = childrenByFamily[familyId, default: []]
+            children.removeAll { $0.id == id }
+            childrenByFamily[familyId] = children
+            let targets = childContinuations[familyId, default: []]
+            return (children, targets)
+        }
+        targets.forEach { $0.yield(children) }
+    }
 }
 
 private extension NSLock {

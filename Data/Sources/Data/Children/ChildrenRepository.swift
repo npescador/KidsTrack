@@ -15,4 +15,8 @@ public final class ChildrenRepository: ChildrenRepositoryProtocol, @unchecked Se
     public func updateChild(_ request: UpdateChildRequest) async throws -> Child {
         try await remote.updateChild(request)
     }
+
+    public func deleteChild(id: String, familyId: String) async throws {
+        try await remote.deleteChild(id: id, familyId: familyId)
+    }
 }

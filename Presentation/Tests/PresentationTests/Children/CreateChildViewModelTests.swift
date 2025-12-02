@@ -77,7 +77,14 @@ struct CreateChildViewModelTests {
     @Test("Updates existing child when editing")
     func updatesChild() async throws {
         let family = Family(id: "fam", name: "Fam", ownerId: "owner")
-        let existing = Child(id: "child-1", familyId: family.id, name: "Bruno", birthDate: Date(), grade: "2B", colorHex: "#1ABC9C")
+        let existing = Child(
+            id: "child-1",
+            familyId: family.id,
+            name: "Bruno",
+            birthDate: Date(),
+            grade: "2B",
+            colorHex: "#1ABC9C"
+        )
         let repository = MockChildrenRepository(mode: .succeed(existing))
         let viewModel = CreateChildViewModel(
             family: family,

@@ -9,6 +9,7 @@ public struct FamilySelectionView: View {
     private let makePendingInvitationsViewModel: (String, String) -> PendingInvitationsViewModel?
     private let makeCreateChildViewModel: (Family) -> CreateChildViewModel?
     private let makeEditChildViewModel: (Family, Child) -> CreateChildViewModel?
+    private let makeDeleteChildViewModel: (Family, Child) -> DeleteChildViewModel?
     private let onLogout: () -> Void
     private let onCreateFamily: (Family) -> Void
 
@@ -18,6 +19,7 @@ public struct FamilySelectionView: View {
     @State private var invitationsViewModel: PendingInvitationsViewModel?
     @State private var childrenViewModel = ChildrenListViewModel(activeFamily: nil)
     @State private var createChildViewModel: CreateChildViewModel?
+    @State private var deleteChildViewModel: DeleteChildViewModel?
 
     public init(
         viewModel: FamilySelectionViewModel,
@@ -26,6 +28,7 @@ public struct FamilySelectionView: View {
         makePendingInvitationsViewModel: @escaping (String, String) -> PendingInvitationsViewModel?,
         makeCreateChildViewModel: @escaping (Family) -> CreateChildViewModel?,
         makeEditChildViewModel: @escaping (Family, Child) -> CreateChildViewModel?,
+        makeDeleteChildViewModel: @escaping (Family, Child) -> DeleteChildViewModel?,
         onLogout: @escaping () -> Void,
         onCreateFamily: @escaping (Family) -> Void = { _ in }
     ) {
@@ -35,6 +38,7 @@ public struct FamilySelectionView: View {
         self.makePendingInvitationsViewModel = makePendingInvitationsViewModel
         self.makeCreateChildViewModel = makeCreateChildViewModel
         self.makeEditChildViewModel = makeEditChildViewModel
+        self.makeDeleteChildViewModel = makeDeleteChildViewModel
         self.onLogout = onLogout
         self.onCreateFamily = onCreateFamily
     }
@@ -68,6 +72,10 @@ public struct FamilySelectionView: View {
                     onAddChild: {
                         guard let family = viewModel.activeFamily else { return }
                         createChildViewModel = makeCreateChildViewModel(family)
+                    },
+                    onDeleteChild: { child in
+                        guard let family = viewModel.activeFamily else { return }
+                        deleteChildViewModel = makeDeleteChildViewModel(family, child)
                     }
                 )
 
@@ -129,19 +137,31 @@ public struct FamilySelectionView: View {
         }
         .sheet(item: $createChildViewModel, onDismiss: { createChildViewModel = nil }) { vm in
             NavigationStack {
-                    CreateChildView(
-                        viewModel: vm,
-                        onSaved: { _ in
-                            createChildViewModel = nil
-                            let bannerKey = vm.isEditing ? "children.banner.updated" : "children.banner.created"
-                            viewModel.banner = String(localized: bannerKey.localized())
-                        },
-                        onCancel: {
-                            createChildViewModel = nil
-                        }
-                    )
+                CreateChildView(
+                    viewModel: vm,
+                    onSaved: { _ in
+                        createChildViewModel = nil
+                        let bannerKey = vm.isEditing ? "children.banner.updated" : "children.banner.created"
+                        viewModel.banner = String(localized: bannerKey.localized())
+                    },
+                    onCancel: {
+                        createChildViewModel = nil
+                    }
+                )
             }
             .presentationDetents([.medium, .large])
+        }
+        .sheet(item: $deleteChildViewModel, onDismiss: { deleteChildViewModel = nil }) { vm in
+            DeleteChildConfirmationView(
+                viewModel: vm,
+                onDeleted: {
+                    deleteChildViewModel = nil
+                    viewModel.banner = String(localized: "children.banner.deleted".localized())
+                },
+                onCancel: {
+                    deleteChildViewModel = nil
+                }
+            )
         }
     }
 }

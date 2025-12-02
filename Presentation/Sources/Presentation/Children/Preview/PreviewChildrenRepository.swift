@@ -27,5 +27,9 @@ public struct PreviewChildrenRepository: ChildrenRepositoryProtocol {
             colorHex: request.colorHex
         )
     }
+
+    public func deleteChild(id: String, familyId: String) async throws {
+        // No-op preview implementation.
+    }
 }
 #endif
