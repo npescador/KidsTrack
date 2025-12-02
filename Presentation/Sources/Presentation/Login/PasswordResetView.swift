@@ -59,11 +59,11 @@ public struct PasswordResetView: View {
 private extension PasswordResetView {
     var header: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("password.reset.title".localized())
+            Text("password.reset.title".localizedText())
                 .font(.system(size: 24, weight: .bold, design: .rounded))
                 .foregroundStyle(Color.kidsTrackTextPrimary(for: colorScheme))
 
-            Text("password.reset.subtitle".localized())
+            Text("password.reset.subtitle".localizedText())
                 .font(.system(size: 14, weight: .regular, design: .rounded))
                 .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
         }
@@ -90,7 +90,7 @@ private extension PasswordResetView {
             TextField(
                 "",
                 text: viewModel.email,
-                prompt: Text("password.reset.email.placeholder".localized())
+                prompt: Text("password.reset.email.placeholder".localizedText())
                     .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
             )
             .keyboardType(.emailAddress)
@@ -105,7 +105,7 @@ private extension PasswordResetView {
                     .stroke(Color.kidsTrackBorder(for: colorScheme), lineWidth: 1)
             )
             .foregroundStyle(Color.kidsTrackTextPrimary(for: colorScheme))
-            .accessibilityLabel(Text("password.reset.email.label".localized()))
+            .accessibilityLabel(Text("password.reset.email.label".localizedText()))
 
             Button {
                 viewModel.wrappedValue.submit()
@@ -115,7 +115,7 @@ private extension PasswordResetView {
                         ProgressView()
                             .tint(.white)
                     } else {
-                        Text("password.reset.cta".localized())
+                        Text("password.reset.cta".localizedText())
                             .font(.system(size: 16, weight: .semibold, design: .rounded))
                     }
                 }

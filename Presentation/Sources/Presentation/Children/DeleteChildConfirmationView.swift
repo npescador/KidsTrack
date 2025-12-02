@@ -21,7 +21,7 @@ public struct DeleteChildConfirmationView: View {
 
         VStack(spacing: 16) {
             VStack(spacing: 8) {
-                Text("child.delete.title".localized())
+                Text("child.delete.title".localizedText())
                     .font(.system(size: 18, weight: .semibold, design: .rounded))
                 Text("child.delete.subtitle".localizedText())
                     .font(.system(size: 14, weight: .regular, design: .rounded))
@@ -51,7 +51,7 @@ public struct DeleteChildConfirmationView: View {
                         ProgressView()
                             .frame(maxWidth: .infinity)
                     } else {
-                        Text("child.delete.confirm".localized())
+                        Text("child.delete.confirm".localizedText())
                             .frame(maxWidth: .infinity)
                     }
                 }

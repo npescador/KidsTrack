@@ -6,13 +6,13 @@ struct LoginSeparatorView: View {
     var body: some View {
         HStack(spacing: 12) {
             separatorLine
-            Text("login.divider.text".localized())
+            Text("login.divider.text".localizedText())
                 .font(.system(size: 13, weight: .medium, design: .rounded))
                 .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
             separatorLine
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text("login.divider.text".localized()))
+        .accessibilityLabel(Text("login.divider.text".localizedText()))
     }
 
     private var separatorLine: some View {

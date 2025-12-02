@@ -284,7 +284,7 @@ private extension FamilySelectionView {
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
         .buttonStyle(.plain)
-        .accessibilityHint(Text("invitations.action.review".localized()))
+        .accessibilityHint(Text("invitations.action.review".localizedText()))
     }
 
     var hasFamilies: Bool {
@@ -316,13 +316,13 @@ private extension FamilySelectionView {
             }
             .buttonStyle(.plain)
             .disabled(!canInvite)
-            .accessibilityLabel(Text("invite.action.primary".localized()))
-            .accessibilityHint(Text("invite.subtitle".localized()))
+            .accessibilityLabel(Text("invite.action.primary".localizedText()))
+            .accessibilityHint(Text("invite.subtitle".localizedText()))
 
             Button {
                 isPresentingCreateFamily = true
             } label: {
-                Text("families.action.create".localized())
+                Text("families.action.create".localizedText())
                     .frame(maxWidth: .infinity)
                     .frame(minHeight: 48)
                     .background(Color.accentColor)

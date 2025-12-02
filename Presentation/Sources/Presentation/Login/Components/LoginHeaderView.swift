@@ -30,11 +30,11 @@ private extension LoginHeaderView {
 
     var titles: some View {
         VStack(spacing: 8) {
-            Text("login.header.title".localized())
+            Text("login.header.title".localizedText())
                 .font(.system(size: 30, weight: .bold, design: .rounded))
                 .foregroundStyle(Color.kidsTrackTextPrimary(for: colorScheme))
 
-            Text("login.header.subtitle".localized())
+            Text("login.header.subtitle".localizedText())
                 .font(.system(size: 16, weight: .regular, design: .rounded))
                 .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
         }
