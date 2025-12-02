@@ -25,6 +25,7 @@ public final class FamilySelectionViewModel {
     private let setActiveFamily: SetActiveFamilyUseCase
     private let activeFamilyStore: ActiveFamilyStoreProtocol
     private let sessionProvider: UserSessionProviding
+    private let realtimeSyncer: FamilyRealtimeSyncCoordinating?
 
     public var currentUserEmail: String? { sessionProvider.currentUser?.email }
     public var currentUserId: String? { sessionProvider.currentUser?.id }
@@ -33,12 +34,14 @@ public final class FamilySelectionViewModel {
         getFamilies: GetFamiliesForUserUseCase,
         setActiveFamily: SetActiveFamilyUseCase,
         activeFamilyStore: ActiveFamilyStoreProtocol,
-        sessionProvider: UserSessionProviding
+        sessionProvider: UserSessionProviding,
+        realtimeSyncer: FamilyRealtimeSyncCoordinating? = nil
     ) {
         self.getFamilies = getFamilies
         self.setActiveFamily = setActiveFamily
         self.activeFamilyStore = activeFamilyStore
         self.sessionProvider = sessionProvider
+        self.realtimeSyncer = realtimeSyncer
     }
 
     public func load() {
@@ -62,10 +65,9 @@ public final class FamilySelectionViewModel {
                     self.state = .loaded(families)
                     // Keep active family if already set, else pick first when available.
                     if self.activeFamily == nil, let first = families.first {
-                        self.activeFamily = first
-                        Task {
-                            await self.setActiveFamily.execute(first)
-                        }
+                        self.select(first)
+                    } else if let activeFamily {
+                        self.realtimeSyncer?.switchFamily(to: activeFamily.id)
                     }
                 }
             } catch {
@@ -78,6 +80,7 @@ public final class FamilySelectionViewModel {
 
     public func select(_ family: Family) {
         activeFamily = family
+        realtimeSyncer?.switchFamily(to: family.id)
         Task {
             await setActiveFamily.execute(family)
         }

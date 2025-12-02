@@ -5,11 +5,12 @@ import Shared
 import Domain
 
 final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding, CreateFamilyViewModelBuilding,
-    InviteAdultViewModelBuilding, PendingInvitationsViewModelBuilding, FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting
-{
+    InviteAdultViewModelBuilding, PendingInvitationsViewModelBuilding, FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting,
+    FamilyRealtimeSyncProviding {
     var shouldFailLogout: Bool
     var logoutCallCount = 0
     var resetCallCount = 0
+    private let dummyRealtimeSyncer = DummyRealtimeSyncer()
 
     init(shouldFailLogout: Bool = false) {
         self.shouldFailLogout = shouldFailLogout
@@ -53,6 +54,10 @@ final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBu
         )
     }
 
+    var familyRealtimeSyncer: FamilyRealtimeSyncCoordinating {
+        dummyRealtimeSyncer
+    }
+
     func resetSession() async {
         resetCallCount += 1
     }
@@ -63,4 +68,12 @@ final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBu
             throw AuthError.network
         }
     }
+}
+
+private final class DummyRealtimeSyncer: FamilyRealtimeSyncCoordinating {
+    var snapshot: FamilyRealtimeSnapshot = .empty
+
+    func switchFamily(to familyId: String) {}
+    func restart() {}
+    func stop() {}
 }

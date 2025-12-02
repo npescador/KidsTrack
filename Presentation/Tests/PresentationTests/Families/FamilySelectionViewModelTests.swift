@@ -86,6 +86,40 @@ struct FamilySelectionViewModelTests {
 
         try await waitUntil { if case .error = system.viewModel.state { return true } else { return false } }
     }
+
+    @Test("Switching family triggers realtime syncer")
+    func notifiesRealtimeSyncer() async throws {
+        let system = makeSystem(includeSyncer: true)
+        let families = [
+            Family(id: "1", name: "Alpha", ownerId: "u1"),
+            Family(id: "2", name: "Beta", ownerId: "u1")
+        ]
+        system.repository.fetchResult = .success(families)
+        system.viewModel.load()
+
+        try await waitUntil {
+            if case let .loaded(list) = system.viewModel.state,
+               !list.isEmpty { return true }
+            return false
+        }
+
+        system.viewModel.select(families[1])
+        try await waitUntil { system.syncer?.switchedFamilies.contains("2") == true }
+    }
+
+    @Test("Loads stored active family and resumes realtime")
+    func resumesRealtimeForStoredFamily() async throws {
+        let system = makeSystem(includeSyncer: true)
+        let stored = Family(id: "stored", name: "Stored", ownerId: "u1")
+        await system.store.setActiveFamily(stored)
+        system.repository.fetchResult = .success([stored])
+
+        system.viewModel.load()
+
+        try await waitUntil { if case .loaded = system.viewModel.state { return true } else { return false } }
+        #expect(system.viewModel.activeFamily?.id == "stored")
+        #expect(system.syncer?.switchedFamilies.contains("stored") == true)
+    }
 }
 
 private extension FamilySelectionViewModelTests {
@@ -97,19 +131,22 @@ private extension FamilySelectionViewModelTests {
         let viewModel: FamilySelectionViewModel
         let repository: MockFamilyRepository
         let store: MockActiveFamilyStore
+        let syncer: MockFamilyRealtimeSyncer?
     }
 
-    func makeSystem() -> System {
+    func makeSystem(includeSyncer: Bool = false) -> System {
         let repository = MockFamilyRepository()
         let store = MockActiveFamilyStore()
         let session = MockUserSessionProvider(currentUser: AuthUser(id: "u1", email: "user@test.com"))
+        let syncer = includeSyncer ? MockFamilyRealtimeSyncer() : nil
         let viewModel = FamilySelectionViewModel(
             getFamilies: GetFamiliesForUserUseCase(repository: repository),
             setActiveFamily: SetActiveFamilyUseCase(store: store),
             activeFamilyStore: store,
-            sessionProvider: session
+            sessionProvider: session,
+            realtimeSyncer: syncer
         )
-        return System(viewModel: viewModel, repository: repository, store: store)
+        return System(viewModel: viewModel, repository: repository, store: store, syncer: syncer)
     }
 }
 
