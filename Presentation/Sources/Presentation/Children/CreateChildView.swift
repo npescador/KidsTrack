@@ -27,9 +27,9 @@ public struct CreateChildView: View {
 
         Form {
             Section(header: Text("child.form.section.info".localized())) {
-                TextField(String(localized: "child.form.name.placeholder".localized()), text: $viewModel.name)
+                TextField("child.form.name.placeholder".localizedText(), text: $viewModel.name)
                     .textContentType(.name)
-                TextField(String(localized: "child.form.grade.placeholder".localized()), text: $viewModel.grade)
+                TextField("child.form.grade.placeholder".localizedText(), text: $viewModel.grade)
                     .textContentType(.none)
                 Toggle(isOn: $viewModel.includeBirthDate) {
                     Text("child.form.birthdate.label".localized())
@@ -58,7 +58,7 @@ public struct CreateChildView: View {
                         Text(selected.uppercased())
                             .font(.system(size: 13, weight: .semibold, design: .rounded))
                         Spacer()
-                        Button("child.form.color.clear".localized()) {
+                        Button("child.form.color.clear".localizedText()) {
                             viewModel.selectedColorHex = nil
                         }
                         .font(.system(size: 13, weight: .regular, design: .rounded))

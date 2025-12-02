@@ -80,7 +80,7 @@ private extension ChildrenListView {
                 Button {
                     onAddChild?()
                 } label: {
-                    Label("children.action.add".localized(), systemImage: "plus")
+                    Label("children.action.add".localizedText(), systemImage: "plus")
                         .font(.system(size: 14, weight: .semibold, design: .rounded))
                         .labelStyle(.titleAndIcon)
                 }
