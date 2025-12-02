@@ -1292,6 +1292,193 @@
           }
         }
       }
+    },
+    "child.form.title": {
+      "comment": "Navigation title for the create child form.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add child"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A\u00f1adir hijo"
+          }
+        }
+      }
+    },
+    "child.form.section.info": {
+      "comment": "Section header for the basic child info fields.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Child details"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datos del hijo"
+          }
+        }
+      }
+    },
+    "child.form.name.placeholder": {
+      "comment": "Placeholder for the child name text field.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name (required)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre (obligatorio)"
+          }
+        }
+      }
+    },
+    "child.form.grade.placeholder": {
+      "comment": "Placeholder for the grade text field.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grade (optional)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Curso (opcional)"
+          }
+        }
+      }
+    },
+    "child.form.birthdate.label": {
+      "comment": "Toggle label to enable/disable birth date selection.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add birth date"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A\u00f1adir fecha de nacimiento"
+          }
+        }
+      }
+    },
+    "child.form.color.label": {
+      "comment": "Section header for selecting an avatar color.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avatar color"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Color del avatar"
+          }
+        }
+      }
+    },
+    "child.form.color.helper": {
+      "comment": "Helper text for optional avatar color selection.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick a color (optional). The avatar will use this hue."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige un color (opcional). El avatar usar\u00e1 este tono."
+          }
+        }
+      }
+    },
+    "child.form.color.clear": {
+      "comment": "Button to clear the selected color.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitar"
+          }
+        }
+      }
+    },
+    "child.form.submit": {
+      "comment": "Primary action to create the child.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save child"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar hijo"
+          }
+        }
+      }
+    },
+    "child.form.cancel": {
+      "comment": "Secondary action to dismiss the create child form.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
+          }
+        }
+      }
+    },
+    "children.banner.created": {
+      "comment": "Banner message after successfully creating a child.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Child added successfully"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hijo a\u00f1adido correctamente"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

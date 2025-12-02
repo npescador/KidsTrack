@@ -55,21 +55,38 @@ public struct ChildrenListView: View {
 private extension ChildrenListView {
     @ViewBuilder
     func header(familyName: String?) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text("children.section.title".localized())
-                .font(.system(size: 18, weight: .semibold, design: .rounded))
-            if let familyName {
-                HStack(spacing: 6) {
-                    Text("children.section.family.prefix".localized())
-                    Text(familyName)
-                        .fontWeight(.semibold)
-                }
-                .font(.system(size: 13, weight: .regular, design: .rounded))
-                .foregroundStyle(.secondary)
-            } else {
-                Text("children.section.subtitle".localized())
+        HStack(alignment: .firstTextBaseline, spacing: 12) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("children.section.title".localized())
+                    .font(.system(size: 18, weight: .semibold, design: .rounded))
+                if let familyName {
+                    HStack(spacing: 6) {
+                        Text("children.section.family.prefix".localized())
+                        Text(familyName)
+                            .fontWeight(.semibold)
+                    }
                     .font(.system(size: 13, weight: .regular, design: .rounded))
                     .foregroundStyle(.secondary)
+                } else {
+                    Text("children.section.subtitle".localized())
+                        .font(.system(size: 13, weight: .regular, design: .rounded))
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            Spacer()
+
+            if onAddChild != nil {
+                Button {
+                    onAddChild?()
+                } label: {
+                    Label("children.action.add".localized(), systemImage: "plus")
+                        .font(.system(size: 14, weight: .semibold, design: .rounded))
+                        .labelStyle(.titleAndIcon)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(Color.kidsTrackPrimaryBlue)
+                .accessibilityLabel(Text("children.action.add".localized()))
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

@@ -37,6 +37,7 @@ final class AppNavigationCoordinator {
     private let createFamilyFactory: CreateFamilyViewModelBuilding
     private let inviteAdultFactory: InviteAdultViewModelBuilding
     private let pendingInvitesFactory: PendingInvitationsViewModelBuilding
+    private let createChildFactory: CreateChildViewModelBuilding
     private let sessionHandler: AuthSessionHandling
     private let sessionResetter: SessionResetting
 
@@ -47,6 +48,7 @@ final class AppNavigationCoordinator {
         createFamilyFactory: CreateFamilyViewModelBuilding,
         inviteAdultFactory: InviteAdultViewModelBuilding,
         pendingInvitesFactory: PendingInvitationsViewModelBuilding,
+        createChildFactory: CreateChildViewModelBuilding,
         sessionHandler: AuthSessionHandling,
         sessionResetter: SessionResetting
     ) {
@@ -56,6 +58,7 @@ final class AppNavigationCoordinator {
         self.createFamilyFactory = createFamilyFactory
         self.inviteAdultFactory = inviteAdultFactory
         self.pendingInvitesFactory = pendingInvitesFactory
+        self.createChildFactory = createChildFactory
         self.sessionHandler = sessionHandler
         self.sessionResetter = sessionResetter
     }
@@ -120,6 +123,10 @@ final class AppNavigationCoordinator {
                     guard let self else { return nil }
                     return self.pendingInvitesFactory.makePendingInvitationsViewModel(userEmail: email, userId: userId)
                 },
+                makeCreateChildViewModel: { [weak self] family in
+                    guard let self else { return nil }
+                    return self.createChildFactory.makeCreateChildViewModel(family: family)
+                },
                 onLogout: { [weak self] in
                     self?.attemptLogout()
                 },
@@ -167,6 +174,7 @@ extension AppNavigationCoordinator {
     convenience init(
         container: LoginViewModelBuilding & PasswordResetViewModelBuilding &
         CreateFamilyViewModelBuilding & InviteAdultViewModelBuilding & PendingInvitationsViewModelBuilding &
+        CreateChildViewModelBuilding &
         FamilySelectionViewModelBuilding & AuthSessionHandling & SessionResetting
     ) {
         self.init(
@@ -176,6 +184,7 @@ extension AppNavigationCoordinator {
             createFamilyFactory: container,
             inviteAdultFactory: container,
             pendingInvitesFactory: container,
+            createChildFactory: container,
             sessionHandler: container,
             sessionResetter: container
         )

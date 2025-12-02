@@ -1,19 +1,20 @@
+import Domain
 import Foundation
 import Shared
 
 /// In-memory publisher for realtime data used in previews/tests.
 public final class InMemoryFamilyRealtimeRemoteDataSource: FamilyRealtimeRemoteDataSourceProtocol, @unchecked Sendable {
-    private var childrenByFamily: [String: [Child]] = [:]
-    private var schoolSlotsByFamily: [String: [SchoolSlot]] = [:]
-    private var activitiesByFamily: [String: [Activity]] = [:]
-    private var expensesByFamily: [String: [Expense]] = [:]
+    fileprivate var childrenByFamily: [String: [Child]] = [:]
+    fileprivate var schoolSlotsByFamily: [String: [SchoolSlot]] = [:]
+    fileprivate var activitiesByFamily: [String: [Activity]] = [:]
+    fileprivate var expensesByFamily: [String: [Expense]] = [:]
 
-    private var childContinuations: [String: [AsyncStream<[Child]>.Continuation]] = [:]
-    private var schoolSlotContinuations: [String: [AsyncStream<[SchoolSlot]>.Continuation]] = [:]
-    private var activityContinuations: [String: [AsyncStream<[Activity]>.Continuation]] = [:]
-    private var expenseContinuations: [String: [AsyncStream<[Expense]>.Continuation]] = [:]
+    fileprivate var childContinuations: [String: [AsyncStream<[Child]>.Continuation]] = [:]
+    fileprivate var schoolSlotContinuations: [String: [AsyncStream<[SchoolSlot]>.Continuation]] = [:]
+    fileprivate var activityContinuations: [String: [AsyncStream<[Activity]>.Continuation]] = [:]
+    fileprivate var expenseContinuations: [String: [AsyncStream<[Expense]>.Continuation]] = [:]
 
-    private let lock = NSLock()
+    fileprivate let lock = NSLock()
 
     public init() {}
 
@@ -99,5 +100,36 @@ public final class InMemoryFamilyRealtimeRemoteDataSource: FamilyRealtimeRemoteD
         let targets = expenseContinuations[familyId, default: []]
         lock.unlock()
         targets.forEach { $0.yield(expenses) }
+    }
+}
+
+extension InMemoryFamilyRealtimeRemoteDataSource: ChildrenRemoteDataSourceProtocol {
+    public func createChild(_ request: CreateChildRequest) async throws -> Child {
+        let newChild = Child(
+            id: UUID().uuidString,
+            familyId: request.familyId,
+            name: request.name,
+            birthDate: request.birthDate,
+            grade: request.grade,
+            colorHex: request.colorHex
+        )
+
+        let (children, targets) = lock.withLock {
+            var children = childrenByFamily[request.familyId, default: []]
+            children.append(newChild)
+            childrenByFamily[request.familyId] = children
+            let targets = childContinuations[request.familyId, default: []]
+            return (children, targets)
+        }
+        targets.forEach { $0.yield(children) }
+        return newChild
+    }
+}
+
+private extension NSLock {
+    func withLock<T>(_ body: () throws -> T) rethrows -> T {
+        lock()
+        defer { unlock() }
+        return try body()
     }
 }
