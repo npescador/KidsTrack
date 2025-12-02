@@ -10,6 +10,11 @@ extension String {
             comment: comment
         )
     }
+
+    /// Renders the localized text for this key using the Presentation string catalog.
+    func localizedText(comment: StaticString? = nil) -> String {
+        String(localized: localized(comment: comment))
+    }
 }
 
 private extension LocalizedStringResource.BundleDescription {

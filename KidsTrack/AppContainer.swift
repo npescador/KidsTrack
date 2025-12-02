@@ -29,6 +29,10 @@ protocol FamilySelectionViewModelBuilding {
     func makeFamilySelectionViewModel() -> FamilySelectionViewModel
 }
 
+protocol CreateChildViewModelBuilding {
+    func makeCreateChildViewModel(family: Family) -> CreateChildViewModel?
+}
+
 protocol FamilyRealtimeSyncProviding {
     var familyRealtimeSyncer: FamilyRealtimeSyncCoordinating { get }
 }
@@ -47,7 +51,8 @@ protocol AuthSessionHandling {
 @MainActor
 final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding,
     CreateFamilyViewModelBuilding, InviteAdultViewModelBuilding, PendingInvitationsViewModelBuilding,
-    FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting, FamilyRealtimeSyncProviding {
+    FamilySelectionViewModelBuilding, CreateChildViewModelBuilding,
+    AuthSessionHandling, SessionResetting, FamilyRealtimeSyncProviding {
     private let authRepository: AuthRepositoryProtocol
     private let googleSignInHandler: GoogleSignInHandling
     private let familyRepository: FamilyRepositoryProtocol
@@ -56,6 +61,7 @@ final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding
     private let invitationRepository: InvitationRepositoryProtocol
     private let realtimeRepository: FamilyRealtimeRepositoryProtocol
     private let realtimeSyncer: FamilyRealtimeSyncCoordinator
+    private let childrenRepository: ChildrenRepositoryProtocol
 
     init() {
         let dataSource = FirebaseAuthDataSource()
@@ -83,10 +89,18 @@ final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding
         let realtimeRemote: FamilyRealtimeRemoteDataSourceProtocol = useInMemoryRealtime
             ? InMemoryFamilyRealtimeRemoteDataSource()
             : FirestoreFamilyRealtimeRemoteDataSource()
+        let childrenRemote: ChildrenRemoteDataSourceProtocol
+        if let inMemory = realtimeRemote as? ChildrenRemoteDataSourceProtocol {
+            childrenRemote = inMemory
+        } else {
+            childrenRemote = FirestoreChildrenRemoteDataSource()
+        }
         #else
         let realtimeRemote = FirestoreFamilyRealtimeRemoteDataSource()
+        let childrenRemote: ChildrenRemoteDataSourceProtocol = FirestoreChildrenRemoteDataSource()
         #endif
         self.realtimeRepository = FamilyRealtimeRepository(remote: realtimeRemote)
+        self.childrenRepository = ChildrenRepository(remote: childrenRemote)
         self.realtimeSyncer = FamilyRealtimeSyncCoordinator(
             observeRealtime: ObserveFamilyRealtimeUseCase(repository: realtimeRepository)
         )
@@ -138,6 +152,13 @@ final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding
             activeFamilyStore: activeFamilyStore,
             sessionProvider: sessionProvider,
             realtimeSyncer: realtimeSyncer
+        )
+    }
+
+    func makeCreateChildViewModel(family: Family) -> CreateChildViewModel? {
+        CreateChildViewModel(
+            family: family,
+            createChild: CreateChildUseCase(repository: childrenRepository)
         )
     }
 

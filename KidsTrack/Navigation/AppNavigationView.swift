@@ -11,6 +11,7 @@ struct AppNavigationView: View {
     init(
         container: LoginViewModelBuilding & PasswordResetViewModelBuilding &
         CreateFamilyViewModelBuilding & InviteAdultViewModelBuilding & PendingInvitationsViewModelBuilding &
+        CreateChildViewModelBuilding &
         FamilySelectionViewModelBuilding & AuthSessionHandling & SessionResetting & FamilyRealtimeSyncProviding
     ) {
         self.realtimeSyncer = container.familyRealtimeSyncer
@@ -22,6 +23,7 @@ struct AppNavigationView: View {
                 createFamilyFactory: container,
                 inviteAdultFactory: container,
                 pendingInvitesFactory: container,
+                createChildFactory: container,
                 sessionHandler: container,
                 sessionResetter: container
             )
