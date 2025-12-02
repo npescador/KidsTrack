@@ -14,6 +14,7 @@ public struct FamilySelectionView: View {
     @State private var isPresentingInvite = false
     @State private var isPresentingInvitations = false
     @State private var invitationsViewModel: PendingInvitationsViewModel?
+    @State private var childrenViewModel = ChildrenListViewModel(activeFamily: nil)
 
     public init(
         viewModel: FamilySelectionViewModel,
@@ -49,6 +50,14 @@ public struct FamilySelectionView: View {
                 }
 
                 content(viewModel: viewModel)
+
+                ChildrenListView(
+                    activeFamily: viewModel.activeFamily,
+                    viewModel: childrenViewModel,
+                    onAddChild: {
+                        viewModel.banner = String(localized: "children.placeholder.add".localized())
+                    }
+                )
 
                 primaryActions(canInvite: canInvite)
             }

@@ -12,9 +12,10 @@
 - US-08 (Invitar adulto) completada: flujo de invitación con validación de email, estado pendiente deduplicado, banners de éxito/error localizados y gating del CTA a tener familia activa (backend in-memory temporal).
 - US-09 (Aceptar/Rechazar invitaciones) implementada: banner de invitaciones pendientes al iniciar sesión, hoja para aceptar o rechazar con feedback localizado, actualización del listado de familias al aceptar y acciones in-memory para estado de invitaciones.
 - US-10 (Sincronización en tiempo real) completada: repositorio Firestore/in-memory, coordinador de snapshot en Presentation con deduplicación y restart, wiring en AppContainer y Environment, tests de coordinador y selección de familia reconfigurando listeners al cambiar de familia y al hacer logout.
+- US-11 (Listado de hijos) completada: tarjeta de hijos en la shell autenticada consumiendo `familyRealtimeSyncer.snapshot`, muestra nombre/avatar/color/curso, estados vacío/sin familia/cargando, actualización en ≤5s al cambiar datos o familia activa y accesos desde Firestore/in-memory.
 
 ## Próximo Paso Inmediato
-- Implementar las vistas de hijos/horarios/actividades/gastos consumiendo `familyRealtimeSyncer.snapshot` para reflejar datos en vivo y completar la experiencia de la US-10 en UI.
+- Conectar el flujo de alta/edición/eliminación de hijos (US-12/13/14) a la tarjeta de hijos y continuar con vistas de horarios/actividades/gastos usando `familyRealtimeSyncer.snapshot`.
 
 ## Notas de referencia
 - No revisar ni mantener `Docs/Specification.md` como fuente activa; guiarse únicamente por `Docs/# Backlog.KidsTrack.md` y este `Docs/Progress.md` para prioridades y seguimiento.

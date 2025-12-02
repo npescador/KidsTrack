@@ -1,12 +1,14 @@
 import Foundation
+import Observation
 @testable import KidsTrack
 import Presentation
 import Shared
 import Domain
 
-final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding, CreateFamilyViewModelBuilding,
-    InviteAdultViewModelBuilding, PendingInvitationsViewModelBuilding, FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting,
-    FamilyRealtimeSyncProviding {
+@MainActor
+final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding,
+    CreateFamilyViewModelBuilding,InviteAdultViewModelBuilding, PendingInvitationsViewModelBuilding,
+    FamilySelectionViewModelBuilding, AuthSessionHandling, SessionResetting,FamilyRealtimeSyncProviding {
     var shouldFailLogout: Bool
     var logoutCallCount = 0
     var resetCallCount = 0
@@ -70,10 +72,28 @@ final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBu
     }
 }
 
+@MainActor
+@Observable
 private final class DummyRealtimeSyncer: FamilyRealtimeSyncCoordinating {
     var snapshot: FamilyRealtimeSnapshot = .empty
+    private var continuation: AsyncStream<FamilyRealtimeSnapshot>.Continuation?
 
     func switchFamily(to familyId: String) {}
     func restart() {}
     func stop() {}
+
+    func observeSnapshot() -> AsyncStream<FamilyRealtimeSnapshot> {
+        AsyncStream { continuation in
+            Task { @MainActor [weak self] in
+                self?.continuation = continuation
+                continuation.yield(self?.snapshot ?? .empty)
+            }
+
+            continuation.onTermination = { [weak self] _ in
+                Task { @MainActor [weak self] in
+                    self?.continuation = nil
+                }
+            }
+        }
+    }
 }

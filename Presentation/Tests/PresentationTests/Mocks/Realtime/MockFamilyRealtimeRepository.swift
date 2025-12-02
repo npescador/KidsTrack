@@ -1,7 +1,7 @@
 import Domain
 import Shared
 
-final class MockFamilyRealtimeRepository: FamilyRealtimeRepositoryProtocol {
+final class MockFamilyRealtimeRepository: FamilyRealtimeRepositoryProtocol, @unchecked Sendable {
     struct Continuations {
         var children: AsyncStream<[Child]>.Continuation?
         var schoolSlots: AsyncStream<[SchoolSlot]>.Continuation?
@@ -9,7 +9,7 @@ final class MockFamilyRealtimeRepository: FamilyRealtimeRepositoryProtocol {
         var expenses: AsyncStream<[Expense]>.Continuation?
     }
 
-    private(set) var continuationsByFamily: [String: Continuations] = [:]
+    private var continuationsByFamily: [String: Continuations] = [:]
 
     func observeChildren(for familyId: String) -> AsyncStream<[Child]> {
         makeStream(for: familyId, keyPath: \.children)
