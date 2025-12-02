@@ -91,7 +91,7 @@ public struct CreateChildView: View {
                 }
                 .disabled(!viewModel.isFormValid)
 
-                Button("child.form.cancel".localized(), role: .cancel, action: onCancel)
+                Button("child.form.cancel".localizedText(), role: .cancel, action: onCancel)
             }
         }
         .navigationTitle(Text("child.form.title".localized()))

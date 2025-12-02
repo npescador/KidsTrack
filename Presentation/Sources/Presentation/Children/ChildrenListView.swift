@@ -76,7 +76,7 @@ private extension ChildrenListView {
 
             Spacer()
 
-            if onAddChild != nil {
+            if onAddChild != nil, case .loaded(let children) = viewModel.state, !children.isEmpty {
                 Button {
                     onAddChild?()
                 } label: {
