@@ -21,16 +21,16 @@ public struct InviteAdultView: View {
 
         VStack(spacing: 16) {
             VStack(alignment: .leading, spacing: 8) {
-                Text("invite.title".localized())
+                Text("invite.title".localizedText())
                     .font(.system(size: 20, weight: .bold, design: .rounded))
-                Text("invite.subtitle".localized())
+                Text("invite.subtitle".localizedText())
                     .font(.system(size: 14, weight: .regular, design: .rounded))
                     .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("invite.email.label".localized())
+                Text("invite.email.label".localizedText())
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
                 TextField("invite.email.placeholder".localizedText(), text: $viewModel.email)
                     .keyboardType(.emailAddress)
@@ -72,7 +72,7 @@ public struct InviteAdultView: View {
                         ProgressView()
                             .tint(.white)
                     }
-                    Text("invite.action.send".localized())
+                    Text("invite.action.send".localizedText())
                         .font(.system(size: 16, weight: .semibold, design: .rounded))
                 }
                 .frame(maxWidth: .infinity)
@@ -87,7 +87,7 @@ public struct InviteAdultView: View {
             Button(role: .cancel) {
                 onCancel()
             } label: {
-                Text("invite.action.cancel".localized())
+                Text("invite.action.cancel".localizedText())
                     .frame(maxWidth: .infinity, minHeight: 44)
             }
             .buttonStyle(.bordered)

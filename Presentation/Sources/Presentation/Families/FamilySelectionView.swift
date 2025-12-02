@@ -85,7 +85,7 @@ public struct FamilySelectionView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .padding()
-        .navigationTitle(Text("families.title".localized()))
+        .navigationTitle(Text("families.title".localizedText()))
         .animation(.easeInOut(duration: 0.25), value: viewModel.banner)
         .animation(.easeInOut(duration: 0.25), value: viewModel.state)
         .onAppear {
@@ -170,9 +170,9 @@ private extension FamilySelectionView {
     @ViewBuilder
     func header(viewModel: FamilySelectionViewModel) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("families.title".localized())
+            Text("families.title".localizedText())
                 .font(.system(size: 22, weight: .bold, design: .rounded))
-            Text("families.subtitle.select".localized())
+            Text("families.subtitle.select".localizedText())
                 .font(.system(size: 15, weight: .regular, design: .rounded))
                 .foregroundStyle(.secondary)
         }
@@ -187,7 +187,7 @@ private extension FamilySelectionView {
                 .frame(maxWidth: .infinity, alignment: .center)
         case .error(let message):
             VStack(spacing: 12) {
-                Text("families.error.title".localized())
+                Text("families.error.title".localizedText())
                     .font(.system(size: 16, weight: .semibold, design: .rounded))
                 Text(message)
                     .font(.system(size: 14, weight: .regular, design: .rounded))
@@ -200,9 +200,9 @@ private extension FamilySelectionView {
         case .loaded(let families):
             if families.isEmpty {
                 VStack(spacing: 8) {
-                    Text("families.empty.title".localized())
+                    Text("families.empty.title".localizedText())
                         .font(.system(size: 16, weight: .semibold, design: .rounded))
-                    Text("families.empty.subtitle".localized())
+                    Text("families.empty.subtitle".localizedText())
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.secondary)
                 }
@@ -263,9 +263,9 @@ private extension FamilySelectionView {
         } label: {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("invitations.banner.pending".localized())
+                    Text("invitations.banner.pending".localizedText())
                         .font(.system(size: 14, weight: .semibold, design: .rounded))
-                    Text("invitations.action.review".localized())
+                    Text("invitations.action.review".localizedText())
                         .font(.system(size: 13, weight: .regular, design: .rounded))
                         .foregroundStyle(.secondary)
                         .lineLimit(2)
@@ -303,7 +303,7 @@ private extension FamilySelectionView {
             Button {
                 isPresentingInvite = true
             } label: {
-                Text("invite.action.primary".localized())
+                Text("invite.action.primary".localizedText())
                     .frame(maxWidth: .infinity)
                     .frame(minHeight: 48)
                     .background(canInvite ? Color.kidsTrackSurface(for: colorScheme) : Color.gray.opacity(0.2))

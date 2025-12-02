@@ -42,7 +42,7 @@ public struct PendingInvitationsView: View {
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .navigationTitle(Text("invitations.title".localized()))
+        .navigationTitle(Text("invitations.title".localizedText()))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -65,9 +65,9 @@ private extension PendingInvitationsView {
             Image(systemName: "envelope.open")
                 .font(.system(size: 28, weight: .semibold, design: .rounded))
                 .foregroundStyle(.secondary)
-            Text("invitations.empty.title".localized())
+            Text("invitations.empty.title".localizedText())
                 .font(.system(size: 16, weight: .semibold, design: .rounded))
-            Text("invitations.empty.subtitle".localized())
+            Text("invitations.empty.subtitle".localizedText())
                 .font(.system(size: 14, weight: .regular, design: .rounded))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -95,7 +95,7 @@ private extension PendingInvitationsView {
                                     onAccepted(family)
                                 }
                             } label: {
-                                Text("invitations.action.accept".localized())
+                                Text("invitations.action.accept".localizedText())
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 10)
                             }
@@ -104,7 +104,7 @@ private extension PendingInvitationsView {
                             Button(role: .destructive) {
                                 viewModel.reject(invitation)
                             } label: {
-                                Text("invitations.action.reject".localized())
+                                Text("invitations.action.reject".localizedText())
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 10)
                             }
@@ -128,7 +128,7 @@ private extension PendingInvitationsView {
     @ViewBuilder
     func errorView(_ message: String) -> some View {
         VStack(spacing: 8) {
-            Text("invitations.error.title".localized())
+            Text("invitations.error.title".localizedText())
                 .font(.system(size: 16, weight: .semibold, design: .rounded))
             Text(message)
                 .font(.system(size: 14, weight: .regular, design: .rounded))
