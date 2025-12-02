@@ -61,6 +61,15 @@ final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBu
         CreateChildViewModel.preview(family: family)
     }
 
+    func makeEditChildViewModel(family: Family, child: Child) -> CreateChildViewModel? {
+        CreateChildViewModel(
+            family: family,
+            createChild: CreateChildUseCase(repository: PreviewChildrenRepository()),
+            updateChild: UpdateChildUseCase(repository: PreviewChildrenRepository()),
+            existingChild: child
+        )
+    }
+
     var familyRealtimeSyncer: FamilyRealtimeSyncCoordinating {
         dummyRealtimeSyncer
     }

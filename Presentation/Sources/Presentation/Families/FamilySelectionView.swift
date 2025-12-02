@@ -8,6 +8,7 @@ public struct FamilySelectionView: View {
     private let makeInviteAdultViewModel: (Family) -> InviteAdultViewModel?
     private let makePendingInvitationsViewModel: (String, String) -> PendingInvitationsViewModel?
     private let makeCreateChildViewModel: (Family) -> CreateChildViewModel?
+    private let makeEditChildViewModel: (Family, Child) -> CreateChildViewModel?
     private let onLogout: () -> Void
     private let onCreateFamily: (Family) -> Void
 
@@ -24,6 +25,7 @@ public struct FamilySelectionView: View {
         makeInviteAdultViewModel: @escaping (Family) -> InviteAdultViewModel?,
         makePendingInvitationsViewModel: @escaping (String, String) -> PendingInvitationsViewModel?,
         makeCreateChildViewModel: @escaping (Family) -> CreateChildViewModel?,
+        makeEditChildViewModel: @escaping (Family, Child) -> CreateChildViewModel?,
         onLogout: @escaping () -> Void,
         onCreateFamily: @escaping (Family) -> Void = { _ in }
     ) {
@@ -32,6 +34,7 @@ public struct FamilySelectionView: View {
         self.makeInviteAdultViewModel = makeInviteAdultViewModel
         self.makePendingInvitationsViewModel = makePendingInvitationsViewModel
         self.makeCreateChildViewModel = makeCreateChildViewModel
+        self.makeEditChildViewModel = makeEditChildViewModel
         self.onLogout = onLogout
         self.onCreateFamily = onCreateFamily
     }
@@ -58,6 +61,10 @@ public struct FamilySelectionView: View {
                 ChildrenListView(
                     activeFamily: viewModel.activeFamily,
                     viewModel: childrenViewModel,
+                    onSelectChild: { child in
+                        guard let family = viewModel.activeFamily else { return }
+                        createChildViewModel = makeEditChildViewModel(family, child)
+                    },
                     onAddChild: {
                         guard let family = viewModel.activeFamily else { return }
                         createChildViewModel = makeCreateChildViewModel(family)
@@ -122,16 +129,17 @@ public struct FamilySelectionView: View {
         }
         .sheet(item: $createChildViewModel, onDismiss: { createChildViewModel = nil }) { vm in
             NavigationStack {
-                CreateChildView(
-                    viewModel: vm,
-                    onCreated: { _ in
-                        createChildViewModel = nil
-                        viewModel.banner = String(localized: "children.banner.created".localized())
-                    },
-                    onCancel: {
-                        createChildViewModel = nil
-                    }
-                )
+                    CreateChildView(
+                        viewModel: vm,
+                        onSaved: { _ in
+                            createChildViewModel = nil
+                            let bannerKey = vm.isEditing ? "children.banner.updated" : "children.banner.created"
+                            viewModel.banner = String(localized: bannerKey.localized())
+                        },
+                        onCancel: {
+                            createChildViewModel = nil
+                        }
+                    )
             }
             .presentationDetents([.medium, .large])
         }

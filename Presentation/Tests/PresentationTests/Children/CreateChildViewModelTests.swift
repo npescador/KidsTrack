@@ -52,9 +52,9 @@ struct CreateChildViewModelTests {
         try await waitUntil { created != nil }
         #expect(repository.callCount == 1)
         #expect(created == expected)
-        #expect(repository.receivedRequest?.colorHex == expected.colorHex)
-        #expect(repository.receivedRequest?.grade == expected.grade)
-        #expect(repository.receivedRequest?.birthDate != nil)
+        #expect(repository.receivedCreateRequest?.colorHex == expected.colorHex)
+        #expect(repository.receivedCreateRequest?.grade == expected.grade)
+        #expect(repository.receivedCreateRequest?.birthDate != nil)
     }
 
     @Test("Surfaces errors on failure")
@@ -72,6 +72,33 @@ struct CreateChildViewModelTests {
 
         try await waitUntil { viewModel.error != nil }
         #expect(viewModel.isSubmitting == false)
+    }
+
+    @Test("Updates existing child when editing")
+    func updatesChild() async throws {
+        let family = Family(id: "fam", name: "Fam", ownerId: "owner")
+        let existing = Child(id: "child-1", familyId: family.id, name: "Bruno", birthDate: Date(), grade: "2B", colorHex: "#1ABC9C")
+        let repository = MockChildrenRepository(mode: .succeed(existing))
+        let viewModel = CreateChildViewModel(
+            family: family,
+            createChild: CreateChildUseCase(repository: repository),
+            updateChild: UpdateChildUseCase(repository: repository),
+            existingChild: existing
+        )
+
+        #expect(viewModel.isEditing)
+        #expect(viewModel.name == existing.name)
+
+        viewModel.name = "Bruno Jr."
+        var saved: Child?
+        viewModel.submit { child in
+            saved = child
+        }
+
+        try await waitUntil { saved != nil }
+        #expect(repository.callCount == 1)
+        #expect(repository.receivedUpdateRequest?.id == existing.id)
+        #expect(repository.receivedUpdateRequest?.name == "Bruno Jr.")
     }
 }
 

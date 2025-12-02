@@ -11,4 +11,8 @@ public final class ChildrenRepository: ChildrenRepositoryProtocol, @unchecked Se
     public func createChild(_ request: CreateChildRequest) async throws -> Child {
         try await remote.createChild(request)
     }
+
+    public func updateChild(_ request: UpdateChildRequest) async throws -> Child {
+        try await remote.updateChild(request)
+    }
 }

@@ -31,6 +31,7 @@ protocol FamilySelectionViewModelBuilding {
 
 protocol CreateChildViewModelBuilding {
     func makeCreateChildViewModel(family: Family) -> CreateChildViewModel?
+    func makeEditChildViewModel(family: Family, child: Child) -> CreateChildViewModel?
 }
 
 protocol FamilyRealtimeSyncProviding {
@@ -158,7 +159,18 @@ final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding
     func makeCreateChildViewModel(family: Family) -> CreateChildViewModel? {
         CreateChildViewModel(
             family: family,
-            createChild: CreateChildUseCase(repository: childrenRepository)
+            createChild: CreateChildUseCase(repository: childrenRepository),
+            updateChild: UpdateChildUseCase(repository: childrenRepository),
+            existingChild: nil
+        )
+    }
+
+    func makeEditChildViewModel(family: Family, child: Child) -> CreateChildViewModel? {
+        CreateChildViewModel(
+            family: family,
+            createChild: CreateChildUseCase(repository: childrenRepository),
+            updateChild: UpdateChildUseCase(repository: childrenRepository),
+            existingChild: child
         )
     }
 

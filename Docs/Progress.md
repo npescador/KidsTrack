@@ -14,9 +14,10 @@
 - US-10 (Sincronización en tiempo real) completada: repositorio Firestore/in-memory, coordinador de snapshot en Presentation con deduplicación y restart, wiring en AppContainer y Environment, tests de coordinador y selección de familia reconfigurando listeners al cambiar de familia y al hacer logout.
 - US-11 (Listado de hijos) completada: tarjeta de hijos en la shell autenticada consumiendo `familyRealtimeSyncer.snapshot`, muestra nombre/avatar/color/curso, estados vacío/sin familia/cargando, actualización en ≤5s al cambiar datos o familia activa y accesos desde Firestore/in-memory.
 - US-12 (Crear hijo) completada: formulario para alta de hijo (nombre obligatorio, fecha de nacimiento/curso/color opcionales), persistencia ligada a la familia activa vía Firestore o datasource in-memory, feedback de éxito/error, y la lista de hijos se actualiza en vivo desde el snapshot.
+- US-13 (Editar hijo) completada: reutilización del formulario con datos precargados, update en Firestore/in-memory, banner de éxito y refresco inmediato del listado; CTA de añadir hijos disponible también con lista poblada.
 
 ## Próximo Paso Inmediato
-- Implementar edición y eliminación de hijos (US-13/14) y continuar con vistas de horarios/actividades/gastos usando `familyRealtimeSyncer.snapshot`.
+- Implementar eliminación de hijos (US-14) y continuar con vistas de horarios/actividades/gastos usando `familyRealtimeSyncer.snapshot`.
 
 ## Notas de referencia
 - No revisar ni mantener `Docs/Specification.md` como fuente activa; guiarse únicamente por `Docs/# Backlog.KidsTrack.md` y este `Docs/Progress.md` para prioridades y seguimiento.
