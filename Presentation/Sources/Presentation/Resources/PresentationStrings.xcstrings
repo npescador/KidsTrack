@@ -1530,6 +1530,91 @@
           }
         }
       }
+    },
+    "child.delete.title": {
+      "comment": "Title for the delete child confirmation sheet.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete child"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar hijo"
+          }
+        }
+      }
+    },
+    "child.delete.subtitle": {
+      "comment": "Subtitle warning about child deletion impact.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This will remove the child and related data from this family."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esto eliminar\u00e1 al hijo y los datos asociados de esta familia."
+          }
+        }
+      }
+    },
+    "child.delete.confirm": {
+      "comment": "Primary action to confirm child deletion.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar"
+          }
+        }
+      }
+    },
+    "child.delete.cancel": {
+      "comment": "Cancel action for child deletion.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
+          }
+        }
+      }
+    },
+    "children.banner.deleted": {
+      "comment": "Banner shown after deleting a child.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Child deleted successfully"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hijo eliminado correctamente"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

@@ -8,12 +8,12 @@ struct LoginSignupCalloutView: View {
 
     var body: some View {
         HStack(spacing: 8) {
-            Text("login.signup.prompt".localized())
+            Text("login.signup.prompt".localizedText())
                 .font(.system(size: 13, weight: .regular, design: .rounded))
                 .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
 
             Button(action: action) {
-                Text("login.signup.cta".localized())
+                Text("login.signup.cta".localizedText())
                     .font(.system(size: 13, weight: .semibold, design: .rounded))
                     .underline()
             }

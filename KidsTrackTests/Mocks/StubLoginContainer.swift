@@ -70,6 +70,14 @@ final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBu
         )
     }
 
+    func makeDeleteChildViewModel(family: Family, child: Child) -> DeleteChildViewModel? {
+        DeleteChildViewModel(
+            family: family,
+            child: child,
+            deleteChild: DeleteChildUseCase(repository: PreviewChildrenRepository())
+        )
+    }
+
     var familyRealtimeSyncer: FamilyRealtimeSyncCoordinating {
         dummyRealtimeSyncer
     }

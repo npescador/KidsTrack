@@ -46,13 +46,13 @@ public struct WelcomeView: View {
 private extension WelcomeView {
     var header: some View {
         VStack(spacing: 8) {
-            Text("welcome.header.title".localized())
+            Text("welcome.header.title".localizedText())
                 .font(.system(size: 32, weight: .bold, design: .rounded))
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color.kidsTrackTextPrimary(for: colorScheme))
                 .accessibilityAddTraits(.isHeader)
 
-            Text("welcome.header.subtitle".localized())
+            Text("welcome.header.subtitle".localizedText())
                 .font(.system(size: 16, weight: .regular, design: .rounded))
                 .foregroundStyle(Color.kidsTrackTextSecondary(for: colorScheme))
                 .multilineTextAlignment(.center)
@@ -83,7 +83,7 @@ private extension WelcomeView {
             }
         }
         .frame(maxWidth: .infinity)
-        .accessibilityLabel(Text("welcome.hero.accessibility.label".localized()))
+        .accessibilityLabel(Text("welcome.hero.accessibility.label".localizedText()))
         .accessibilityHidden(heroImageURL == nil)
     }
 
@@ -101,7 +101,7 @@ private extension WelcomeView {
             Button {
                 onGetStarted()
             } label: {
-                Text("welcome.cta.title".localized())
+                Text("welcome.cta.title".localizedText())
                     .frame(maxWidth: .infinity, minHeight: 48)
                     .font(.system(size: 16, weight: .bold, design: .rounded))
                     .background(Color.kidsTrackPrimaryBlue)
@@ -110,8 +110,8 @@ private extension WelcomeView {
             }
             .buttonStyle(.plain)
             .shadow(radius: 4, y: 2)
-            .accessibilityLabel(Text("welcome.cta.accessibility.label".localized()))
-            .accessibilityHint(Text("welcome.cta.accessibility.hint".localized()))
+            .accessibilityLabel(Text("welcome.cta.accessibility.label".localizedText()))
+            .accessibilityHint(Text("welcome.cta.accessibility.hint".localizedText()))
         }
         .padding(.bottom, 8)
     }

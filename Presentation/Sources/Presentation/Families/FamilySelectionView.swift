@@ -9,6 +9,7 @@ public struct FamilySelectionView: View {
     private let makePendingInvitationsViewModel: (String, String) -> PendingInvitationsViewModel?
     private let makeCreateChildViewModel: (Family) -> CreateChildViewModel?
     private let makeEditChildViewModel: (Family, Child) -> CreateChildViewModel?
+    private let makeDeleteChildViewModel: (Family, Child) -> DeleteChildViewModel?
     private let onLogout: () -> Void
     private let onCreateFamily: (Family) -> Void
 
@@ -18,6 +19,7 @@ public struct FamilySelectionView: View {
     @State private var invitationsViewModel: PendingInvitationsViewModel?
     @State private var childrenViewModel = ChildrenListViewModel(activeFamily: nil)
     @State private var createChildViewModel: CreateChildViewModel?
+    @State private var deleteChildViewModel: DeleteChildViewModel?
 
     public init(
         viewModel: FamilySelectionViewModel,
@@ -26,6 +28,7 @@ public struct FamilySelectionView: View {
         makePendingInvitationsViewModel: @escaping (String, String) -> PendingInvitationsViewModel?,
         makeCreateChildViewModel: @escaping (Family) -> CreateChildViewModel?,
         makeEditChildViewModel: @escaping (Family, Child) -> CreateChildViewModel?,
+        makeDeleteChildViewModel: @escaping (Family, Child) -> DeleteChildViewModel?,
         onLogout: @escaping () -> Void,
         onCreateFamily: @escaping (Family) -> Void = { _ in }
     ) {
@@ -35,6 +38,7 @@ public struct FamilySelectionView: View {
         self.makePendingInvitationsViewModel = makePendingInvitationsViewModel
         self.makeCreateChildViewModel = makeCreateChildViewModel
         self.makeEditChildViewModel = makeEditChildViewModel
+        self.makeDeleteChildViewModel = makeDeleteChildViewModel
         self.onLogout = onLogout
         self.onCreateFamily = onCreateFamily
     }
@@ -68,6 +72,10 @@ public struct FamilySelectionView: View {
                     onAddChild: {
                         guard let family = viewModel.activeFamily else { return }
                         createChildViewModel = makeCreateChildViewModel(family)
+                    },
+                    onDeleteChild: { child in
+                        guard let family = viewModel.activeFamily else { return }
+                        deleteChildViewModel = makeDeleteChildViewModel(family, child)
                     }
                 )
 
@@ -77,7 +85,7 @@ public struct FamilySelectionView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .padding()
-        .navigationTitle(Text("families.title".localized()))
+        .navigationTitle(Text("families.title".localizedText()))
         .animation(.easeInOut(duration: 0.25), value: viewModel.banner)
         .animation(.easeInOut(duration: 0.25), value: viewModel.state)
         .onAppear {
@@ -107,7 +115,7 @@ public struct FamilySelectionView: View {
                         viewModel: inviteVM,
                         onSent: {
                             isPresentingInvite = false
-                            viewModel.banner = String(localized: "invite.success.banner".localized())
+                            viewModel.banner = "invite.success.banner".localizedText()
                         },
                         onCancel: { isPresentingInvite = false }
                     )
@@ -129,19 +137,31 @@ public struct FamilySelectionView: View {
         }
         .sheet(item: $createChildViewModel, onDismiss: { createChildViewModel = nil }) { vm in
             NavigationStack {
-                    CreateChildView(
-                        viewModel: vm,
-                        onSaved: { _ in
-                            createChildViewModel = nil
-                            let bannerKey = vm.isEditing ? "children.banner.updated" : "children.banner.created"
-                            viewModel.banner = String(localized: bannerKey.localized())
-                        },
-                        onCancel: {
-                            createChildViewModel = nil
-                        }
-                    )
+                CreateChildView(
+                    viewModel: vm,
+                    onSaved: { _ in
+                        createChildViewModel = nil
+                        let bannerKey = vm.isEditing ? "children.banner.updated" : "children.banner.created"
+                            viewModel.banner = bannerKey.localizedText()
+                    },
+                    onCancel: {
+                        createChildViewModel = nil
+                    }
+                )
             }
             .presentationDetents([.medium, .large])
+        }
+        .sheet(item: $deleteChildViewModel, onDismiss: { deleteChildViewModel = nil }) { vm in
+            DeleteChildConfirmationView(
+                viewModel: vm,
+                onDeleted: {
+                    deleteChildViewModel = nil
+                    viewModel.banner = "children.banner.deleted".localizedText()
+                },
+                onCancel: {
+                    deleteChildViewModel = nil
+                }
+            )
         }
     }
 }
@@ -150,9 +170,9 @@ private extension FamilySelectionView {
     @ViewBuilder
     func header(viewModel: FamilySelectionViewModel) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("families.title".localized())
+            Text("families.title".localizedText())
                 .font(.system(size: 22, weight: .bold, design: .rounded))
-            Text("families.subtitle.select".localized())
+            Text("families.subtitle.select".localizedText())
                 .font(.system(size: 15, weight: .regular, design: .rounded))
                 .foregroundStyle(.secondary)
         }
@@ -167,7 +187,7 @@ private extension FamilySelectionView {
                 .frame(maxWidth: .infinity, alignment: .center)
         case .error(let message):
             VStack(spacing: 12) {
-                Text("families.error.title".localized())
+                Text("families.error.title".localizedText())
                     .font(.system(size: 16, weight: .semibold, design: .rounded))
                 Text(message)
                     .font(.system(size: 14, weight: .regular, design: .rounded))
@@ -180,9 +200,9 @@ private extension FamilySelectionView {
         case .loaded(let families):
             if families.isEmpty {
                 VStack(spacing: 8) {
-                    Text("families.empty.title".localized())
+                    Text("families.empty.title".localizedText())
                         .font(.system(size: 16, weight: .semibold, design: .rounded))
-                    Text("families.empty.subtitle".localized())
+                    Text("families.empty.subtitle".localizedText())
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.secondary)
                 }
@@ -207,7 +227,7 @@ private extension FamilySelectionView {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(family.name)
                                 .font(.system(size: 16, weight: .semibold, design: .rounded))
-                            Text(String(localized: "families.owner.prefix".localized()) + " \(family.ownerId)")
+                            Text("families.owner.prefix".localizedText() + " \(family.ownerId)")
                                 .font(.system(size: 13, weight: .regular, design: .rounded))
                                 .foregroundStyle(.secondary)
                         }
@@ -243,9 +263,9 @@ private extension FamilySelectionView {
         } label: {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("invitations.banner.pending".localized())
+                    Text("invitations.banner.pending".localizedText())
                         .font(.system(size: 14, weight: .semibold, design: .rounded))
-                    Text(String(localized: "invitations.action.review".localized()))
+                    Text("invitations.action.review".localizedText())
                         .font(.system(size: 13, weight: .regular, design: .rounded))
                         .foregroundStyle(.secondary)
                         .lineLimit(2)
@@ -264,7 +284,7 @@ private extension FamilySelectionView {
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
         .buttonStyle(.plain)
-        .accessibilityHint(Text("invitations.action.review".localized()))
+        .accessibilityHint(Text("invitations.action.review".localizedText()))
     }
 
     var hasFamilies: Bool {
@@ -283,7 +303,7 @@ private extension FamilySelectionView {
             Button {
                 isPresentingInvite = true
             } label: {
-                Text("invite.action.primary".localized())
+                Text("invite.action.primary".localizedText())
                     .frame(maxWidth: .infinity)
                     .frame(minHeight: 48)
                     .background(canInvite ? Color.kidsTrackSurface(for: colorScheme) : Color.gray.opacity(0.2))
@@ -296,13 +316,13 @@ private extension FamilySelectionView {
             }
             .buttonStyle(.plain)
             .disabled(!canInvite)
-            .accessibilityLabel(Text("invite.action.primary".localized()))
-            .accessibilityHint(Text("invite.subtitle".localized()))
+            .accessibilityLabel(Text("invite.action.primary".localizedText()))
+            .accessibilityHint(Text("invite.subtitle".localizedText()))
 
             Button {
                 isPresentingCreateFamily = true
             } label: {
-                Text("families.action.create".localized())
+                Text("families.action.create".localizedText())
                     .frame(maxWidth: .infinity)
                     .frame(minHeight: 48)
                     .background(Color.accentColor)

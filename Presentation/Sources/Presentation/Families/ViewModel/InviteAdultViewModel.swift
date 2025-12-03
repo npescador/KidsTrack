@@ -33,7 +33,7 @@ public final class InviteAdultViewModel {
     public func send() {
         guard !isSubmitDisabled else {
             banner = Banner(
-                message: String(localized: "invite.error.invalid.email".localized()),
+                message: "invite.error.invalid.email".localizedText(),
                 isError: true
             )
             return
@@ -51,7 +51,7 @@ public final class InviteAdultViewModel {
                 await MainActor.run {
                     self.isLoading = false
                     self.banner = Banner(
-                        message: String(localized: "invite.success.banner".localized()),
+                        message: "invite.success.banner".localizedText(),
                         isError: false
                     )
                     self.email = ""
@@ -61,7 +61,7 @@ public final class InviteAdultViewModel {
                 let message: String
                 if let invitationError = error as? InvitationError {
                     if let key = invitationError.localizationKey {
-                        message = String(localized: key.localized())
+                        message = key.localizedText()
                     } else {
                         message = invitationError.userMessage
                     }

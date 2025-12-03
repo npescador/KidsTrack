@@ -131,6 +131,10 @@ final class AppNavigationCoordinator {
                     guard let self else { return nil }
                     return self.createChildFactory.makeEditChildViewModel(family: family, child: child)
                 },
+                makeDeleteChildViewModel: { [weak self] family, child in
+                    guard let self else { return nil }
+                    return self.createChildFactory.makeDeleteChildViewModel(family: family, child: child)
+                },
                 onLogout: { [weak self] in
                     self?.attemptLogout()
                 },

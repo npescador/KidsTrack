@@ -8,6 +8,7 @@ public struct ChildrenListView: View {
     private let activeFamily: Family?
     private let onSelectChild: ((Child) -> Void)?
     private let onAddChild: (() -> Void)?
+    private let onDeleteChild: ((Child) -> Void)?
 
     @State private var viewModel: ChildrenListViewModel
 
@@ -15,11 +16,13 @@ public struct ChildrenListView: View {
         activeFamily: Family?,
         viewModel: ChildrenListViewModel? = nil,
         onSelectChild: ((Child) -> Void)? = nil,
-        onAddChild: (() -> Void)? = nil
+        onAddChild: (() -> Void)? = nil,
+        onDeleteChild: ((Child) -> Void)? = nil
     ) {
         self.activeFamily = activeFamily
         self.onSelectChild = onSelectChild
         self.onAddChild = onAddChild
+        self.onDeleteChild = onDeleteChild
         _viewModel = State(
             initialValue: viewModel ?? ChildrenListViewModel(
                 activeFamily: activeFamily
@@ -57,18 +60,18 @@ private extension ChildrenListView {
     func header(familyName: String?) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("children.section.title".localized())
+                Text("children.section.title".localizedText())
                     .font(.system(size: 18, weight: .semibold, design: .rounded))
                 if let familyName {
                     HStack(spacing: 6) {
-                        Text("children.section.family.prefix".localized())
+                        Text("children.section.family.prefix".localizedText())
                         Text(familyName)
                             .fontWeight(.semibold)
                     }
                     .font(.system(size: 13, weight: .regular, design: .rounded))
                     .foregroundStyle(.secondary)
                 } else {
-                    Text("children.section.subtitle".localized())
+                    Text("children.section.subtitle".localizedText())
                         .font(.system(size: 13, weight: .regular, design: .rounded))
                         .foregroundStyle(.secondary)
                 }
@@ -86,7 +89,7 @@ private extension ChildrenListView {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(Color.kidsTrackPrimaryBlue)
-                .accessibilityLabel(Text("children.action.add".localized()))
+                .accessibilityLabel(Text("children.action.add".localizedText()))
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -128,7 +131,7 @@ private extension ChildrenListView {
     var loadingView: some View {
         HStack(spacing: 10) {
             ProgressView()
-            Text("children.loading.title".localized())
+            Text("children.loading.title".localizedText())
                 .font(.system(size: 14, weight: .regular, design: .rounded))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -137,16 +140,16 @@ private extension ChildrenListView {
 
     var emptyState: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("children.empty.title".localized())
+            Text("children.empty.title".localizedText())
                 .font(.system(size: 15, weight: .semibold, design: .rounded))
-            Text("children.empty.subtitle".localized())
+            Text("children.empty.subtitle".localizedText())
                 .font(.system(size: 13, weight: .regular, design: .rounded))
                 .foregroundStyle(.secondary)
 
             Button {
                 onAddChild?()
             } label: {
-                Text("children.action.add".localized())
+                Text("children.action.add".localizedText())
                     .font(.system(size: 15, weight: .semibold, design: .rounded))
                     .frame(maxWidth: .infinity)
                     .frame(minHeight: 44)
@@ -156,7 +159,7 @@ private extension ChildrenListView {
             }
             .buttonStyle(.plain)
             .disabled(onAddChild == nil)
-            .accessibilityHint(Text("children.action.add.hint".localized()))
+            .accessibilityHint(Text("children.action.add.hint".localizedText()))
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -217,13 +220,20 @@ private extension ChildrenListView {
         )
 
         if let onSelectChild {
-            Button {
-                onSelectChild(child)
-            } label: {
+            Button(action: { onSelectChild(child) }) {
                 row
             }
             .buttonStyle(.plain)
             .accessibilityLabel(Text(child.name))
+            .contextMenu {
+                if let onDeleteChild {
+                    Button(role: .destructive) {
+                        onDeleteChild(child)
+                    } label: {
+                        Label("child.delete.confirm".localizedText(), systemImage: "trash")
+                    }
+                }
+            }
         } else {
             row
         }

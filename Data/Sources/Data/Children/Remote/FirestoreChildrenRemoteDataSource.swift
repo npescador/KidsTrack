@@ -40,6 +40,14 @@ public final class FirestoreChildrenRemoteDataSource: ChildrenRemoteDataSourcePr
             colorHex: request.colorHex
         )
     }
+
+    public func deleteChild(id: String, familyId: String) async throws {
+        let document = db.collection("families")
+            .document(familyId)
+            .collection("children")
+            .document(id)
+        try await document.delete()
+    }
 }
 
 private extension FirestoreChildrenRemoteDataSource {
