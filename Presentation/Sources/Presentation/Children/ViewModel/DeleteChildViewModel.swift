@@ -7,7 +7,7 @@ import SwiftUI
 @MainActor
 @Observable
 public final class DeleteChildViewModel: Identifiable {
-    public typealias ID = UUID
+    public typealias Identifier = UUID
     public let id = UUID()
     public private(set) var isDeleting = false
     public private(set) var error: String?

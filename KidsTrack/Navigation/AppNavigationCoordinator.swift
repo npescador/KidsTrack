@@ -9,6 +9,7 @@ enum AppRoute: Hashable {
     case welcome
     case authenticatedShell
     case passwordReset
+    case familySelection
 }
 
 /// High level events that mutate the active flow (auth completed, logout, etc).
@@ -29,10 +30,10 @@ final class AppNavigationCoordinator {
     var logoutError: String?
     var shouldConfirmLogout = false
     var activeFamily: Family?
-    // TODO: Persist onboarding completion so we can skip the welcome route when appropriate.
 
     private let loginFactory: LoginViewModelBuilding
     private let passwordResetFactory: PasswordResetViewModelBuilding
+    private let homeFactory: HomeViewModelBuilding
     private let familySelectionFactory: FamilySelectionViewModelBuilding
     private let createFamilyFactory: CreateFamilyViewModelBuilding
     private let inviteAdultFactory: InviteAdultViewModelBuilding
@@ -44,6 +45,7 @@ final class AppNavigationCoordinator {
     init(
         loginFactory: LoginViewModelBuilding,
         passwordResetFactory: PasswordResetViewModelBuilding,
+        homeFactory: HomeViewModelBuilding,
         familySelectionFactory: FamilySelectionViewModelBuilding,
         createFamilyFactory: CreateFamilyViewModelBuilding,
         inviteAdultFactory: InviteAdultViewModelBuilding,
@@ -54,6 +56,7 @@ final class AppNavigationCoordinator {
     ) {
         self.loginFactory = loginFactory
         self.passwordResetFactory = passwordResetFactory
+        self.homeFactory = homeFactory
         self.familySelectionFactory = familySelectionFactory
         self.createFamilyFactory = createFamilyFactory
         self.inviteAdultFactory = inviteAdultFactory
@@ -105,6 +108,31 @@ final class AppNavigationCoordinator {
                 viewModel: passwordResetFactory.makePasswordResetViewModel()
             )
         case .authenticatedShell:
+            HomeView(
+                viewModel: homeFactory.makeHomeViewModel(),
+                onManageFamilies: { [weak self] in
+                    self?.navigate(to: .familySelection)
+                },
+                onOpenSchedule: nil,
+                onOpenActivities: nil,
+                onOpenExpenses: nil,
+                onLogout: { [weak self] in
+                    self?.attemptLogout()
+                },
+                makeCreateChildViewModel: { [weak self] family in
+                    guard let self else { return nil }
+                    return self.createChildFactory.makeCreateChildViewModel(family: family)
+                },
+                makeEditChildViewModel: { [weak self] family, child in
+                    guard let self else { return nil }
+                    return self.createChildFactory.makeEditChildViewModel(family: family, child: child)
+                },
+                makeDeleteChildViewModel: { [weak self] family, child in
+                    guard let self else { return nil }
+                    return self.createChildFactory.makeDeleteChildViewModel(family: family, child: child)
+                }
+            )
+        case .familySelection:
             FamilySelectionView(
                 viewModel: familySelectionFactory.makeFamilySelectionViewModel(),
                 makeCreateFamilyViewModel: { [weak self] in
@@ -182,12 +210,13 @@ extension AppNavigationCoordinator {
     convenience init(
         container: LoginViewModelBuilding & PasswordResetViewModelBuilding &
         CreateFamilyViewModelBuilding & InviteAdultViewModelBuilding & PendingInvitationsViewModelBuilding &
-        CreateChildViewModelBuilding &
+        CreateChildViewModelBuilding & HomeViewModelBuilding &
         FamilySelectionViewModelBuilding & AuthSessionHandling & SessionResetting
     ) {
         self.init(
             loginFactory: container,
             passwordResetFactory: container,
+            homeFactory: container,
             familySelectionFactory: container,
             createFamilyFactory: container,
             inviteAdultFactory: container,

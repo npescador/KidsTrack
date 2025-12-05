@@ -19,6 +19,8 @@
 
 ## Próximo Paso Inmediato
 - Continuar con vistas de horarios/actividades/gastos usando `familyRealtimeSyncer.snapshot`.
+- Nueva US-38 (Home post-login) añadida al backlog para definir la pantalla de aterrizaje tras autenticación/familia activa.
+- US-38 pendiente de cerrar: cablear quick actions a horarios/actividades/gastos cuando las pantallas estén listas, mostrar CTA contextual también con hijos (p. ej. “Crear actividad”) y retornar a Home tras seleccionar/crear familia.
 
 ## Notas de referencia
 - No revisar ni mantener `Docs/Specification.md` como fuente activa; guiarse únicamente por `Docs/# Backlog.KidsTrack.md` y este `Docs/Progress.md` para prioridades y seguimiento.

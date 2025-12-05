@@ -17,6 +17,10 @@ protocol CreateFamilyViewModelBuilding {
     func makeCreateFamilyViewModel() -> CreateFamilyViewModel
 }
 
+protocol HomeViewModelBuilding {
+    func makeHomeViewModel() -> HomeViewModel
+}
+
 protocol InviteAdultViewModelBuilding {
     func makeInviteAdultViewModel(family: Family) -> InviteAdultViewModel
 }
@@ -52,7 +56,8 @@ protocol AuthSessionHandling {
 /// Simple composition root wiring Firebase-backed dependencies.
 @MainActor
 final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding,
-    CreateFamilyViewModelBuilding, InviteAdultViewModelBuilding, PendingInvitationsViewModelBuilding,
+    CreateFamilyViewModelBuilding, HomeViewModelBuilding, InviteAdultViewModelBuilding,
+    PendingInvitationsViewModelBuilding,
     FamilySelectionViewModelBuilding, CreateChildViewModelBuilding,
     AuthSessionHandling, SessionResetting, FamilyRealtimeSyncProviding {
     private let authRepository: AuthRepositoryProtocol
@@ -144,6 +149,16 @@ final class AppContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding
                 activeStore: activeFamilyStore
             ),
             sessionProvider: sessionProvider
+        )
+    }
+
+    func makeHomeViewModel() -> HomeViewModel {
+        HomeViewModel(
+            getFamilies: GetFamiliesForUserUseCase(repository: familyRepository),
+            setActiveFamily: SetActiveFamilyUseCase(store: activeFamilyStore),
+            activeFamilyStore: activeFamilyStore,
+            sessionProvider: sessionProvider,
+            realtimeSyncer: realtimeSyncer
         )
     }
 

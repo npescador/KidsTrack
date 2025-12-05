@@ -13,7 +13,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "\u00a1Bienvenida, Sarah!"
+            "value": "¡Bienvenida, Sarah!"
           }
         }
       }
@@ -47,7 +47,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ilustraci\u00f3n del panel familiar"
+            "value": "Ilustración del panel familiar"
           }
         }
       }
@@ -81,7 +81,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Iniciar la incorporaci\u00f3n a KidsTrack"
+            "value": "Iniciar la incorporación a KidsTrack"
           }
         }
       }
@@ -98,7 +98,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Avanza al flujo de configuraci\u00f3n para tu familia."
+            "value": "Avanza al flujo de configuración para tu familia."
           }
         }
       }
@@ -132,7 +132,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Controla f\u00e1cilmente los horarios escolares y de clases en un solo lugar."
+            "value": "Controla fácilmente los horarios escolares y de clases en un solo lugar."
           }
         }
       }
@@ -166,7 +166,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "No te pierdas ning\u00fan entrenamiento ni evento extracurricular."
+            "value": "No te pierdas ningún entrenamiento ni evento extracurricular."
           }
         }
       }
@@ -200,7 +200,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mant\u00e9n a la vista las cuotas de actividades y los gastos escolares."
+            "value": "Mantén a la vista las cuotas de actividades y los gastos escolares."
           }
         }
       }
@@ -217,7 +217,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "\u00a1Te damos la bienvenida de nuevo!"
+            "value": "¡Te damos la bienvenida de nuevo!"
           }
         }
       }
@@ -234,7 +234,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Inicia sesi\u00f3n para gestionar la agenda de tu familia."
+            "value": "Inicia sesión para gestionar la agenda de tu familia."
           }
         }
       }
@@ -251,7 +251,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Correo electr\u00f3nico"
+            "value": "Correo electrónico"
           }
         }
       }
@@ -268,7 +268,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Introduce tu correo electr\u00f3nico"
+            "value": "Introduce tu correo electrónico"
           }
         }
       }
@@ -285,7 +285,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Contrase\u00f1a"
+            "value": "Contraseña"
           }
         }
       }
@@ -302,7 +302,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Introduce tu contrase\u00f1a"
+            "value": "Introduce tu contraseña"
           }
         }
       }
@@ -319,7 +319,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "\u00bfOlvidaste tu contrase\u00f1a?"
+            "value": "¿Olvidaste tu contraseña?"
           }
         }
       }
@@ -336,7 +336,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostrar contrase\u00f1a"
+            "value": "Mostrar contraseña"
           }
         }
       }
@@ -353,7 +353,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ocultar contrase\u00f1a"
+            "value": "Ocultar contraseña"
           }
         }
       }
@@ -370,7 +370,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Iniciar sesi\u00f3n"
+            "value": "Iniciar sesión"
           }
         }
       }
@@ -438,7 +438,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Abre el inicio de sesi\u00f3n de Google para autenticarte."
+            "value": "Abre el inicio de sesión de Google para autenticarte."
           }
         }
       }
@@ -455,7 +455,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "\u00bfNo tienes una cuenta?"
+            "value": "¿No tienes una cuenta?"
           }
         }
       }
@@ -472,7 +472,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Reg\u00edstrate"
+            "value": "Regístrate"
           }
         }
       }
@@ -489,7 +489,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restablecer tu contrase\u00f1a"
+            "value": "Restablecer tu contraseña"
           }
         }
       }
@@ -506,7 +506,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Introduce el email asociado a tu cuenta. Si existe, enviaremos instrucciones para restablecer la contrase\u00f1a."
+            "value": "Introduce el email asociado a tu cuenta. Si existe, enviaremos instrucciones para restablecer la contraseña."
           }
         }
       }
@@ -608,7 +608,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "A\u00fan no tienes familias."
+            "value": "Aún no tienes familias."
           }
         }
       }
@@ -710,7 +710,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Env\u00eda un correo para que se una a tu familia."
+            "value": "Envía un correo para que se una a tu familia."
           }
         }
       }
@@ -727,7 +727,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Correo electr\u00f3nico"
+            "value": "Correo electrónico"
           }
         }
       }
@@ -761,7 +761,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enviar invitaci\u00f3n"
+            "value": "Enviar invitación"
           }
         }
       }
@@ -812,7 +812,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Invitaci\u00f3n enviada."
+            "value": "Invitación enviada."
           }
         }
       }
@@ -829,7 +829,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ya hay una invitaci\u00f3n pendiente para este correo."
+            "value": "Ya hay una invitación pendiente para este correo."
           }
         }
       }
@@ -846,7 +846,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "No pudimos enviar la invitaci\u00f3n. Comprueba tu conexi\u00f3n e int\u00e9ntalo de nuevo."
+            "value": "No pudimos enviar la invitación. Comprueba tu conexión e inténtalo de nuevo."
           }
         }
       }
@@ -863,7 +863,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Algo sali\u00f3 mal. Int\u00e9ntalo de nuevo."
+            "value": "Algo salió mal. Inténtalo de nuevo."
           }
         }
       }
@@ -880,7 +880,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Introduce un email v\u00e1lido."
+            "value": "Introduce un email válido."
           }
         }
       }
@@ -897,7 +897,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Invitaci\u00f3n no encontrada o caducada."
+            "value": "Invitación no encontrada o caducada."
           }
         }
       }
@@ -914,7 +914,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Esta invitaci\u00f3n ya fue gestionada."
+            "value": "Esta invitación ya fue gestionada."
           }
         }
       }
@@ -1050,7 +1050,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cuando alguien te invite, aparecer\u00e1 aqu\u00ed."
+            "value": "Cuando alguien te invite, aparecerá aquí."
           }
         }
       }
@@ -1084,7 +1084,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Invitaci\u00f3n aceptada."
+            "value": "Invitación aceptada."
           }
         }
       }
@@ -1101,7 +1101,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Invitaci\u00f3n rechazada."
+            "value": "Invitación rechazada."
           }
         }
       }
@@ -1197,13 +1197,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Syncing children\u2026"
+            "value": "Syncing children…"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sincronizando hijos\u2026"
+            "value": "Sincronizando hijos…"
           }
         }
       }
@@ -1220,7 +1220,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "A\u00fan no hay hijos"
+            "value": "Aún no hay hijos"
           }
         }
       }
@@ -1237,7 +1237,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "A\u00f1ade el primer hijo para comenzar a organizar horarios y actividades."
+            "value": "Añade el primer hijo para comenzar a organizar horarios y actividades."
           }
         }
       }
@@ -1254,7 +1254,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "A\u00f1adir hijo"
+            "value": "Añadir hijo"
           }
         }
       }
@@ -1288,7 +1288,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "El alta de hijos llegar\u00e1 en la siguiente iteraci\u00f3n."
+            "value": "El alta de hijos llegará en la siguiente iteración."
           }
         }
       }
@@ -1305,7 +1305,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "A\u00f1adir hijo"
+            "value": "Añadir hijo"
           }
         }
       }
@@ -1373,7 +1373,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "A\u00f1adir fecha de nacimiento"
+            "value": "Añadir fecha de nacimiento"
           }
         }
       }
@@ -1407,7 +1407,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Elige un color (opcional). El avatar usar\u00e1 este tono."
+            "value": "Elige un color (opcional). El avatar usará este tono."
           }
         }
       }
@@ -1475,7 +1475,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hijo a\u00f1adido correctamente"
+            "value": "Hijo añadido correctamente"
           }
         }
       }
@@ -1560,7 +1560,7 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Esto eliminar\u00e1 al hijo y los datos asociados de esta familia."
+            "value": "Esto eliminará al hijo y los datos asociados de esta familia."
           }
         }
       }
@@ -1612,6 +1612,346 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hijo eliminado correctamente"
+          }
+        }
+      }
+    },
+    "home.title": {
+      "comment": "Title for the home screen after authentication.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inicio"
+          }
+        }
+      }
+    },
+    "home.subtitle.family.prefix": {
+      "comment": "Prefix shown before the active family name on the home header.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Family"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Familia"
+          }
+        }
+      }
+    },
+    "home.subtitle.nofamily": {
+      "comment": "Subtitle shown when no family is active.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick a family to start tracking their day."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige una familia para empezar a seguir su día."
+          }
+        }
+      }
+    },
+    "home.quickactions.title": {
+      "comment": "Label above the quick actions row on home.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcuts"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atajos"
+          }
+        }
+      }
+    },
+    "home.quick.family": {
+      "comment": "Quick action to manage families from home.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Family"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Familia"
+          }
+        }
+      }
+    },
+    "home.quick.schedule": {
+      "comment": "Quick action to open schedules from home.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schedule"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horarios"
+          }
+        }
+      }
+    },
+    "home.quick.activities": {
+      "comment": "Quick action to open activities from home.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activities"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actividades"
+          }
+        }
+      }
+    },
+    "home.quick.expenses": {
+      "comment": "Quick action to open expenses from home.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expenses"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gastos"
+          }
+        }
+      }
+    },
+    "home.loading.title": {
+      "comment": "Loading label for the home screen.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading your home…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cargando tu inicio…"
+          }
+        }
+      }
+    },
+    "home.error.title": {
+      "comment": "Error title when the home screen cannot load.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We couldn't load your home."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No pudimos cargar tu inicio."
+          }
+        }
+      }
+    },
+    "home.error.retry": {
+      "comment": "Retry action for the home screen error state.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reintentar"
+          }
+        }
+      }
+    },
+    "home.error.session": {
+      "comment": "Error message when user session is missing while loading home.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in again to load your families."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inicia sesión de nuevo para cargar tus familias."
+          }
+        }
+      }
+    },
+    "home.empty.family.title": {
+      "comment": "Title shown when there is no active family on home.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No active family yet"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aún no tienes una familia activa"
+          }
+        }
+      }
+    },
+    "home.empty.family.subtitle": {
+      "comment": "Subtitle explaining the empty family state on home.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create or select a family to see schedules, activities, and expenses."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crea o selecciona una familia para ver horarios, actividades y gastos."
+          }
+        }
+      }
+    },
+    "home.action.manageFamilies": {
+      "comment": "Primary CTA to manage families from home.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create or select family"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crear o seleccionar familia"
+          }
+        }
+      }
+    },
+    "home.today.title": {
+      "comment": "Section title for today's upcoming items on home.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hoy"
+          }
+        }
+      }
+    },
+    "home.today.empty.title": {
+      "comment": "Title when there are no items for today.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing scheduled for today"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nada planificado para hoy"
+          }
+        }
+      }
+    },
+    "home.today.empty.subtitle.children": {
+      "comment": "Subtitle when there are children but no items today.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add classes or activities to see them here."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añade clases o actividades para verlas aquí."
+          }
+        }
+      }
+    },
+    "home.today.empty.subtitle.nochildren": {
+      "comment": "Subtitle when there are no children yet on home.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a child to start building their day."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añade un hijo para empezar a construir su día."
+          }
+        }
+      }
+    },
+    "home.action.logout": {
+      "comment": "Logout action on the home screen.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log out"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar sesión"
           }
         }
       }

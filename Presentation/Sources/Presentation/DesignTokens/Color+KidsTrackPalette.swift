@@ -2,6 +2,9 @@ import SwiftUI
 
 extension Color {
     static let kidsTrackPrimaryBlue = Color(red: 0.2902, green: 0.5647, blue: 0.8863) // #4A90E2
+    static let kidsTrackPrimaryPurple = Color(red: 0.5569, green: 0.3765, blue: 0.9647) // #8E60F6
+    static let kidsTrackPrimaryGreen = Color(red: 0.2863, green: 0.6627, blue: 0.4745) // #49A977
+    static let kidsTrackPrimaryOrange = Color(red: 0.9647, green: 0.5961, blue: 0.2667) // #F69244
     static let kidsTrackBackgroundLight = Color(red: 0.9647, green: 0.9686, blue: 0.9725) // #F6F7F8
     static let kidsTrackBackgroundDark = Color(red: 0.0627, green: 0.0980, blue: 0.1333) // #101922
     static let kidsTrackCardLight = Color.white

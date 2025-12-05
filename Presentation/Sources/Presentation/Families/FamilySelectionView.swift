@@ -135,14 +135,14 @@ public struct FamilySelectionView: View {
                 )
             }
         }
-        .sheet(item: $createChildViewModel, onDismiss: { createChildViewModel = nil }) { vm in
+        .sheet(item: $createChildViewModel, onDismiss: { createChildViewModel = nil }, content: { vm in
             NavigationStack {
                 CreateChildView(
                     viewModel: vm,
                     onSaved: { _ in
                         createChildViewModel = nil
                         let bannerKey = vm.isEditing ? "children.banner.updated" : "children.banner.created"
-                            viewModel.banner = bannerKey.localizedText()
+                        viewModel.banner = bannerKey.localizedText()
                     },
                     onCancel: {
                         createChildViewModel = nil
@@ -150,8 +150,8 @@ public struct FamilySelectionView: View {
                 )
             }
             .presentationDetents([.medium, .large])
-        }
-        .sheet(item: $deleteChildViewModel, onDismiss: { deleteChildViewModel = nil }) { vm in
+        })
+        .sheet(item: $deleteChildViewModel, onDismiss: { deleteChildViewModel = nil }, content: { vm in
             DeleteChildConfirmationView(
                 viewModel: vm,
                 onDeleted: {
@@ -162,7 +162,7 @@ public struct FamilySelectionView: View {
                     deleteChildViewModel = nil
                 }
             )
-        }
+        })
     }
 }
 

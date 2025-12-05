@@ -1,6 +1,8 @@
 @preconcurrency import FirebaseFirestore
 import Shared
 
+private typealias QuerySnapshotContinuation = CheckedContinuation<QuerySnapshot, Error>
+
 public final class FirestoreFamiliesRemoteDataSource: FamiliesRemoteDataSourceProtocol, @unchecked Sendable {
     private let db: Firestore
 
@@ -29,14 +31,16 @@ public final class FirestoreFamiliesRemoteDataSource: FamiliesRemoteDataSourcePr
             }
         }
 
-        return Family(id: id, name: name, ownerId: ownerId, createdAt: createdAt.dateValue())
+        return Family(
+            id: id,
+            name: name,
+            ownerId: ownerId,
+            createdAt: createdAt.dateValue()
+        )
     }
 
     public func fetchFamilies(for userId: String) async throws -> [Family] {
-        let snapshot: QuerySnapshot = try await withCheckedThrowingContinuation {
-            (
-                continuation: CheckedContinuation<QuerySnapshot, Error>
-            ) in
+        let snapshot: QuerySnapshot = try await withCheckedThrowingContinuation { continuation in
             db.collection("families")
                 .whereField("memberIds", arrayContains: userId)
                 .getDocuments { snapshot, error in

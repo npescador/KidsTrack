@@ -731,3 +731,25 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - Mejoras mayores documentadas en backlog futuro.
 
 ---
+
+## ÉPICA 10 — Shell post-autenticación y Home
+
+### US-38 — Pantalla principal post-login (Home)
+
+**Como** usuario autenticado con familia activa,  
+**quiero** aterrizar en una pantalla principal que resuma el día y me permita saltar rápido a horarios, actividades y gastos,  
+**para** no tener que navegar por varias pestañas cada vez que entro.
+
+**Criterios de aceptación**
+
+- Al completar login y selección de familia, la app muestra la Home por defecto (en lugar de quedarse en la lista de hijos).
+- La Home refleja el contexto actual:
+  - Si no hay familia activa, muestra estado vacío con CTA a crear/seleccionar familia.
+  - Si hay familia activa pero sin hijos, muestra estado vacío con CTA “Añadir hijo”.
+  - Con hijos, muestra un bloque de “Hoy” con las próximas clases/actividades del snapshot en tiempo real y accesos a cada hijo.
+- Incluye accesos rápidos a las secciones clave (horarios/actividades/gastos/familia) y un CTA primario contextual:
+  - El CTA debe ser “Añadir hijo” cuando no hay hijos y “Crear actividad” u otra acción relevante cuando sí los hay.
+  - Los accesos rápidos navegan efectivamente a las vistas de horarios/actividades/gastos en cuanto estén disponibles.
+- Actualiza los datos en ≤ 5 segundos ante cambios del `familyRealtimeSnapshot` (hijos, schoolSlots, actividades).
+- Tras seleccionar o crear familia desde el flujo de selección, la navegación vuelve a Home sin quedarse en la pantalla intermedia.
+- Gestiona modos de carga/error con mensajes y permite reintentar sin bloquear la navegación principal.
