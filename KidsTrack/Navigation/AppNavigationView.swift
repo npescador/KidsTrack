@@ -10,7 +10,8 @@ struct AppNavigationView: View {
 
     init(
         container: LoginViewModelBuilding & PasswordResetViewModelBuilding &
-        CreateFamilyViewModelBuilding & InviteAdultViewModelBuilding & PendingInvitationsViewModelBuilding &
+        CreateFamilyViewModelBuilding & CreateSchoolSlotViewModelBuilding &
+        InviteAdultViewModelBuilding & PendingInvitationsViewModelBuilding &
         CreateChildViewModelBuilding & HomeViewModelBuilding &
         FamilySelectionViewModelBuilding & AuthSessionHandling & SessionResetting & FamilyRealtimeSyncProviding
     ) {
@@ -19,6 +20,7 @@ struct AppNavigationView: View {
             initialValue: AppNavigationCoordinator(
                 loginFactory: container,
                 passwordResetFactory: container,
+                createSchoolSlotFactory: container,
                 homeFactory: container,
                 familySelectionFactory: container,
                 createFamilyFactory: container,
