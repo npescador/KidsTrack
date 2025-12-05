@@ -220,9 +220,9 @@ private extension ChildrenListView {
         )
 
         if let onSelectChild {
-            Button(action: { onSelectChild(child) }) {
+            Button(action: { onSelectChild(child) }, label: {
                 row
-            }
+            })
             .buttonStyle(.plain)
             .accessibilityLabel(Text(child.name))
             .contextMenu {

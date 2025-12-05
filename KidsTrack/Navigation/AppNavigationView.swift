@@ -11,7 +11,7 @@ struct AppNavigationView: View {
     init(
         container: LoginViewModelBuilding & PasswordResetViewModelBuilding &
         CreateFamilyViewModelBuilding & InviteAdultViewModelBuilding & PendingInvitationsViewModelBuilding &
-        CreateChildViewModelBuilding &
+        CreateChildViewModelBuilding & HomeViewModelBuilding &
         FamilySelectionViewModelBuilding & AuthSessionHandling & SessionResetting & FamilyRealtimeSyncProviding
     ) {
         self.realtimeSyncer = container.familyRealtimeSyncer
@@ -19,6 +19,7 @@ struct AppNavigationView: View {
             initialValue: AppNavigationCoordinator(
                 loginFactory: container,
                 passwordResetFactory: container,
+                homeFactory: container,
                 familySelectionFactory: container,
                 createFamilyFactory: container,
                 inviteAdultFactory: container,
