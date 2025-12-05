@@ -302,6 +302,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
 - Validaciones:
   - La hora fin debe ser posterior a la hora inicio.
   - No se permite un campo obligatorio vacío.
+- El acceso rápido “Horarios” de Home abre este formulario de creación de franja escolar.
 
 ---
 
@@ -320,6 +321,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
 - Cambios en SchoolSlot se reflejan automáticamente sin recargar manualmente la pantalla.
 - Al cambiar de familia activa o hijo seleccionado, la vista se rehidrata desde el snapshot en vivo correspondiente.
 - Scroll o navegación cómoda si hay muchas franjas.
+- Pendiente: conectar el acceso rápido “Horarios” de Home a esta vista semanal cuando se implemente.
 
 ---
 
@@ -341,6 +343,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
 - Eliminar:
   - Requiere confirmación.
   - Elimina la franja y la hace desaparecer de la vista de todos los miembros.
+- Pendiente: conectar el acceso rápido “Horarios” de Home con la experiencia de edición/eliminación cuando esté lista.
 
 ---
 
@@ -371,6 +374,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - La actividad aparece en la vista semanal combinada.
   - Se sincroniza en tiempo real con otros miembros.
   - La UI se alimenta del snapshot en vivo (lista y vista semanal).
+- Pendiente: activar la navegación desde Home (CTA contextual “Crear actividad” y acceso rápido “Actividades”) hacia esta creación cuando se libere.
 
 ---
 
@@ -390,6 +394,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
 - Tocar una actividad lleva a detalle/edición.
 - Lista actualizada en tiempo real si alguien añade, edita o elimina actividades.
 - Al cambiar de familia activa o hijo seleccionado, la lista se rehidrata desde el snapshot en vivo.
+- Pendiente: enlazar el acceso rápido “Actividades” de Home a esta lista al implementarla.
 
 ---
 
@@ -410,6 +415,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - Los cambios se reflejan en la lista y la vista semanal combinada.
   - Se sincronizan en tiempo real con otros dispositivos.
   - La UI se alimenta del snapshot sin recarga manual.
+- Pendiente: enlazar el acceso rápido “Actividades” de Home a esta edición cuando se implemente.
 
 ---
 
@@ -430,6 +436,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - La UI se alimenta del snapshot en vivo (lista y vista semanal) sin recarga manual.
 - Si hay gastos asociados, se puede definir la estrategia:
   - MVP: mantener gastos históricos asociados a una actividad eliminada o borrarlos (decisión de producto documentada).
+- Pendiente: enlazar el acceso rápido “Actividades” de Home con el flujo de detalle/edición/eliminación cuando esté disponible.
 
 ---
 
@@ -452,6 +459,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - Se añade, edita o borra una franja escolar.
   - Se añade, edita o borra una actividad extraescolar.
 - La vista soporta desplazamiento/zoom si hay muchas actividades.
+- Pendiente: decidir a qué pantalla de horarios lleva el acceso rápido de Home y cablearlo al implementar esta vista combinada.
 
 ---
 
@@ -468,6 +476,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
 - Al seleccionar otro hijo:
   - Se recarga la vista con su horario escolar y extraescolar.
 - Debe recordarse el último hijo seleccionado (por ejemplo, en la sesión actual).
+- Pendiente: cablear la navegación desde Home hacia la vista combinada contemplando este selector de hijo.
 
 ---
 
@@ -488,6 +497,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
 - El coste recurrente se usa en los resúmenes de gastos por hijo y por actividad.
 - Cambios se reflejan en tiempo real en los resúmenes alimentados por el snapshot.
 - Si se deja vacío, la actividad se considera sin coste recurrente.
+- Pendiente: conectar el acceso rápido “Gastos” de Home hacia la sección donde se configuran costes recurrentes.
 
 ---
 
@@ -508,6 +518,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
 - Al guardar:
   - El gasto queda asociado al hijo y, si se ha seleccionado, a la actividad.
 - El gasto aparece en los resúmenes correspondientes y se sincroniza en tiempo real (snapshot) para otros miembros.
+- Pendiente: conectar el acceso rápido “Gastos” de Home a la vista de alta/listado de gastos puntuales al implementarla.
 
 ---
 
@@ -525,6 +536,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - Total de gastos puntuales en ese periodo.
 - Puede haber un desglose por actividad y/o listado de gastos.
 - Resumen alimentado por snapshot para reflejar altas/bajas/ediciones de gastos en ≤ 5 segundos.
+- Pendiente: enlazar el acceso rápido “Gastos” de Home con esta vista de resumen cuando exista.
 
 ---
 
@@ -542,6 +554,7 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
   - Suma de gastos puntuales asociados en el periodo seleccionado (opcional).
 - Opción de ordenar por coste total estimado.
 - Resumen alimentado por snapshot para reflejar altas/bajas/ediciones de gastos en ≤ 5 segundos.
+- Pendiente: enlazar el acceso rápido “Gastos” de Home con esta vista de resumen cuando exista.
 
 ---
 
@@ -753,3 +766,4 @@ _Renumerado y ordenado según dependencias (auth → familias → hijos → hora
 - Actualiza los datos en ≤ 5 segundos ante cambios del `familyRealtimeSnapshot` (hijos, schoolSlots, actividades).
 - Tras seleccionar o crear familia desde el flujo de selección, la navegación vuelve a Home sin quedarse en la pantalla intermedia.
 - Gestiona modos de carga/error con mensajes y permite reintentar sin bloquear la navegación principal.
+- Pendiente: cablear los accesos rápidos y el CTA contextual (p. ej. “Crear actividad” con hijos) a las pantallas de horarios/actividades/gastos cuando estén listas.

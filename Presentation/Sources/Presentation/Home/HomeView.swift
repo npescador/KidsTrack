@@ -8,37 +8,38 @@ public struct HomeView: View {
     @State private var viewModel: HomeViewModel
 
     private let onManageFamilies: () -> Void
-    private let onOpenSchedule: (() -> Void)?
     private let onOpenActivities: (() -> Void)?
     private let onOpenExpenses: (() -> Void)?
     private let onLogout: () -> Void
     private let makeCreateChildViewModel: (Family) -> CreateChildViewModel?
     private let makeEditChildViewModel: (Family, Child) -> CreateChildViewModel?
     private let makeDeleteChildViewModel: (Family, Child) -> DeleteChildViewModel?
+    private let makeCreateSchoolSlotViewModel: (Family, [Child], Child?) -> CreateSchoolSlotViewModel?
 
     @State private var createChildViewModel: CreateChildViewModel?
     @State private var deleteChildViewModel: DeleteChildViewModel?
+    @State private var createSchoolSlotViewModel: CreateSchoolSlotViewModel?
 
     public init(
         viewModel: HomeViewModel,
         onManageFamilies: @escaping () -> Void,
-        onOpenSchedule: (() -> Void)? = nil,
         onOpenActivities: (() -> Void)? = nil,
         onOpenExpenses: (() -> Void)? = nil,
         onLogout: @escaping () -> Void,
         makeCreateChildViewModel: @escaping (Family) -> CreateChildViewModel?,
         makeEditChildViewModel: @escaping (Family, Child) -> CreateChildViewModel?,
-        makeDeleteChildViewModel: @escaping (Family, Child) -> DeleteChildViewModel?
+        makeDeleteChildViewModel: @escaping (Family, Child) -> DeleteChildViewModel?,
+        makeCreateSchoolSlotViewModel: @escaping (Family, [Child], Child?) -> CreateSchoolSlotViewModel?
     ) {
         _viewModel = State(initialValue: viewModel)
         self.onManageFamilies = onManageFamilies
-        self.onOpenSchedule = onOpenSchedule
         self.onOpenActivities = onOpenActivities
         self.onOpenExpenses = onOpenExpenses
         self.onLogout = onLogout
         self.makeCreateChildViewModel = makeCreateChildViewModel
         self.makeEditChildViewModel = makeEditChildViewModel
         self.makeDeleteChildViewModel = makeDeleteChildViewModel
+        self.makeCreateSchoolSlotViewModel = makeCreateSchoolSlotViewModel
     }
 
     public var body: some View {
@@ -67,12 +68,25 @@ public struct HomeView: View {
         .onAppear {
             viewModel.start(using: realtimeSyncer)
         }
+        .onChange(of: viewModel.children) { _, children in
+            createSchoolSlotViewModel?.updateChildren(children)
+        }
         .sheet(item: $createChildViewModel, onDismiss: { createChildViewModel = nil }, content: { vm in
             NavigationStack {
                 CreateChildView(
                     viewModel: vm,
                     onSaved: { _ in createChildViewModel = nil },
                     onCancel: { createChildViewModel = nil }
+                )
+            }
+            .presentationDetents([.medium, .large])
+        })
+        .sheet(item: $createSchoolSlotViewModel, onDismiss: { createSchoolSlotViewModel = nil }, content: { vm in
+            NavigationStack {
+                CreateSchoolSlotView(
+                    viewModel: vm,
+                    onSaved: { _ in createSchoolSlotViewModel = nil },
+                    onCancel: { createSchoolSlotViewModel = nil }
                 )
             }
             .presentationDetents([.medium, .large])
@@ -120,7 +134,7 @@ private extension HomeView {
                 QuickActionButton(
                     title: "home.quick.schedule".localizedText(),
                     systemImage: "calendar",
-                    action: onOpenSchedule,
+                    action: { openScheduleCreation() },
                     color: .kidsTrackPrimaryPurple
                 )
                 QuickActionButton(
@@ -363,5 +377,19 @@ private extension HomeView {
                 createChildViewModel = makeCreateChildViewModel(family)
             }
         )
+    }
+
+    func openScheduleCreation(preselecting child: Child? = nil) {
+        guard let family = viewModel.activeFamily else {
+            onManageFamilies()
+            return
+        }
+        guard !viewModel.children.isEmpty else {
+            createChildViewModel = makeCreateChildViewModel(family)
+            return
+        }
+        guard let vm = makeCreateSchoolSlotViewModel(family, viewModel.children, child) else { return }
+        vm.updateChildren(viewModel.children)
+        createSchoolSlotViewModel = vm
     }
 }

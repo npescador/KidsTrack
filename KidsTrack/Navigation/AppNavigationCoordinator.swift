@@ -33,6 +33,7 @@ final class AppNavigationCoordinator {
 
     private let loginFactory: LoginViewModelBuilding
     private let passwordResetFactory: PasswordResetViewModelBuilding
+    private let createSchoolSlotFactory: CreateSchoolSlotViewModelBuilding
     private let homeFactory: HomeViewModelBuilding
     private let familySelectionFactory: FamilySelectionViewModelBuilding
     private let createFamilyFactory: CreateFamilyViewModelBuilding
@@ -45,6 +46,7 @@ final class AppNavigationCoordinator {
     init(
         loginFactory: LoginViewModelBuilding,
         passwordResetFactory: PasswordResetViewModelBuilding,
+        createSchoolSlotFactory: CreateSchoolSlotViewModelBuilding,
         homeFactory: HomeViewModelBuilding,
         familySelectionFactory: FamilySelectionViewModelBuilding,
         createFamilyFactory: CreateFamilyViewModelBuilding,
@@ -56,6 +58,7 @@ final class AppNavigationCoordinator {
     ) {
         self.loginFactory = loginFactory
         self.passwordResetFactory = passwordResetFactory
+        self.createSchoolSlotFactory = createSchoolSlotFactory
         self.homeFactory = homeFactory
         self.familySelectionFactory = familySelectionFactory
         self.createFamilyFactory = createFamilyFactory
@@ -113,7 +116,6 @@ final class AppNavigationCoordinator {
                 onManageFamilies: { [weak self] in
                     self?.navigate(to: .familySelection)
                 },
-                onOpenSchedule: nil,
                 onOpenActivities: nil,
                 onOpenExpenses: nil,
                 onLogout: { [weak self] in
@@ -130,6 +132,14 @@ final class AppNavigationCoordinator {
                 makeDeleteChildViewModel: { [weak self] family, child in
                     guard let self else { return nil }
                     return self.createChildFactory.makeDeleteChildViewModel(family: family, child: child)
+                },
+                makeCreateSchoolSlotViewModel: { [weak self] family, children, child in
+                    guard let self else { return nil }
+                    return self.createSchoolSlotFactory.makeCreateSchoolSlotViewModel(
+                        family: family,
+                        children: children,
+                        initialChild: child
+                    )
                 }
             )
         case .familySelection:
@@ -209,13 +219,15 @@ extension AppNavigationCoordinator {
 extension AppNavigationCoordinator {
     convenience init(
         container: LoginViewModelBuilding & PasswordResetViewModelBuilding &
-        CreateFamilyViewModelBuilding & InviteAdultViewModelBuilding & PendingInvitationsViewModelBuilding &
+        CreateFamilyViewModelBuilding & CreateSchoolSlotViewModelBuilding &
+        InviteAdultViewModelBuilding & PendingInvitationsViewModelBuilding &
         CreateChildViewModelBuilding & HomeViewModelBuilding &
         FamilySelectionViewModelBuilding & AuthSessionHandling & SessionResetting
     ) {
         self.init(
             loginFactory: container,
             passwordResetFactory: container,
+            createSchoolSlotFactory: container,
             homeFactory: container,
             familySelectionFactory: container,
             createFamilyFactory: container,

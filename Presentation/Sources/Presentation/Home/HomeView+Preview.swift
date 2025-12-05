@@ -8,7 +8,6 @@ struct HomeView_Previews: PreviewProvider {
         HomeView(
             viewModel: .preview(),
             onManageFamilies: {},
-            onOpenSchedule: {},
             onOpenActivities: {},
             onOpenExpenses: {},
             onLogout: {},
@@ -25,6 +24,14 @@ struct HomeView_Previews: PreviewProvider {
             },
             makeDeleteChildViewModel: { family, child in
                 DeleteChildViewModel.preview(family: family, child: child)
+            },
+            makeCreateSchoolSlotViewModel: { family, children, child in
+                CreateSchoolSlotViewModel(
+                    family: family,
+                    children: children,
+                    initialChild: child ?? children.first,
+                    createSchoolSlot: CreateSchoolSlotUseCase(repository: PreviewScheduleRepository())
+                )
             }
         )
     }

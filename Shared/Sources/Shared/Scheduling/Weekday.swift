@@ -1,6 +1,6 @@
 import Foundation
 
-public enum Weekday: String, CaseIterable, Codable, Equatable, Sendable {
+public enum Weekday: String, CaseIterable, Codable, Equatable, Hashable, Sendable {
     case monday
     case tuesday
     case wednesday

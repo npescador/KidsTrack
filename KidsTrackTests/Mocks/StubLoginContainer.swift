@@ -7,7 +7,7 @@ import Domain
 
 @MainActor
 final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBuilding,
-    CreateFamilyViewModelBuilding, HomeViewModelBuilding, InviteAdultViewModelBuilding, PendingInvitationsViewModelBuilding,
+    CreateFamilyViewModelBuilding, CreateSchoolSlotViewModelBuilding, HomeViewModelBuilding, InviteAdultViewModelBuilding, PendingInvitationsViewModelBuilding,
     FamilySelectionViewModelBuilding, CreateChildViewModelBuilding,
     AuthSessionHandling, SessionResetting, FamilyRealtimeSyncProviding {
     var shouldFailLogout: Bool
@@ -85,6 +85,19 @@ final class StubLoginContainer: LoginViewModelBuilding, PasswordResetViewModelBu
             family: family,
             child: child,
             deleteChild: DeleteChildUseCase(repository: PreviewChildrenRepository())
+        )
+    }
+
+    func makeCreateSchoolSlotViewModel(
+        family: Family,
+        children: [Child],
+        initialChild: Child?
+    ) -> CreateSchoolSlotViewModel {
+        CreateSchoolSlotViewModel(
+            family: family,
+            children: children,
+            initialChild: initialChild,
+            createSchoolSlot: CreateSchoolSlotUseCase(repository: PreviewScheduleRepository())
         )
     }
 

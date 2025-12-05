@@ -1955,6 +1955,363 @@
           }
         }
       }
+    },
+    "schoolSlot.form.title": {
+      "comment": "Title for the school slot creation form.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add class"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir franja"
+          }
+        }
+      }
+    },
+    "schoolSlot.form.section.details": {
+      "comment": "Section title for core class details.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Class details"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detalles de la clase"
+          }
+        }
+      }
+    },
+    "schoolSlot.form.section.meta": {
+      "comment": "Section title for metadata fields.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Additional info"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Información adicional"
+          }
+        }
+      }
+    },
+    "schoolSlot.form.child.label": {
+      "comment": "Label for selecting the child associated to the class.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Child"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hijo"
+          }
+        }
+      }
+    },
+    "schoolSlot.form.weekday.label": {
+      "comment": "Label for picking the weekday.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Day"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Día"
+          }
+        }
+      }
+    },
+    "schoolSlot.form.start.label": {
+      "comment": "Label for the class start time.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start time"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hora de inicio"
+          }
+        }
+      }
+    },
+    "schoolSlot.form.end.label": {
+      "comment": "Label for the class end time.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End time"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hora de fin"
+          }
+        }
+      }
+    },
+    "schoolSlot.form.subject.placeholder": {
+      "comment": "Placeholder for the class subject field.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subject or description"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asignatura o descripción"
+          }
+        }
+      }
+    },
+    "schoolSlot.form.room.placeholder": {
+      "comment": "Placeholder for the optional room field.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Room (optional)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aula (opcional)"
+          }
+        }
+      }
+    },
+    "schoolSlot.form.submit": {
+      "comment": "Primary action to save the class.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save class"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar clase"
+          }
+        }
+      }
+    },
+    "schoolSlot.form.cancel": {
+      "comment": "Cancel action on the class form.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
+          }
+        }
+      }
+    },
+    "schoolSlot.error.child.missing": {
+      "comment": "Validation error when no child is selected.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a child before saving."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecciona un hijo antes de guardar."
+          }
+        }
+      }
+    },
+    "schoolSlot.error.subject.empty": {
+      "comment": "Validation error when subject is empty.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter a subject for the class."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Introduce una asignatura para la clase."
+          }
+        }
+      }
+    },
+    "schoolSlot.error.timerange.invalid": {
+      "comment": "Validation error when time range is invalid.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End time must be after start time."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La hora de fin debe ser posterior a la hora de inicio."
+          }
+        }
+      }
+    },
+    "weekday.monday": {
+      "comment": "Short label for Monday.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mon"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lun"
+          }
+        }
+      }
+    },
+    "weekday.tuesday": {
+      "comment": "Short label for Tuesday.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tue"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mar"
+          }
+        }
+      }
+    },
+    "weekday.wednesday": {
+      "comment": "Short label for Wednesday.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wed"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mié"
+          }
+        }
+      }
+    },
+    "weekday.thursday": {
+      "comment": "Short label for Thursday.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thu"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jue"
+          }
+        }
+      }
+    },
+    "weekday.friday": {
+      "comment": "Short label for Friday.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fri"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vie"
+          }
+        }
+      }
+    },
+    "weekday.saturday": {
+      "comment": "Short label for Saturday.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sat"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sáb"
+          }
+        }
+      }
+    },
+    "weekday.sunday": {
+      "comment": "Short label for Sunday.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sun"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dom"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

@@ -163,6 +163,67 @@ extension InMemoryFamilyRealtimeRemoteDataSource: ChildrenRemoteDataSourceProtoc
     }
 }
 
+extension InMemoryFamilyRealtimeRemoteDataSource: ScheduleRemoteDataSourceProtocol {
+    public func createSchoolSlot(_ request: CreateSchoolSlotRequest) async throws -> SchoolSlot {
+        let slot = SchoolSlot(
+            id: UUID().uuidString,
+            childId: request.childId,
+            weekday: request.weekday,
+            startTime: request.startTime,
+            endTime: request.endTime,
+            subject: request.subject,
+            room: request.room
+        )
+
+        let (slots, targets) = lock.withLock {
+            var slots = schoolSlotsByFamily[request.familyId, default: []]
+            slots.append(slot)
+            schoolSlotsByFamily[request.familyId] = slots
+            let targets = schoolSlotContinuations[request.familyId, default: []]
+            return (slots, targets)
+        }
+        targets.forEach { $0.yield(slots) }
+        return slot
+    }
+
+    public func updateSchoolSlot(_ request: UpdateSchoolSlotRequest) async throws -> SchoolSlot {
+        let slot = SchoolSlot(
+            id: request.id,
+            childId: request.childId,
+            weekday: request.weekday,
+            startTime: request.startTime,
+            endTime: request.endTime,
+            subject: request.subject,
+            room: request.room
+        )
+
+        let (slots, targets) = lock.withLock {
+            var slots = schoolSlotsByFamily[request.familyId, default: []]
+            if let index = slots.firstIndex(where: { $0.id == request.id }) {
+                slots[index] = slot
+            } else {
+                slots.append(slot)
+            }
+            schoolSlotsByFamily[request.familyId] = slots
+            let targets = schoolSlotContinuations[request.familyId, default: []]
+            return (slots, targets)
+        }
+        targets.forEach { $0.yield(slots) }
+        return slot
+    }
+
+    public func deleteSchoolSlot(id: String, familyId: String) async throws {
+        let (slots, targets) = lock.withLock {
+            var slots = schoolSlotsByFamily[familyId, default: []]
+            slots.removeAll { $0.id == id }
+            schoolSlotsByFamily[familyId] = slots
+            let targets = schoolSlotContinuations[familyId, default: []]
+            return (slots, targets)
+        }
+        targets.forEach { $0.yield(slots) }
+    }
+}
+
 private extension NSLock {
     func withLock<T>(_ body: () throws -> T) rethrows -> T {
         lock()
